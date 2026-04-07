@@ -59,7 +59,7 @@ const Header = () => {
               className={`block py-3 text-sm font-semibold tracking-wider transition-colors ${
                 location.pathname === link.path
                   ? "text-accent"
-                  : "text-primary-foreground"
+                  : "text-primary"
               }`}
             >
               {link.label}
