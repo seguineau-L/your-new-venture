@@ -15,7 +15,7 @@ const Header = () => {
   const location = useLocation();
 
   return (
-    <header className="sticky top-0 z-50 bg-steel/95 backdrop-blur-sm shadow-md">
+    <header className="sticky top-0 z-50 shadow-md" style={{ backgroundColor: 'hsl(218, 22%, 72%)' }}>
       <div className="container mx-auto flex items-center justify-between px-4 py-3">
         <Link to="/" className="flex-shrink-0">
           <img src={logoFull} alt="MOMUY & TECH" className="h-12 md:h-14 object-contain" />
@@ -30,7 +30,7 @@ const Header = () => {
               className={`text-sm font-semibold tracking-wider transition-colors hover:text-accent ${
                 location.pathname === link.path
                   ? "text-accent underline underline-offset-8 decoration-2"
-                  : "text-primary-foreground"
+                  : "text-primary"
               }`}
             >
               {link.label}
@@ -40,7 +40,7 @@ const Header = () => {
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden text-primary-foreground"
+          className="md:hidden text-primary"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Menu"
         >
@@ -50,7 +50,7 @@ const Header = () => {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <nav className="md:hidden bg-steel border-t border-border/20 px-4 pb-4">
+        <nav className="md:hidden border-t border-border/20 px-4 pb-4" style={{ backgroundColor: 'hsl(218, 22%, 72%)' }}>
           {navLinks.map((link) => (
             <Link
               key={link.path}
@@ -59,7 +59,7 @@ const Header = () => {
               className={`block py-3 text-sm font-semibold tracking-wider transition-colors ${
                 location.pathname === link.path
                   ? "text-accent"
-                  : "text-primary-foreground"
+                  : "text-primary"
               }`}
             >
               {link.label}
