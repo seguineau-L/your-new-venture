@@ -50,7 +50,7 @@ const Header = () => {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <nav className="md:hidden bg-steel border-t border-border/20 px-4 pb-4">
+        <nav className="md:hidden border-t border-border/20 px-4 pb-4" style={{ backgroundColor: 'hsl(218, 22%, 72%)' }}>
           {navLinks.map((link) => (
             <Link
               key={link.path}
