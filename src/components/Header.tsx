@@ -23,24 +23,29 @@ const Header = () => {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`text-sm font-semibold tracking-wider transition-colors hover:text-accent ${
-                location.pathname === link.path
-                  ? "text-accent underline underline-offset-8 decoration-2"
-                  : "text-primary"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = location.pathname === link.path;
+            return (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`relative text-sm font-semibold tracking-wider text-primary transition-all duration-200 active:scale-95 hover:text-primary/70 pb-1`}
+              >
+                {link.label}
+                {/* Underline orange animée */}
+                <span
+                  className={`absolute bottom-0 left-0 h-[2px] bg-accent transition-all duration-300 ease-out ${
+                    isActive ? "w-full" : "w-0"
+                  }`}
+                />
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden text-primary"
+          className="md:hidden text-primary active:scale-90 transition-transform duration-150"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Menu"
         >
@@ -51,20 +56,21 @@ const Header = () => {
       {/* Mobile nav */}
       {mobileOpen && (
         <nav className="md:hidden border-t border-border/20 px-4 pb-4" style={{ backgroundColor: 'hsl(218, 22%, 72%)' }}>
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              onClick={() => setMobileOpen(false)}
-              className={`block py-3 text-sm font-semibold tracking-wider transition-colors ${
-                location.pathname === link.path
-                  ? "text-accent"
-                  : "text-primary"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = location.pathname === link.path;
+            return (
+              <Link
+                key={link.path}
+                to={link.path}
+                onClick={() => setMobileOpen(false)}
+                className={`block py-3 text-sm font-semibold tracking-wider text-primary transition-all duration-200 active:scale-95 ${
+                  isActive ? "border-l-2 border-accent pl-3 text-accent" : ""
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
       )}
     </header>
