@@ -15,7 +15,7 @@ const Header = () => {
   const location = useLocation();
 
   return (
-    <header className="sticky top-0 z-50 bg-steel/95 backdrop-blur-sm shadow-md">
+    <header className="sticky top-0 z-50 shadow-md" style={{ backgroundColor: 'hsl(218, 22%, 72%)' }}>
       <div className="container mx-auto flex items-center justify-between px-4 py-3">
         <Link to="/" className="flex-shrink-0">
           <img src={logoFull} alt="MOMUY & TECH" className="h-12 md:h-14 object-contain" />
