@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import atelier from "@/assets/atelier-reparation.webp";
-import { Smartphone, Cpu, Shield, Clock, Search, Wrench, MapPin, Zap } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Search, Cpu, Smartphone, Wrench } from "lucide-react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const services = [
   {
@@ -42,124 +42,133 @@ const reasons = [
   },
 ];
 
-const OrangeDivider = () => (
-  <div className="relative h-8 my-8 flex items-center justify-center">
-    <div className="absolute inset-0 flex items-center">
-      <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-accent/60 to-transparent blur-[1px]" />
-    </div>
-    <div className="absolute inset-0 flex items-center">
-      <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-accent to-transparent" />
-    </div>
-  </div>
-);
-
 const Index = () => {
+  const scrollRef = useScrollReveal();
+
   return (
     <Layout>
-      {/* Hero */}
-      <section className="py-12 md:py-20">
-        <div className="container mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
-          <div className="space-y-6">
-            <h1 className="text-2xl md:text-4xl font-bold leading-tight font-heading uppercase tracking-wide">
-              Réparation<br />
-              <span className="text-foreground">smartphone et carte électronique</span>
-            </h1>
-            <p className="text-muted-foreground text-sm leading-relaxed max-w-lg">
-              Diagnostic, réparation et intervention sur smartphones,
-              console, pc, carte électronique et accessoires high-tech.
-              Nous sommes un atelier local, sérieux et orienté réparation durable.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Button asChild size="lg" variant="outline" className="border-foreground text-foreground hover:bg-foreground/5 font-semibold">
-                <Link to="/contact">Venir à l'atelier</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="border-foreground text-foreground hover:bg-foreground/5 font-semibold">
-                <Link to="/contact">Nos horaires</Link>
-              </Button>
+      <div ref={scrollRef}>
+        {/* Hero */}
+        <section className="py-16 md:py-24">
+          <div className="container mx-auto px-4 grid md:grid-cols-2 gap-14 items-center">
+            <div className="space-y-8 scroll-reveal">
+              <h1 className="text-3xl md:text-5xl font-bold leading-tight font-heading uppercase tracking-wide">
+                Réparation<br />
+                <span className="text-gradient">smartphone</span> et carte électronique
+              </h1>
+              <p className="text-muted-foreground leading-relaxed max-w-lg text-base">
+                Diagnostic, réparation et intervention sur smartphones,
+                console, pc, carte électronique et accessoires high-tech.
+                Nous sommes un atelier local, sérieux et orienté réparation durable.
+              </p>
+              <div className="flex flex-wrap gap-4 pt-2">
+                <Link
+                  to="/contact"
+                  className="btn-premium px-8 py-3 rounded-xl text-sm inline-block"
+                >
+                  Venir à l'atelier
+                </Link>
+                <Link
+                  to="/contact"
+                  className="px-8 py-3 rounded-xl text-sm font-semibold border-2 border-primary/20 text-primary hover:border-accent hover:text-accent transition-all duration-300 inline-block"
+                >
+                  Nos horaires
+                </Link>
+              </div>
+            </div>
+            <div className="scroll-reveal">
+              <img
+                src={atelier}
+                alt="Atelier de micro-soudure MOMUY & TECH"
+                className="rounded-2xl shadow-premium-lg w-full h-72 md:h-96 object-cover"
+                loading="lazy"
+              />
             </div>
           </div>
-          <div>
-            <img
-              src={atelier}
-              alt="Atelier de micro-soudure MOMUY & TECH"
-              className="rounded-xl shadow-lg w-full h-64 md:h-80 object-cover"
-              loading="lazy"
-            />
+        </section>
+
+        <div className="divider-glow my-4" />
+
+        {/* Nos Services */}
+        <section className="py-16 md:py-24">
+          <div className="container mx-auto px-4">
+            <div className="scroll-reveal text-center mb-14">
+              <h2 className="text-2xl md:text-4xl font-bold mb-5 font-heading uppercase tracking-wide">
+                Nos <span className="text-gradient">Services</span>
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                Nous vous proposons une prise en charge claire,
+                du diagnostic à la réparation grâce à un check-up complet,
+                la prise en charge et la remise de l'appareil
+                ainsi que grâce à un suivi de réparation en direct.
+              </p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 scroll-reveal">
+              {services.map((s) => (
+                <div
+                  key={s.title}
+                  className="card-premium p-7 stagger-child"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5">
+                    <s.icon className="w-6 h-6 text-accent" />
+                  </div>
+                  <h3 className="font-bold text-lg mb-4 font-heading">{s.title}</h3>
+                  <ul className="space-y-2.5">
+                    {s.items.map((item) => (
+                      <li key={item} className="text-sm text-muted-foreground flex items-start gap-2">
+                        <span className="text-accent mt-0.5 text-xs">●</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <OrangeDivider />
+        <div className="divider-glow my-4" />
 
-      {/* Nos Services */}
-      <section className="py-12 md:py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-4 font-heading uppercase tracking-wide">
-            Nos Services
-          </h2>
-          <p className="text-center text-muted-foreground text-sm max-w-xl mx-auto mb-10">
-            Nous vous proposons une prise en charge claire,
-            du diagnostic à la réparation grâce à un check-up complet,
-            la prise en charge et la remise de l'appareil
-            ainsi que grâce à un suivi de réparation en direct.
-          </p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((s) => (
-              <div
-                key={s.title}
-                className="bg-steel/10 rounded-xl p-6 hover:shadow-md transition-shadow"
-              >
-                <h3 className="font-bold text-lg mb-4 text-center font-heading">{s.title}</h3>
-                <ul className="space-y-2">
-                  {s.items.map((item) => (
-                    <li key={item} className="text-sm text-muted-foreground flex items-start gap-2">
-                      <span className="text-accent mt-0.5">•</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+        {/* Pourquoi choisir */}
+        <section className="py-16 md:py-24">
+          <div className="container mx-auto px-4">
+            <div className="scroll-reveal text-center mb-14">
+              <h2 className="text-2xl md:text-4xl font-bold font-heading uppercase tracking-wide">
+                Pourquoi choisir <span className="text-gradient">MOMUY & TECH</span>
+              </h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8 scroll-reveal">
+              {reasons.map((r) => (
+                <div
+                  key={r.title}
+                  className="card-premium p-10 text-center stagger-child"
+                >
+                  <h3 className="font-bold text-base mb-5 font-heading uppercase tracking-wide">{r.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{r.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <OrangeDivider />
+        <div className="divider-glow my-4" />
 
-      {/* Pourquoi choisir */}
-      <section className="py-12 md:py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 font-heading uppercase tracking-wide">
-            Pourquoi choisir MOMUY & TECH
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {reasons.map((r) => (
-              <div
-                key={r.title}
-                className="bg-steel/10 rounded-xl p-8 text-center hover:shadow-md transition-shadow"
-              >
-                <h3 className="font-bold text-base mb-4 font-heading uppercase">{r.title}</h3>
-                <p className="text-sm text-muted-foreground">{r.desc}</p>
-              </div>
-            ))}
+        {/* CTA */}
+        <section className="py-16 md:py-24 scroll-reveal">
+          <div className="container mx-auto px-4 text-center space-y-6">
+            <p className="text-xl md:text-2xl font-bold font-heading">Besoin d'un diagnostic ?</p>
+            <p className="text-muted-foreground max-w-md mx-auto leading-relaxed">
+              Appelez-nous ou passez à l'atelier pour échanger sur votre appareil.
+            </p>
+            <Link
+              to="/contact"
+              className="btn-premium px-10 py-4 rounded-xl text-sm inline-block mt-4"
+            >
+              Nous contacter
+            </Link>
           </div>
-        </div>
-      </section>
-
-      <OrangeDivider />
-
-      {/* CTA */}
-      <section className="py-12 md:py-16">
-        <div className="container mx-auto px-4 text-center space-y-4">
-          <p className="text-lg font-semibold">Besoin d'un diagnostic ?</p>
-          <p className="text-muted-foreground">
-            Appelez-nous ou passez à l'atelier pour échanger sur votre appareil.
-          </p>
-          <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-semibold mt-4">
-            <Link to="/contact">Nous contacter</Link>
-          </Button>
-        </div>
-      </section>
+        </section>
+      </div>
     </Layout>
   );
 };

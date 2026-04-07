@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import { categories, brands, applePricing, androidPricing, type Category, type Brand, type ModelPricing } from "@/data/pricing";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const Tarifs = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category>("TELEPHONE");
   const [selectedBrand, setSelectedBrand] = useState<Brand>("APPLE");
   const [selectedModel, setSelectedModel] = useState<string>("IPHONE 16");
+  const scrollRef = useScrollReveal();
 
   const models: ModelPricing[] = selectedBrand === "APPLE" ? applePricing : androidPricing;
   const currentModel = models.find((m) => m.model === selectedModel) || models[0];
@@ -18,75 +20,61 @@ const Tarifs = () => {
 
   const isTelephoneCategory = selectedCategory === "TELEPHONE";
 
+  const FilterButton = ({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) => (
+    <button
+      onClick={onClick}
+      className={`px-5 py-2.5 rounded-xl text-xs font-semibold tracking-wider transition-all duration-300 ${
+        active
+          ? "btn-premium"
+          : "bg-card/60 text-muted-foreground hover:bg-card hover:shadow-premium border border-border/30"
+      }`}
+    >
+      {children}
+    </button>
+  );
+
   return (
     <Layout>
-      <section className="py-12 md:py-20">
+      <section className="py-16 md:py-24" ref={scrollRef}>
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-[1fr_1.2fr] gap-10">
+          <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12">
             {/* Left: Filters */}
-            <div className="space-y-8">
-              <h1 className="text-2xl md:text-3xl font-bold font-heading underline underline-offset-8 decoration-2">
-                NOS TARIFS
+            <div className="space-y-10 scroll-reveal">
+              <h1 className="text-2xl md:text-4xl font-bold font-heading">
+                NOS <span className="text-gradient">TARIFS</span>
               </h1>
               <p className="text-muted-foreground text-sm">
                 Sélectionnez la catégorie de votre appareil
               </p>
 
-              {/* Categories */}
               <div className="flex flex-wrap gap-3">
                 {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all ${
-                      selectedCategory === cat
-                        ? "bg-steel text-primary-foreground"
-                        : "bg-muted text-muted-foreground hover:bg-muted/80"
-                    }`}
-                  >
+                  <FilterButton key={cat} active={selectedCategory === cat} onClick={() => setSelectedCategory(cat)}>
                     {cat}
-                  </button>
+                  </FilterButton>
                 ))}
               </div>
 
               {isTelephoneCategory && (
                 <>
-                  {/* Brands */}
                   <div>
-                    <h2 className="text-lg font-bold mb-3 underline underline-offset-4 decoration-1">MARQUE</h2>
+                    <h2 className="text-lg font-bold mb-4 font-heading">MARQUE</h2>
                     <div className="flex flex-wrap gap-3">
                       {brands.map((brand) => (
-                        <button
-                          key={brand}
-                          onClick={() => handleBrandChange(brand)}
-                          className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all ${
-                            selectedBrand === brand
-                              ? "bg-steel text-primary-foreground"
-                              : "bg-muted text-muted-foreground hover:bg-muted/80"
-                          }`}
-                        >
+                        <FilterButton key={brand} active={selectedBrand === brand} onClick={() => handleBrandChange(brand)}>
                           {brand}
-                        </button>
+                        </FilterButton>
                       ))}
                     </div>
                   </div>
 
-                  {/* Models */}
                   <div>
-                    <h2 className="text-lg font-bold mb-3 underline underline-offset-4 decoration-1">MODÈLE</h2>
+                    <h2 className="text-lg font-bold mb-4 font-heading">MODÈLE</h2>
                     <div className="flex flex-wrap gap-3">
                       {models.map((m) => (
-                        <button
-                          key={m.model}
-                          onClick={() => setSelectedModel(m.model)}
-                          className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all ${
-                            selectedModel === m.model
-                              ? "bg-steel text-primary-foreground"
-                              : "bg-muted text-muted-foreground hover:bg-muted/80"
-                          }`}
-                        >
+                        <FilterButton key={m.model} active={selectedModel === m.model} onClick={() => setSelectedModel(m.model)}>
                           {m.model}
-                        </button>
+                        </FilterButton>
                       ))}
                     </div>
                   </div>
@@ -94,7 +82,7 @@ const Tarifs = () => {
               )}
 
               {!isTelephoneCategory && (
-                <div className="bg-card rounded-xl p-6 shadow-md">
+                <div className="card-premium p-8">
                   <p className="text-muted-foreground text-sm">
                     Pour les réparations de <strong>{selectedCategory.toLowerCase()}</strong>, contactez-nous pour un devis personnalisé.
                   </p>
@@ -104,22 +92,22 @@ const Tarifs = () => {
 
             {/* Right: Price table */}
             {isTelephoneCategory && currentModel && (
-              <div className="bg-card rounded-2xl shadow-lg p-6 md:p-8 border border-peach/30">
+              <div className="card-premium p-7 md:p-10 border-peach/20 scroll-reveal">
                 <div className="space-y-8">
                   {currentModel.sections.map((section) => (
                     <div key={section.title}>
-                      <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-accent font-semibold text-base">{section.title}</h3>
-                        <span className="text-accent font-semibold text-sm">Prix (€ TTC)</span>
+                      <div className="flex justify-between items-center mb-5 pb-2 border-b border-accent/20">
+                        <h3 className="text-gradient font-bold text-base">{section.title}</h3>
+                        <span className="text-gradient font-bold text-sm">Prix (€ TTC)</span>
                       </div>
-                      <div className="space-y-2">
+                      <div className="space-y-0">
                         {section.items.map((item) => (
                           <div
                             key={item.label}
-                            className="flex justify-between items-center py-1.5 border-b border-border/40 last:border-0"
+                            className="flex justify-between items-center py-2.5 border-b border-border/20 last:border-0 hover:bg-accent/5 px-2 -mx-2 rounded-lg transition-colors duration-200"
                           >
                             <span className="text-sm">{item.label}</span>
-                            <span className="text-sm font-medium text-right ml-4">{item.price}</span>
+                            <span className="text-sm font-semibold text-right ml-4">{item.price}</span>
                           </div>
                         ))}
                       </div>
