@@ -30,7 +30,7 @@ const Header = () => {
               className={`text-sm font-semibold tracking-wider transition-colors hover:text-accent ${
                 location.pathname === link.path
                   ? "text-accent underline underline-offset-8 decoration-2"
-                  : "text-primary-foreground"
+                  : "text-primary"
               }`}
             >
               {link.label}
