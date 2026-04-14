@@ -127,6 +127,47 @@
   .scroll-reveal.revealed .stagger-child:nth-child(4) { animation-delay: 0.4s; }
 
   /* Premium glow divider */
+
+  .divider-glow-vertical {
+  position: relative;
+  width: 2rem;
+  height: 100%;
+  min-height: 100%;
+}
+
+.divider-glow-vertical::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    hsl(24, 65%, 56%),
+    transparent
+  );
+  transform: translateX(-50%);
+}
+
+.divider-glow-vertical::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  bottom: 10%;
+  width: 6px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    hsl(24, 65%, 56%, 0.3),
+    transparent
+  );
+  filter: blur(4px);
+}
+
   .divider-glow {
     position: relative;
     height: 2rem;
