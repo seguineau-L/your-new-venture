@@ -14,13 +14,48 @@ type ModelPricing = {
   }[];
 };
 
+type OpeningHour = {
+  id: number;
+  day_key: string;
+  day_label: string;
+  open_morning: string | null;
+  close_morning: string | null;
+  open_afternoon: string | null;
+  close_afternoon: string | null;
+  is_closed: boolean;
+  sort_order: number;
+};
+
 const Tarifs = () => {
   const scrollRef = useScrollReveal();
-  console.log("Supabase OK ?", supabase);
   
   const [selectedCategory, setSelectedCategory] = useState<DeviceType | null>(null);
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [selectedModel, setSelectedModel] = useState<string | null>(null);
+  const [openingHours, setOpeningHours] = useState<OpeningHour[]>([]);
+  const [hoursLoading, setHoursLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOpeningHours = async () => {
+      setHoursLoading(true);
+
+      const { data, error } = await supabase
+        .from("opening_hours")
+        .select("*")
+        .order("sort_order", { ascending: true });
+
+      if (error) {
+        console.error("Erreur chargement horaires :", error);
+        setHoursLoading(false);
+        return;
+      }
+
+      setOpeningHours(data ?? []);
+      setHoursLoading(false);
+    };
+
+    fetchOpeningHours();
+  }, []);
 
   const categories = Object.keys(pricingData) as DeviceType[];
 
@@ -99,6 +134,32 @@ const Tarifs = () => {
                   Sélectionnez la catégorie de votre appareil
                 </p>
               </div>
+
+              <div className="card-premium p-6">
+  <h2 className="text-lg font-bold mb-4 font-heading uppercase">
+    Horaires (test Supabase)
+  </h2>
+
+  {hoursLoading ? (
+    <p className="text-sm text-muted-foreground">Chargement...</p>
+  ) : (
+    <div className="space-y-2">
+      {openingHours.map((hour) => (
+        <div
+          key={hour.id}
+          className="flex justify-between gap-4 text-sm border-b border-border/20 pb-2"
+        >
+          <span className="font-medium">{hour.day_label}</span>
+          <span className="text-muted-foreground text-right">
+            {hour.is_closed
+              ? "Fermé"
+              : `${hour.open_morning ?? ""} - ${hour.close_morning ?? ""} / ${hour.open_afternoon ?? ""} - ${hour.close_afternoon ?? ""}`}
+          </span>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
 
               <div>
                 <h2 className="text-lg font-bold mb-4 font-heading uppercase">

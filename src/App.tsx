@@ -9,6 +9,7 @@ import APropos from "./pages/APropos";
 import Contact from "./pages/Contact";
 import CGV from "./pages/CGV";
 import NotFound from "./pages/NotFound";
+import AdminLogin from "./pages/AdminLogin";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,10 @@ const App = () => (
           <Route path="/a-propos" element={<APropos />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/cgv" element={<CGV />} />
+  
+          {/* ADMIN */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
