@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminHours from "./pages/AdminHours";
+import AdminPricing from "./pages/AdminPricing";
 
 const queryClient = new QueryClient();
 
@@ -20,19 +21,25 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/tarifs" element={<Tarifs />} />
           <Route path="/a-propos" element={<APropos />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/cgv" element={<CGV />} />
-  
+
           {/* ADMIN */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/horaires" element={<AdminHours />} />
-          
+          <Route path="/admin/tarifs" element={<AdminPricing />} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

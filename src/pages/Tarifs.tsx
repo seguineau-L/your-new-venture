@@ -1,10 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import Layout from "@/components/Layout";
-import { pricingData } from "@/data/pricing";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { supabase } from "@/lib/supabase";
 
-type DeviceType = keyof typeof pricingData;
+type PricingRow = {
+  id: string;
+  category: string;
+  brand: string;
+  generation: string | null;
+  model: string;
+  repair_type: string;
+  price: string;
+  section: string | null;
+};
 
 type ModelPricing = {
   model: string;
@@ -14,90 +22,161 @@ type ModelPricing = {
   }[];
 };
 
-type OpeningHour = {
-  id: number;
-  day_key: string;
-  day_label: string;
-  open_morning: string | null;
-  close_morning: string | null;
-  open_afternoon: string | null;
-  close_afternoon: string | null;
-  is_closed: boolean;
-  sort_order: number;
-};
-
 const Tarifs = () => {
   const scrollRef = useScrollReveal();
-  
-  const [selectedCategory, setSelectedCategory] = useState<DeviceType | null>(null);
+
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [selectedGeneration, setSelectedGeneration] = useState<string | null>(null);
   const [selectedModel, setSelectedModel] = useState<string | null>(null);
-  const [openingHours, setOpeningHours] = useState<OpeningHour[]>([]);
-  const [hoursLoading, setHoursLoading] = useState(true);
+
+  const [pricingRows, setPricingRows] = useState<PricingRow[]>([]);
+  const [pricingLoading, setPricingLoading] = useState(true);
 
   useEffect(() => {
-    const fetchOpeningHours = async () => {
-      setHoursLoading(true);
+    const fetchPricing = async () => {
+      setPricingLoading(true);
 
       const { data, error } = await supabase
-        .from("opening_hours")
+        .from("pricing")
         .select("*")
-        .order("sort_order", { ascending: true });
+        .order("category", { ascending: true })
+        .order("brand", { ascending: true })
+        .order("generation", { ascending: true })
+        .order("model", { ascending: true })
+        .order("repair_type", { ascending: true });
 
       if (error) {
-        console.error("Erreur chargement horaires :", error);
-        setHoursLoading(false);
+        console.error("Erreur chargement tarifs :", error);
+        setPricingLoading(false);
         return;
       }
 
-      setOpeningHours(data ?? []);
-      setHoursLoading(false);
+      const rows = (data ?? []) as PricingRow[];
+      setPricingRows(rows);
+      setPricingLoading(false);
     };
 
-    fetchOpeningHours();
+    fetchPricing();
   }, []);
 
-  const categories = Object.keys(pricingData) as DeviceType[];
+  const categories = useMemo(() => {
+    return Array.from(new Set(pricingRows.map((row) => row.category)));
+  }, [pricingRows]);
 
   const isTelephoneCategory = selectedCategory === "TELEPHONE";
 
   const brands = useMemo(() => {
     if (!selectedCategory) return [];
-    return Object.keys(pricingData[selectedCategory]);
-  }, [selectedCategory]);
+    return Array.from(
+      new Set(
+        pricingRows
+          .filter((row) => row.category === selectedCategory)
+          .map((row) => row.brand)
+      )
+    );
+  }, [pricingRows, selectedCategory]);
+
+  const generations = useMemo(() => {
+    if (!selectedCategory || !selectedBrand) return [];
+    return Array.from(
+      new Set(
+        pricingRows
+          .filter(
+            (row) =>
+              row.category === selectedCategory &&
+              row.brand === selectedBrand &&
+              row.generation
+          )
+          .map((row) => row.generation as string)
+      )
+    );
+  }, [pricingRows, selectedCategory, selectedBrand]);
 
   const models: ModelPricing[] = useMemo(() => {
-    if (!selectedCategory || !selectedBrand) return [];
+    if (!selectedCategory || !selectedBrand || !selectedGeneration) return [];
 
-    const selectedBrandData =
-      pricingData[selectedCategory][
-        selectedBrand as keyof (typeof pricingData)[typeof selectedCategory]
+    const modelNames = Array.from(
+      new Set(
+        pricingRows
+          .filter(
+            (row) =>
+              row.category === selectedCategory &&
+              row.brand === selectedBrand &&
+              row.generation === selectedGeneration
+          )
+          .map((row) => row.model)
+      )
+    );
+
+    return modelNames.map((modelName) => {
+      const rowsForModel = pricingRows.filter(
+        (row) =>
+          row.category === selectedCategory &&
+          row.brand === selectedBrand &&
+          row.generation === selectedGeneration &&
+          row.model === modelName
+      );
+
+      const groupedBySection = rowsForModel.reduce(
+        (acc, row) => {
+          const sectionName = row.section || "Autres";
+
+          if (!acc[sectionName]) {
+            acc[sectionName] = [];
+          }
+
+          acc[sectionName].push({
+            label: row.repair_type,
+            price: row.price,
+          });
+
+          return acc;
+        },
+        {} as Record<string, { label: string; price: string }[]>
+      );
+
+      const orderedSections = [
+        "Interventions classiques",
+        "Interventions sur carte mère",
+        "Récupération de données",
+        "Autres",
       ];
 
-    return (selectedBrandData ?? []) as ModelPricing[];
-  }, [selectedCategory, selectedBrand]);
+      return {
+        model: modelName,
+        sections: orderedSections
+          .filter((section) => groupedBySection[section]?.length)
+          .map((section) => ({
+            title: section,
+            items: groupedBySection[section],
+          })),
+      };
+    });
+  }, [pricingRows, selectedCategory, selectedBrand, selectedGeneration]);
 
   const currentModel = useMemo(() => {
     if (!selectedModel) return null;
     return models.find((m) => m.model === selectedModel) ?? null;
   }, [models, selectedModel]);
 
-  const handleCategoryChange = (category: DeviceType) => {
+  const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
     setSelectedBrand(null);
+    setSelectedGeneration(null);
     setSelectedModel(null);
   };
 
   const handleBrandChange = (brand: string) => {
     setSelectedBrand(brand);
+    setSelectedGeneration(null);
     setSelectedModel(null);
   };
 
-  useEffect(() => {
-    if (selectedBrand && models.length > 0 && !selectedModel) {
-      setSelectedModel(models[0].model);
-    }
-  }, [selectedBrand, models, selectedModel]);
+  const handleGenerationChange = (generation: string) => {
+    setSelectedGeneration(generation);
+    setSelectedModel(null);
+  };
 
   const FilterButton = ({
     active,
@@ -110,11 +189,10 @@ const Tarifs = () => {
   }) => (
     <button
       onClick={onClick}
-      className={`px-5 py-2.5 rounded-xl text-xs font-semibold tracking-wider transition-all duration-300 ${
-        active
-          ? "btn-premium"
-          : "bg-card/60 text-muted-foreground hover:bg-card hover:shadow-premium border border-border/30"
-      }`}
+      className={`px-3 py-1.5 rounded-xl text-xs font-semibold tracking-wider transition-all duration-300 ${active
+        ? "btn-premium"
+        : "bg-card/60 text-muted-foreground hover:bg-card hover:shadow-premium border border-border/30"
+        }`}
     >
       {children}
     </button>
@@ -125,7 +203,7 @@ const Tarifs = () => {
       <section className="py-16 md:py-24" ref={scrollRef}>
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-[1fr_auto_1.2fr] gap-10 lg:gap-12 items-start">
-            <div className="space-y-12 scroll-reveal max-w-sm mx-auto">
+            <div className="space-y-8 scroll-reveal max-w-sm mx-auto">
               <div className="text-center">
                 <h1 className="text-2xl md:text-4xl font-bold font-heading mb-3">
                   NOS <span className="text-gradient">TARIFS</span>
@@ -135,37 +213,11 @@ const Tarifs = () => {
                 </p>
               </div>
 
-              <div className="card-premium p-6">
-  <h2 className="text-lg font-bold mb-4 font-heading uppercase">
-    Horaires (test Supabase)
-  </h2>
-
-  {hoursLoading ? (
-    <p className="text-sm text-muted-foreground">Chargement...</p>
-  ) : (
-    <div className="space-y-2">
-      {openingHours.map((hour) => (
-        <div
-          key={hour.id}
-          className="flex justify-between gap-4 text-sm border-b border-border/20 pb-2"
-        >
-          <span className="font-medium">{hour.day_label}</span>
-          <span className="text-muted-foreground text-right">
-            {hour.is_closed
-              ? "Fermé"
-              : `${hour.open_morning ?? ""} - ${hour.close_morning ?? ""} / ${hour.open_afternoon ?? ""} - ${hour.close_afternoon ?? ""}`}
-          </span>
-        </div>
-      ))}
-    </div>
-  )}
-</div>
-
               <div>
                 <h2 className="text-lg font-bold mb-4 font-heading uppercase">
                   Appareil
                 </h2>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2">
                   {categories.map((cat) => (
                     <FilterButton
                       key={cat}
@@ -203,18 +255,40 @@ const Tarifs = () => {
                     Modèle
                   </h2>
                   <div className="flex flex-wrap gap-3">
-                    {models.map((m) => (
+                    {generations.map((generation) => (
                       <FilterButton
-                        key={m.model}
-                        active={selectedModel === m.model}
-                        onClick={() => setSelectedModel(m.model)}
+                        key={generation}
+                        active={selectedGeneration === generation}
+                        onClick={() => handleGenerationChange(generation)}
                       >
-                        {m.model}
+                        {generation}
                       </FilterButton>
                     ))}
                   </div>
                 </div>
               )}
+
+              {selectedCategory &&
+                selectedBrand &&
+                selectedGeneration &&
+                isTelephoneCategory && (
+                  <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <h2 className="text-lg font-bold mb-4 font-heading uppercase">
+                      Déclinaison
+                    </h2>
+                    <div className="flex flex-wrap gap-3">
+                      {models.map((m) => (
+                        <FilterButton
+                          key={m.model}
+                          active={selectedModel === m.model}
+                          onClick={() => setSelectedModel(m.model)}
+                        >
+                          {m.model}
+                        </FilterButton>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
               {selectedCategory && !isTelephoneCategory && (
                 <div className="card-premium p-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
@@ -232,7 +306,13 @@ const Tarifs = () => {
             </div>
 
             <div className="scroll-reveal">
-              {isTelephoneCategory && currentModel ? (
+              {pricingLoading ? (
+                <div className="card-premium p-7 md:p-10 border-peach/20 min-h-[420px] flex items-center justify-center">
+                  <p className="text-sm text-muted-foreground text-center max-w-sm">
+                    Chargement des tarifs...
+                  </p>
+                </div>
+              ) : isTelephoneCategory && currentModel ? (
                 <div className="card-premium p-7 md:p-10 border-peach/20 animate-in fade-in slide-in-from-right-2 duration-300">
                   <div className="space-y-8">
                     {currentModel.sections.map((section) => (
@@ -250,7 +330,7 @@ const Tarifs = () => {
                           {section.items.map((item) => (
                             <div
                               key={item.label}
-                              className="flex justify-between items-center py-2.5 border-b border-border/20 last:border-0 hover:bg-accent/5 px-2 -mx-2 rounded-lg transition-colors duration-200"
+                              className="flex justify-between items-center py-2 border-b border-border/20 last:border-0 hover:bg-accent/5 px-2 -mx-2 rounded-lg transition-colors duration-200"
                             >
                               <span className="text-sm">{item.label}</span>
                               <span className="text-sm font-semibold text-right ml-4">
@@ -266,7 +346,7 @@ const Tarifs = () => {
               ) : (
                 <div className="card-premium p-7 md:p-10 border-peach/20 min-h-[420px] flex items-center justify-center">
                   <p className="text-sm text-muted-foreground text-center max-w-sm">
-                    Sélectionnez un appareil, puis une marque et un modèle pour afficher les tarifs correspondants.
+                    Sélectionnez un appareil, puis une marque, un modèle et une déclinaison pour afficher les tarifs correspondants.
                   </p>
                 </div>
               )}

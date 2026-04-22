@@ -95,15 +95,21 @@ const AdminDashboard = () => {
                 </p>
               </Link>
 
-              <div className="card-premium p-7 opacity-80">
-                <p className="text-sm text-muted-foreground mb-2">À venir</p>
-                <h2 className="text-xl font-bold font-heading mb-3">
-                  Tarifs
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                  Gestion des marques, modèles et réparations.
-                </p>
+              <div className="grid md:grid-cols-2 gap-6">
+                <Link
+                  to="/admin/tarifs"
+                  className="card-premium p-7 block hover:border-accent/20 transition-all duration-300"
+                >
+                  <p className="text-sm text-muted-foreground mb-2">Gestion</p>
+                  <h2 className="text-xl font-bold font-heading mb-3">
+                    Tarifs
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                    Ajouter, modifier et supprimer les lignes tarifaires.
+                  </p>
+                </Link>
               </div>
+
 
               <div className="card-premium p-7 opacity-80">
                 <p className="text-sm text-muted-foreground mb-2">À venir</p>
