@@ -1,27 +1,85 @@
 import Layout from "@/components/Layout";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { supabase } from "@/lib/supabase";
+import facade from "@/assets/facade.jpg"; // remplace si ton fichier a un autre nom
+
+type OpeningHour = {
+  id: number;
+  day_key: string;
+  day_label: string;
+  open_morning: string | null;
+  close_morning: string | null;
+  open_afternoon: string | null;
+  close_afternoon: string | null;
+  is_closed: boolean;
+  sort_order: number;
+};
+
+const CONTACT_ADDRESS = "À venir — Momuy, Landes (40)";
+const CONTACT_PHONE = "À venir";
+const CONTACT_EMAIL = "À venir";
+
+/**
+ * Remplace cette URL dès que tu as l’adresse exacte du magasin.
+ * Exemple :
+ * https://www.google.com/maps/search/?api=1&query=40+Rue+Exemple+40250+Mugron
+ */
+const MAPS_URL =
+  "https://www.google.com/maps/dir/?api=1&destination=121+route+d%27orthez+40700+momuy";
 
 const contactInfo = [
-  { icon: MapPin, title: "Adresse", value: "À venir — Momuy, Landes (40)" },
-  { icon: Phone, title: "Téléphone", value: "À venir" },
-  { icon: Mail, title: "Email", value: "À venir" },
-  { icon: Clock, title: "Horaires", value: "À venir" },
+  { icon: MapPin, title: "Adresse", value: CONTACT_ADDRESS },
+  { icon: Phone, title: "Téléphone", value: CONTACT_PHONE },
+  { icon: Mail, title: "Email", value: CONTACT_EMAIL },
 ];
 
 const Contact = () => {
-  const { toast } = useToast();
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const scrollRef = useScrollReveal();
+  const [openingHours, setOpeningHours] = useState<OpeningHour[]>([]);
+  const [hoursLoading, setHoursLoading] = useState(true);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({ title: "Message envoyé !", description: "Nous vous répondrons dans les plus brefs délais." });
-    setForm({ name: "", email: "", phone: "", message: "" });
+  useEffect(() => {
+    const fetchOpeningHours = async () => {
+      setHoursLoading(true);
+
+      const { data, error } = await supabase
+        .from("opening_hours")
+        .select("*")
+        .order("sort_order", { ascending: true });
+
+      if (error) {
+        console.error("Erreur chargement horaires :", error);
+        setHoursLoading(false);
+        return;
+      }
+
+      setOpeningHours((data ?? []) as OpeningHour[]);
+      setHoursLoading(false);
+    };
+
+    fetchOpeningHours();
+  }, []);
+
+  const formatHours = (hour: OpeningHour) => {
+    if (hour.is_closed) return "Fermé";
+
+    const morning =
+      hour.open_morning && hour.close_morning
+        ? `${hour.open_morning} - ${hour.close_morning}`
+        : null;
+
+    const afternoon =
+      hour.open_afternoon && hour.close_afternoon
+        ? `${hour.open_afternoon} - ${hour.close_afternoon}`
+        : null;
+
+    if (morning && afternoon) return `${morning} / ${afternoon}`;
+    if (morning) return morning;
+    if (afternoon) return afternoon;
+
+    return "Fermé";
   };
 
   return (
@@ -34,59 +92,99 @@ const Contact = () => {
             </h1>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-14 max-w-5xl mx-auto">
-            {/* Contact Info */}
-            <div className="space-y-8 scroll-reveal">
-              {contactInfo.map((info) => (
-                <div key={info.title} className="flex items-start gap-5 group">
-                  <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 group-hover:shadow-premium-glow transition-all duration-300">
-                    <info.icon className="w-5 h-5 text-accent" />
+          <div className="max-w-6xl mx-auto space-y-10">
+            <div className="grid lg:grid-cols-2 gap-10 items-start">
+              {/* Colonne gauche */}
+              <div className="space-y-8 scroll-reveal">
+                <div className="card-premium p-6 md:p-8">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                      <Clock className="w-5 h-5 text-accent" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-base">Horaires</h3>
+                      <p className="text-muted-foreground text-sm">
+                        Nos horaires d’ouverture
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-semibold mb-1 text-base">{info.title}</h3>
-                    <p className="text-muted-foreground text-sm">{info.value}</p>
-                  </div>
+
+                  {hoursLoading ? (
+                    <p className="text-sm text-muted-foreground">Chargement...</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {openingHours.map((hour) => (
+                        <div
+                          key={hour.id}
+                          className="flex justify-between gap-4 text-sm border-b border-border/20 pb-2 last:border-0"
+                        >
+                          <span className="font-medium">{hour.day_label}</span>
+                          <span className="text-muted-foreground text-right">
+                            {formatHours(hour)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              ))}
+
+                <div className="card-premium p-6 md:p-8 space-y-6">
+                  {contactInfo.map((info) => (
+                    <div key={info.title} className="flex items-start gap-5 group">
+                      <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 group-hover:shadow-premium-glow transition-all duration-300">
+                        <info.icon className="w-5 h-5 text-accent" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold mb-1 text-base">{info.title}</h3>
+                        <p className="text-muted-foreground text-sm">{info.value}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Colonne droite */}
+              <div className="scroll-reveal">
+                <div className="card-premium p-0 overflow-hidden">
+                  <img
+                    src={facade}
+                    alt="Façade du magasin"
+                    className="w-full h-[420px] md:h-[520px] object-cover object-center"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
             </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="card-premium p-8 md:p-10 space-y-6 scroll-reveal">
-              <h2 className="text-lg font-bold font-heading mb-2">Envoyez-nous un message</h2>
-              <Input
-                placeholder="Votre nom"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                required
-                className="bg-background/50 border-border/40 focus:border-accent transition-colors h-12"
-              />
-              <Input
-                type="email"
-                placeholder="Votre email"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                required
-                className="bg-background/50 border-border/40 focus:border-accent transition-colors h-12"
-              />
-              <Input
-                type="tel"
-                placeholder="Votre téléphone"
-                value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                className="bg-background/50 border-border/40 focus:border-accent transition-colors h-12"
-              />
-              <Textarea
-                placeholder="Votre message..."
-                rows={5}
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                required
-                className="bg-background/50 border-border/40 focus:border-accent transition-colors resize-none"
-              />
-              <button type="submit" className="btn-premium w-full py-3.5 rounded-xl text-sm">
-                Envoyer
-              </button>
-            </form>
+            {/* Carte pleine largeur en bas */}
+            <div className="scroll-reveal">
+              <div className="card-premium p-0 overflow-hidden">
+                <a
+                  href={MAPS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block relative"
+                  aria-label="Ouvrir la localisation dans Maps"
+                >
+                  <iframe
+                    title="Carte du magasin"
+                    src="https://www.google.com/maps?q=121+route+d%27orthez+40700+momuy&z=16&output=embed"
+                    className="w-full h-[360px] md:h-[440px] border-0 pointer-events-none"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+
+                  <div className="absolute inset-0 bg-transparent" />
+
+                  <div className="absolute bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-auto">
+                    <div className="inline-flex items-center gap-2 rounded-xl bg-background/90 backdrop-blur px-4 py-3 text-sm font-semibold shadow-premium">
+                      <MapPin className="w-4 h-4 text-accent" />
+                      Ouvrir dans Maps / Démarrer l’itinéraire
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
