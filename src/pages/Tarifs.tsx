@@ -22,12 +22,16 @@ type ModelPricing = {
   }[];
 };
 
+const PRICING_CACHE_KEY = "pricing_cache_v1";
+const PRICING_CACHE_DURATION = 1000 * 60 * 10; // 10 minutes
+
 const SECTION_ORDER = [
   "Interventions classiques",
   "Interventions sur carte mère",
   "Récupération de données",
   "Autres",
 ];
+
 
 const Tarifs = () => {
   const scrollRef = useScrollReveal();
@@ -44,6 +48,31 @@ const Tarifs = () => {
     const fetchPricing = async () => {
       setPricingLoading(true);
 
+      // 🔥 1. Charger le cache immédiatement
+      const cached = localStorage.getItem(PRICING_CACHE_KEY);
+
+      if (cached) {
+        try {
+          const parsedCache = JSON.parse(cached) as {
+            data: PricingRow[];
+            timestamp: number;
+          };
+
+          const isExpired =
+            Date.now() - parsedCache.timestamp > PRICING_CACHE_DURATION;
+
+          if (!isExpired) {
+            setPricingRows(parsedCache.data);
+            setPricingLoading(false);
+          } else {
+            localStorage.removeItem(PRICING_CACHE_KEY);
+          }
+        } catch {
+          localStorage.removeItem(PRICING_CACHE_KEY);
+        }
+      }
+
+      // 🔄 2. Fetch Supabase (mise à jour silencieuse)
       const { data, error } = await supabase
         .from("pricing")
         .select("*")
@@ -60,7 +89,18 @@ const Tarifs = () => {
         return;
       }
 
-      setPricingRows((data ?? []) as PricingRow[]);
+      const freshData = (data ?? []) as PricingRow[];
+
+      setPricingRows(freshData);
+
+      // 💾 3. Sauvegarde cache
+      localStorage.setItem(
+        PRICING_CACHE_KEY,
+        JSON.stringify({
+          data: freshData,
+          timestamp: Date.now(),
+        })
+      );
       setPricingLoading(false);
     };
 
