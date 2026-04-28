@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { supabase } from "@/lib/supabase";
+import { useRef } from "react";
 
 type PricingRow = {
     id: string;
@@ -72,8 +73,16 @@ const AdminPricing = () => {
                 : [...prev, section]
         );
     };
-    const [openSections, setOpenSections] = useState<string[]>([]);
+    const toggleAllSections = () => {
+        if (openSections.length === groupedFilteredRows.length) {
+            setOpenSections([]);
+            return;
+        }
 
+        setOpenSections(groupedFilteredRows.map((group) => group.section));
+    };
+    const [openSections, setOpenSections] = useState<string[]>([]);
+    const pricingRef = useRef<HTMLDivElement | null>(null);
 
     const NEW_OPTION = "__new__";
     const resolvedModel =
@@ -398,6 +407,10 @@ const AdminPricing = () => {
 
                 resetAddForm(basePayload.category);
                 setMessage("Modèle créé avec les prestations par défaut.");
+                setOpenSections(SECTIONS);
+                setTimeout(() => {
+                    pricingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }, 100);
             } else {
                 const payload = {
                     ...basePayload,
@@ -423,6 +436,15 @@ const AdminPricing = () => {
 
                 resetAddForm(payload.category);
                 setMessage("Ligne tarifaire ajoutée avec succès.");
+                setOpenSections((prev) => {
+                    setTimeout(() => {
+                        pricingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }, 100);
+                    if (!prev.includes(formSection)) {
+                        return [...prev, formSection];
+                    }
+                    return prev;
+                });
             }
         } catch (error) {
             console.error("Erreur ajout tarif :", error);
@@ -446,11 +468,58 @@ const AdminPricing = () => {
 
             if (error) throw error;
 
-            await fetchPricing();
+            setRows((prev) => prev.filter((row) => row.id !== id));
             setMessage("Ligne supprimée avec succès.");
         } catch (error) {
             console.error("Erreur suppression tarif :", error);
             setMessage("Impossible de supprimer cette ligne.");
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const handleDeleteCurrentModel = async () => {
+        if (!selectedCategory || !selectedBrand || !selectedGeneration || !selectedModel) {
+            return;
+        }
+
+        const confirmed = window.confirm(
+            `Voulez-vous vraiment supprimer toutes les lignes de ${selectedModel} ?`
+        );
+
+        if (!confirmed) return;
+
+        setSaving(true);
+        setMessage("");
+
+        try {
+            const { error } = await supabase
+                .from("pricing")
+                .delete()
+                .eq("category", selectedCategory)
+                .eq("brand", selectedBrand)
+                .eq("generation", selectedGeneration)
+                .eq("model", selectedModel);
+
+            if (error) throw error;
+
+            setRows((prev) =>
+                prev.filter(
+                    (row) =>
+                        !(
+                            row.category === selectedCategory &&
+                            row.brand === selectedBrand &&
+                            row.generation === selectedGeneration &&
+                            row.model === selectedModel
+                        )
+                )
+            );
+
+            setSelectedModel("");
+            setMessage("Appareil supprimé avec succès.");
+        } catch (error) {
+            console.error("Erreur suppression appareil :", error);
+            setMessage("Impossible de supprimer cet appareil.");
         } finally {
             setSaving(false);
         }
@@ -804,7 +873,29 @@ const AdminPricing = () => {
                                     </div>
                                 </div>
 
-                                <div className="space-y-6">
+                                <div ref={pricingRef} className="space-y-6">
+                                    {filteredRows.length > 0 && (
+                                        <div className="flex justify-end gap-3">
+                                            <button
+                                                type="button"
+                                                onClick={toggleAllSections}
+                                                className="px-4 py-2 rounded-xl text-xs font-semibold border border-accent/20 text-accent bg-card/60 hover:bg-accent/10 transition-all duration-300"
+                                            >
+                                                {openSections.length === groupedFilteredRows.length
+                                                    ? "Tout fermer"
+                                                    : "Tout ouvrir"}
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                onClick={handleDeleteCurrentModel}
+                                                disabled={saving}
+                                                className="px-5 py-3 rounded-xl text-sm font-semibold border border-red-500/30 text-red-500 bg-card/60 hover:bg-red-500/10 transition-all duration-300 disabled:opacity-50"
+                                            >
+                                                Supprimer cet appareil
+                                            </button>
+                                        </div>
+                                    )}
                                     {filteredRows.length === 0 ? (
                                         <p className="text-sm text-muted-foreground">
                                             Aucune ligne tarifaire pour cette sélection.
@@ -818,8 +909,10 @@ const AdminPricing = () => {
                                                     {/* HEADER CLIQUABLE */}
                                                     <button
                                                         onClick={() => toggleSection(group.section)}
+
                                                         className="w-full flex justify-between items-center rounded-xl px-4 py-3 bg-card/60 hover:bg-card transition border border-accent/20"
                                                     >
+
                                                         <span className="text-gradient font-bold text-sm">
                                                             {group.section}
                                                         </span>

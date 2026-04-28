@@ -22,6 +22,13 @@ type ModelPricing = {
   }[];
 };
 
+const SECTION_ORDER = [
+  "Interventions classiques",
+  "Interventions sur carte mère",
+  "Récupération de données",
+  "Autres",
+];
+
 const Tarifs = () => {
   const scrollRef = useScrollReveal();
 
@@ -44,6 +51,7 @@ const Tarifs = () => {
         .order("brand", { ascending: true })
         .order("generation", { ascending: true })
         .order("model", { ascending: true })
+        .order("section", { ascending: true })
         .order("repair_type", { ascending: true });
 
       if (error) {
@@ -52,8 +60,7 @@ const Tarifs = () => {
         return;
       }
 
-      const rows = (data ?? []) as PricingRow[];
-      setPricingRows(rows);
+      setPricingRows((data ?? []) as PricingRow[]);
       setPricingLoading(false);
     };
 
@@ -61,13 +68,28 @@ const Tarifs = () => {
   }, []);
 
   const categories = useMemo(() => {
-    return Array.from(new Set(pricingRows.map((row) => row.category)));
-  }, [pricingRows]);
+    const cats = Array.from(new Set(pricingRows.map((row) => row.category)));
+    const ORDER = [
+      "TELEPHONE",
+      "TABLETTE",
+      "ORDINATEUR PORTABLE",
+      "CONSOLE",
+    ];
 
-  const isTelephoneCategory = selectedCategory === "TELEPHONE";
+    return cats.sort(
+      (a, b) => ORDER.indexOf(a) - ORDER.indexOf(b)
+    );
+    // 🔥 PRIORITÉ TELEPHONE
+    return cats.sort((a, b) => {
+      if (a === "TELEPHONE") return -1;
+      if (b === "TELEPHONE") return 1;
+      return a.localeCompare(b);
+    });
+  }, [pricingRows]);
 
   const brands = useMemo(() => {
     if (!selectedCategory) return [];
+
     return Array.from(
       new Set(
         pricingRows
@@ -79,7 +101,8 @@ const Tarifs = () => {
 
   const generations = useMemo(() => {
     if (!selectedCategory || !selectedBrand) return [];
-    return Array.from(
+
+    const gens = Array.from(
       new Set(
         pricingRows
           .filter(
@@ -91,6 +114,16 @@ const Tarifs = () => {
           .map((row) => row.generation as string)
       )
     );
+
+    // 🔥 TRI DU PLUS RÉCENT AU PLUS ANCIEN
+    return gens.sort((a, b) => {
+      const getNumber = (str: string) => {
+        const match = str.match(/\d+/);
+        return match ? parseInt(match[0], 10) : 0;
+      };
+
+      return getNumber(b) - getNumber(a);
+    });
   }, [pricingRows, selectedCategory, selectedBrand]);
 
   const models: ModelPricing[] = useMemo(() => {
@@ -136,21 +169,14 @@ const Tarifs = () => {
         {} as Record<string, { label: string; price: string }[]>
       );
 
-      const orderedSections = [
-        "Interventions classiques",
-        "Interventions sur carte mère",
-        "Récupération de données",
-        "Autres",
-      ];
-
       return {
         model: modelName,
-        sections: orderedSections
-          .filter((section) => groupedBySection[section]?.length)
-          .map((section) => ({
+        sections: SECTION_ORDER.filter((section) => groupedBySection[section]?.length).map(
+          (section) => ({
             title: section,
             items: groupedBySection[section],
-          })),
+          })
+        ),
       };
     });
   }, [pricingRows, selectedCategory, selectedBrand, selectedGeneration]);
@@ -189,7 +215,7 @@ const Tarifs = () => {
   }) => (
     <button
       onClick={onClick}
-      className={`px-3 py-1.5 rounded-xl text-xs font-semibold tracking-wider transition-all duration-300 ${active
+      className={`px-4 py-1.5 rounded-xl text-[11px] font-semibold tracking-wider transition-all duration-300 ${active
         ? "btn-premium"
         : "bg-card/60 text-muted-foreground hover:bg-card hover:shadow-premium border border-border/30"
         }`}
@@ -230,12 +256,12 @@ const Tarifs = () => {
                 </div>
               </div>
 
-              {selectedCategory && isTelephoneCategory && (
+              {selectedCategory && (
                 <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
                   <h2 className="text-lg font-bold mb-4 font-heading uppercase">
                     Marque
                   </h2>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2">
                     {brands.map((brand) => (
                       <FilterButton
                         key={brand}
@@ -249,12 +275,12 @@ const Tarifs = () => {
                 </div>
               )}
 
-              {selectedCategory && selectedBrand && isTelephoneCategory && (
+              {selectedCategory && selectedBrand && (
                 <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
                   <h2 className="text-lg font-bold mb-4 font-heading uppercase">
                     Modèle
                   </h2>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2">
                     {generations.map((generation) => (
                       <FilterButton
                         key={generation}
@@ -268,35 +294,22 @@ const Tarifs = () => {
                 </div>
               )}
 
-              {selectedCategory &&
-                selectedBrand &&
-                selectedGeneration &&
-                isTelephoneCategory && (
-                  <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <h2 className="text-lg font-bold mb-4 font-heading uppercase">
-                      Déclinaison
-                    </h2>
-                    <div className="flex flex-wrap gap-3">
-                      {models.map((m) => (
-                        <FilterButton
-                          key={m.model}
-                          active={selectedModel === m.model}
-                          onClick={() => setSelectedModel(m.model)}
-                        >
-                          {m.model}
-                        </FilterButton>
-                      ))}
-                    </div>
+              {selectedCategory && selectedBrand && selectedGeneration && (
+                <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                  <h2 className="text-lg font-bold mb-4 font-heading uppercase">
+                    Déclinaison
+                  </h2>
+                  <div className="flex flex-wrap gap-2">
+                    {models.map((m) => (
+                      <FilterButton
+                        key={m.model}
+                        active={selectedModel === m.model}
+                        onClick={() => setSelectedModel(m.model)}
+                      >
+                        {m.model}
+                      </FilterButton>
+                    ))}
                   </div>
-                )}
-
-              {selectedCategory && !isTelephoneCategory && (
-                <div className="card-premium p-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                  <p className="text-muted-foreground text-sm">
-                    Pour les réparations de{" "}
-                    <strong>{selectedCategory.toLowerCase()}</strong>, contactez-nous
-                    pour un devis personnalisé.
-                  </p>
                 </div>
               )}
             </div>
@@ -312,13 +325,16 @@ const Tarifs = () => {
                     Chargement des tarifs...
                   </p>
                 </div>
-              ) : isTelephoneCategory && currentModel ? (
+              ) : currentModel ? (
                 <div className="card-premium p-7 md:p-10 border-peach/20 animate-in fade-in slide-in-from-right-2 duration-300">
-                  <div className="space-y-8">
+                  <div className="space-y-5">
                     {currentModel.sections.map((section) => (
-                      <div key={section.title}>
-                        <div className="flex justify-between items-center mb-5 pb-2 border-b border-accent/20">
-                          <h3 className="text-gradient font-bold text-base">
+                      <div
+                        key={section.title}
+                        className="rounded-xl bg-card/40 p-4 border border-border/20"
+                      >
+                        <div className="flex justify-between items-center mb-3 pb-1 border-b border-accent/10">
+                          <h3 className="text-gradient font-bold text-sm tracking-wide uppercase">
                             {section.title}
                           </h3>
                           <span className="text-gradient font-bold text-sm">
@@ -330,10 +346,10 @@ const Tarifs = () => {
                           {section.items.map((item) => (
                             <div
                               key={item.label}
-                              className="flex justify-between items-center py-2 border-b border-border/20 last:border-0 hover:bg-accent/5 px-2 -mx-2 rounded-lg transition-colors duration-200"
+                              className="flex justify-between items-center py-1.5 border-b border-border/20 last:border-0 hover:bg-accent/10 px-2 -mx-2 rounded-lg transition-colors duration-200"
                             >
                               <span className="text-sm">{item.label}</span>
-                              <span className="text-sm font-semibold text-right ml-4">
+                              <span className="text-sm font-semibold text-right ml-4 min-w-[70px]">
                                 {item.price}
                               </span>
                             </div>

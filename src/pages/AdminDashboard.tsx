@@ -42,7 +42,9 @@ const AdminDashboard = () => {
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto card-premium p-8">
-              <p className="text-sm text-muted-foreground">Chargement de l’espace admin...</p>
+              <p className="text-sm text-muted-foreground">
+                Chargement de l’espace admin...
+              </p>
             </div>
           </div>
         </section>
@@ -62,12 +64,17 @@ const AdminDashboard = () => {
             <div className="card-premium p-8 md:p-10">
               <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <p className="text-sm text-muted-foreground mb-2">Espace privé</p>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Espace privé
+                  </p>
                   <h1 className="text-2xl md:text-4xl font-bold font-heading">
                     Dashboard <span className="text-gradient">Admin</span>
                   </h1>
                   <p className="text-sm text-muted-foreground mt-3">
-                    Connecté avec : <span className="font-semibold text-foreground">{adminEmail}</span>
+                    Connecté avec :{" "}
+                    <span className="font-semibold text-foreground">
+                      {adminEmail}
+                    </span>
                   </p>
                 </div>
 
@@ -95,21 +102,18 @@ const AdminDashboard = () => {
                 </p>
               </Link>
 
-              <div className="grid md:grid-cols-2 gap-6">
-                <Link
-                  to="/admin/tarifs"
-                  className="card-premium p-7 block hover:border-accent/20 transition-all duration-300"
-                >
-                  <p className="text-sm text-muted-foreground mb-2">Gestion</p>
-                  <h2 className="text-xl font-bold font-heading mb-3">
-                    Tarifs
-                  </h2>
-                  <p className="text-sm text-muted-foreground">
-                    Ajouter, modifier et supprimer les lignes tarifaires.
-                  </p>
-                </Link>
-              </div>
-
+              <Link
+                to="/admin/tarifs"
+                className="card-premium p-7 block hover:border-accent/20 transition-all duration-300"
+              >
+                <p className="text-sm text-muted-foreground mb-2">Gestion</p>
+                <h2 className="text-xl font-bold font-heading mb-3">
+                  Tarifs
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  Ajouter, modifier et supprimer les lignes tarifaires.
+                </p>
+              </Link>
 
               <div className="card-premium p-7 opacity-80">
                 <p className="text-sm text-muted-foreground mb-2">À venir</p>
