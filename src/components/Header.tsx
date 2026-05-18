@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import logoFull from "@/assets/logo-full.png";
+import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
 
 const navLinks = [
   { label: "ACCUEIL", path: "/" },
-  { label: "TARIF", path: "/tarifs" },
-  { label: "A PROPOS", path: "/a-propos" },
+  { label: "TARIFS", path: "/tarifs" },
+  { label: "À PROPOS", path: "/a-propos" },
   { label: "CONTACT", path: "/contact" },
 ];
 
@@ -15,88 +15,69 @@ const Header = () => {
   const location = useLocation();
 
   return (
-    <header
-      className="sticky top-0 z-50 shadow-md"
-      style={{ backgroundColor: "hsl(218, 22%, 72%)" }}
-    >
-      <div className="container mx-auto px-4 py-3">
-        <div className="grid min-h-[80px] grid-cols-[auto_1fr_auto] items-center">
-          <Link to="/" className="justify-self-start flex-shrink-0">
-            <img
-              src={logoFull}
-              alt="MOMUY & TECH"
-              className="h-12 md:h-14 object-contain"
-            />
-          </Link>
+    <header className="relative z-50 border-b border-[#d8c8b5] bg-[#f7f1e8]/95">
+      <div className="w-full px-6 xl:px-12 py-2 flex items-center justify-between">
+        <Link to="/" className="flex items-center" onClick={() => setMobileOpen(false)}>
+          <img
+            src={logoImg}
+            alt="Momuy & Tech"
+            className="block h-[86px] md:h-[100px] w-auto"
+          />
+        </Link>
 
-         <nav className="hidden md:flex items-center gap-12 justify-self-end">
-  {navLinks.map((link) => {
-    const isActive = location.pathname === link.path;
+        <nav className="hidden md:flex items-center gap-10 text-xl font-bold uppercase">
+          {navLinks.map((link) => {
+            const isActive = location.pathname === link.path;
 
-    return (
-      <Link
-        key={link.path}
-        to={link.path}
-        className="group relative pb-1 text-sm font-semibold tracking-wider text-primary transition-colors duration-200 hover:text-primary/70"
-      >
-        {link.label}
+            return (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`relative pb-1 transition-colors duration-200 ${isActive ? "text-[#102337]" : "text-[#102337]/80 hover:text-[#102337]"
+                  }`}
+              >
+                {link.label}
 
-        <span
-  className={`absolute left-0 bottom-0 h-[3px] transition-all duration-500 ease-out ${
-    isActive ? "w-full" : "w-0 group-hover:w-full"
-  }`}
-  style={{
-    background: "linear-gradient(90deg, transparent, hsl(var(--accent)), transparent)",
-    filter: "blur(1px)",
-  }}
-/>
-      </Link>
-              );
-            })}
-          </nav>
+                <span
+                  className={`absolute left-0 bottom-0 h-[2px] bg-[#d87532] transition-all duration-300 ${isActive ? "w-full" : "w-0"
+                    }`}
+                />
+              </Link>
+            );
+          })}
+        </nav>
 
-          <div className="hidden md:block" />
-
-          <button
-            className="justify-self-end text-primary transition-transform duration-150 active:scale-90 md:hidden"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Menu"
-          >
-            {mobileOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
+        <button
+          type="button"
+          className="md:hidden text-[#102337]"
+          onClick={() => setMobileOpen((prev) => !prev)}
+          aria-label="Menu"
+        >
+          {mobileOpen ? <X size={30} /> : <Menu size={30} />}
+        </button>
       </div>
 
       {mobileOpen && (
-        <nav
-          className="border-t border-border/20 px-4 pb-4 md:hidden"
-          style={{ backgroundColor: "hsl(218, 22%, 72%)" }}
-        >
-          {navLinks.map((link) => {
-  const isActive = location.pathname === link.path;
+        <nav className="md:hidden border-t border-[#d8c8b5] bg-[#f7f1e8] px-6 py-4">
+          <div className="flex flex-col gap-4">
+            {navLinks.map((link) => {
+              const isActive = location.pathname === link.path;
 
-  return (
-    <Link
-      key={link.path}
-      to={link.path}
-      onClick={() => setMobileOpen(false)}
-      className="group relative block w-fit py-3 text-sm font-semibold tracking-wider text-primary transition-colors duration-200 hover:text-primary/70"
-    >
-      {link.label}
-
-      <span
-        className={`absolute left-0 bottom-1 h-[3px] transition-all duration-500 ease-out ${
-          isActive ? "w-full" : "w-0 group-hover:w-full"
-        }`}
-        style={{
-          background:
-            "linear-gradient(90deg, transparent, hsl(var(--accent)), transparent)",
-          filter: "blur(1px)",
-        }}
-      />
-    </Link>
-            );
-          })}
+              return (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setMobileOpen(false)}
+                  className={`w-fit text-base font-bold uppercase tracking-wide pb-1 border-b-2 ${isActive
+                    ? "border-[#d87532] text-[#102337]"
+                    : "border-transparent text-[#102337]/80"
+                    }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </div>
         </nav>
       )}
     </header>

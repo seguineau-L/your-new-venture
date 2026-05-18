@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -27,9 +27,6 @@
     --accent: 24 65% 56%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
     --border: 213 30% 80%;
     --input: 213 30% 80%;
     --ring: 24 65% 56%;
@@ -38,140 +35,75 @@
 
     --peach: 24 60% 70%;
     --steel: 218 22% 42%;
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  .dark {
-    --background: 213 52% 10%;
-    --foreground: 210 40% 98%;
-    --card: 213 52% 14%;
-    --card-foreground: 210 40% 98%;
-    --popover: 213 52% 14%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 213 52% 17%;
-    --secondary: 72 16% 22%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 213 30% 20%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 24 65% 56%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 213 30% 25%;
-    --input: 213 30% 25%;
-    --ring: 24 65% 56%;
-  }
-}
-
-@layer base {
   * {
     @apply border-border;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
+    font-family: "Inter", sans-serif;
   }
 }
 
 @layer utilities {
-  /* Premium card with glass effect */
-  .card-premium {
-    @apply bg-card/80 backdrop-blur-sm rounded-2xl shadow-lg border border-border/30;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .card-premium:hover {
-    @apply shadow-xl;
-    transform: translateY(-4px);
+
+  /* Typo titre */
+  .font-serif {
+    font-family: "Cinzel", serif;
   }
 
-  /* Premium button gradient */
-  .btn-premium {
-    background: linear-gradient(135deg, hsl(24, 65%, 56%), hsl(24, 70%, 48%));
-    @apply text-white font-semibold shadow-md;
-    transition: all 0.3s ease;
+  /* Card propre (sans glow) */
+  .card-premium {
+    @apply bg-card/80 backdrop-blur-sm rounded-2xl shadow-md border border-border/30;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
-  .btn-premium:hover {
-    background: linear-gradient(135deg, hsl(24, 70%, 48%), hsl(24, 75%, 42%));
+
+  .card-premium:hover {
     @apply shadow-lg;
+    transform: translateY(-3px);
+  }
+
+  /* Bouton clean (sans effet néon) */
+  .btn-premium {
+    background: linear-gradient(135deg, #d87532, #c96325);
+    @apply text-white font-semibold;
+    transition: all 0.25s ease;
+  }
+
+  .btn-premium:hover {
+    background: linear-gradient(135deg, #c96325, #b9551f);
     transform: translateY(-1px);
   }
 
-  /* Scroll reveal animation */
-  .scroll-reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-  }
-  .scroll-reveal.revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Staggered children animation */
-  .scroll-reveal.revealed .stagger-child {
-    opacity: 0;
-    animation: stagger-fade-in 0.5s ease-out forwards;
-  }
-  .scroll-reveal.revealed .stagger-child:nth-child(1) { animation-delay: 0.1s; }
-  .scroll-reveal.revealed .stagger-child:nth-child(2) { animation-delay: 0.2s; }
-  .scroll-reveal.revealed .stagger-child:nth-child(3) { animation-delay: 0.3s; }
-  .scroll-reveal.revealed .stagger-child:nth-child(4) { animation-delay: 0.4s; }
-
-  /* Premium glow divider */
-
+  /* Divider vertical */
   .divider-glow-vertical {
-  position: relative;
-  width: 2rem;
-  height: 100%;
-  min-height: 100%;
-}
+    position: relative;
+    width: 2rem;
+    height: 100%;
+  }
 
-.divider-glow-vertical::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    hsl(24, 65%, 56%),
-    transparent
-  );
-  transform: translateX(-50%);
-}
+  .divider-glow-vertical::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom,
+        transparent,
+        hsl(24, 65%, 56%),
+        transparent);
+    transform: translateX(-50%);
+  }
 
-.divider-glow-vertical::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 10%;
-  bottom: 10%;
-  width: 6px;
-  transform: translateX(-50%);
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    hsl(24, 65%, 56%, 0.3),
-    transparent
-  );
-  filter: blur(4px);
-}
-
+  /* Divider horizontal */
   .divider-glow {
     position: relative;
     height: 2rem;
   }
+
   .divider-glow::before {
     content: '';
     position: absolute;
@@ -179,36 +111,32 @@
     left: 10%;
     right: 10%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(24, 65%, 56%), transparent);
-  }
-  .divider-glow::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 20%;
-    right: 20%;
-    height: 6px;
-    transform: translateY(-50%);
-    background: linear-gradient(90deg, transparent, hsl(24, 65%, 56%, 0.3), transparent);
-    filter: blur(4px);
+    background: linear-gradient(90deg,
+        transparent,
+        hsl(24, 65%, 56%),
+        transparent);
   }
 
   /* Text gradient */
   .text-gradient {
-    background: linear-gradient(135deg, hsl(24, 65%, 56%), hsl(24, 70%, 45%));
+    background: linear-gradient(135deg, #d87532, #b9551f);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-clip: text;
   }
 }
 
-@keyframes stagger-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Animation légère (scroll reveal) */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.container {
+  max-width: 1200px !important;
 }

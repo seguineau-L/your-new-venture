@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import Layout from "@/components/Layout";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { supabase } from "@/lib/supabase";
+import CircuitLoader from "@/components/CircuitLoader";
+import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
 
 type PricingRow = {
   id: string;
@@ -63,7 +65,9 @@ const Tarifs = () => {
 
           if (!isExpired) {
             setPricingRows(parsedCache.data);
-            setPricingLoading(false);
+            setTimeout(() => {
+              setPricingLoading(false);
+            }, 800);
           } else {
             localStorage.removeItem(PRICING_CACHE_KEY);
           }
@@ -101,6 +105,7 @@ const Tarifs = () => {
           timestamp: Date.now(),
         })
       );
+
       setPricingLoading(false);
     };
 
@@ -359,11 +364,41 @@ const Tarifs = () => {
             </div>
 
             <div className="scroll-reveal">
-              {pricingLoading ? (
-                <div className="card-premium p-7 md:p-10 border-peach/20 min-h-[420px] flex items-center justify-center">
-                  <p className="text-sm text-muted-foreground text-center max-w-sm">
-                    Chargement des tarifs...
-                  </p>
+              {selectedModel && pricingLoading && pricingRows.length === 0 ? (
+                <CircuitLoader />
+              ) : currentModel ? (
+                <div className="card-premium p-7 md:p-10 border-peach/20 animate-in fade-in slide-in-from-right-2 duration-300">
+                  <div className="space-y-5">
+                    {currentModel.sections.map((section) => (
+                      <div
+                        key={section.title}
+                        className="rounded-xl bg-card/40 p-4 border border-border/20"
+                      >
+                        <div className="flex justify-between items-center mb-3 pb-1 border-b border-accent/10">
+                          <h3 className="text-gradient font-bold text-sm tracking-wide uppercase">
+                            {section.title}
+                          </h3>
+                          <span className="text-gradient font-bold text-sm">
+                            Prix (€ TTC)
+                          </span>
+                        </div>
+
+                        <div className="space-y-0">
+                          {section.items.map((item) => (
+                            <div
+                              key={item.label}
+                              className="flex justify-between items-center py-1.5 border-b border-border/20 last:border-0 hover:bg-accent/10 px-2 -mx-2 rounded-lg transition-colors duration-200"
+                            >
+                              <span className="text-sm">{item.label}</span>
+                              <span className="text-sm font-semibold text-right ml-4 min-w-[70px]">
+                                {item.price}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ) : currentModel ? (
                 <div className="card-premium p-7 md:p-10 border-peach/20 animate-in fade-in slide-in-from-right-2 duration-300">

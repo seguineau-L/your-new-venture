@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
 
 const sections = [
   {

@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
 
 const NotFound = () => {
   const location = useLocation();

@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import atelier from "@/assets/atelier-reparation.webp";
 import boutique from "@/assets/boutique.png";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
 
 const APropos = () => {
   const scrollRef = useScrollReveal();
@@ -27,12 +28,12 @@ const APropos = () => {
               <div className="space-y-5">
                 <h2 className="text-xl md:text-2xl font-bold font-heading">Notre boutique</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  MOMUY & TECH est un atelier de réparation de smartphones et d'électronique 
-                  situé à Momuy, dans les Landes. Fondée par un couple passionné de technologie, 
+                  MOMUY & TECH est un atelier de réparation de smartphones et d'électronique
+                  situé à Momuy, dans les Landes. Fondée par un couple passionné de technologie,
                   notre boutique allie expertise technique et service de proximité.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
-                  Nous accueillons nos clients dans un espace convivial où chaque appareil 
+                  Nous accueillons nos clients dans un espace convivial où chaque appareil
                   est traité avec le plus grand soin.
                 </p>
               </div>
@@ -44,12 +45,12 @@ const APropos = () => {
               <div className="space-y-5 md:order-1">
                 <h2 className="text-xl md:text-2xl font-bold font-heading">Notre atelier</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Équipé d'un matériel professionnel de pointe — microscopes, stations de 
-                  micro-soudure, outils de diagnostic avancés — notre atelier nous permet 
+                  Équipé d'un matériel professionnel de pointe — microscopes, stations de
+                  micro-soudure, outils de diagnostic avancés — notre atelier nous permet
                   d'intervenir sur les réparations les plus délicates.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
-                  De la simple réparation d'écran à la micro-soudure de composants sur carte mère, 
+                  De la simple réparation d'écran à la micro-soudure de composants sur carte mère,
                   nous mettons notre savoir-faire au service de la longévité de vos appareils.
                 </p>
               </div>

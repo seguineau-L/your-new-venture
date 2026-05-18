@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { supabase } from "@/lib/supabase";
 import { useRef } from "react";
+import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
 
 type PricingRow = {
     id: string;
@@ -341,6 +342,7 @@ const AdminPricing = () => {
             }
 
             setMessage("Tarifs enregistrés avec succès.");
+            localStorage.removeItem("pricing_cache_v1");
         } catch (error) {
             console.error("Erreur sauvegarde tarifs :", error);
             setMessage("Une erreur est survenue pendant l’enregistrement.");
@@ -407,6 +409,7 @@ const AdminPricing = () => {
 
                 resetAddForm(basePayload.category);
                 setMessage("Modèle créé avec les prestations par défaut.");
+                localStorage.removeItem("pricing_cache_v1");
                 setOpenSections(SECTIONS);
                 setTimeout(() => {
                     pricingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -436,6 +439,7 @@ const AdminPricing = () => {
 
                 resetAddForm(payload.category);
                 setMessage("Ligne tarifaire ajoutée avec succès.");
+                localStorage.removeItem("pricing_cache_v1");
                 setOpenSections((prev) => {
                     setTimeout(() => {
                         pricingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -470,6 +474,7 @@ const AdminPricing = () => {
 
             setRows((prev) => prev.filter((row) => row.id !== id));
             setMessage("Ligne supprimée avec succès.");
+            localStorage.removeItem("pricing_cache_v1");
         } catch (error) {
             console.error("Erreur suppression tarif :", error);
             setMessage("Impossible de supprimer cette ligne.");
@@ -517,6 +522,7 @@ const AdminPricing = () => {
 
             setSelectedModel("");
             setMessage("Appareil supprimé avec succès.");
+            localStorage.removeItem("pricing_cache_v1");
         } catch (error) {
             console.error("Erreur suppression appareil :", error);
             setMessage("Impossible de supprimer cet appareil.");

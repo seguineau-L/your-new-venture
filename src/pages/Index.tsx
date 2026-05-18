@@ -1,196 +1,169 @@
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Clock,
+  MapPin,
+  ShieldCheck,
+  Wrench,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import heroImage from "@/assets/atelier-reparation.webp";
+import diagnosticImg from "@/assets/icons/diagnostique.svg";
+import electroniqueImg from "@/assets/icons/carte-elec.svg";
+import smartphonesImg from "@/assets/icons/reparation.svg";
+import microsoudureImg from "@/assets/icons/microsoudure.svg";
 import Layout from "@/components/Layout";
-import atelier from "@/assets/atelier-reparation.webp";
-import { Search, Cpu, Smartphone } from "lucide-react";
-import solderIcon from "@/assets/logoPen.png";
-import { useScrollReveal } from "@/hooks/use-scroll-reveal";
- 
-const services = [
-  {
-    icon: Search,
-    title: "DIAGNOSTIC",
-    items: ["contrôle phonecheck", "recherche de panne", "contrôle", "conseil réparation"],
-  },
-  {
-    icon: Cpu,
-    title: "ÉLECTRONIQUE",
-    items: ["cartes électronique", "console", "pc", "batterie d'écouteurs"],
-  },
-  {
-    icon: Smartphone,
-    title: "SMARTPHONES",
-    items: ["écrans", "batteries", "connecteur de charge", "prise jack"],
-  },
-  {
-    icon: "custom-solder",
-    title: "MICROSOUDURE",
-    items: ["connectique", "désoxydation", "composant", "intervention fine sur carte"],
-  },
-];
-
-const reasons = [
-  {
-    title: "UN ATELIER LOCAL",
-    desc: "Un service de proximité, avec un vrai interlocuteur et un suivi simplifié.",
-  },
-  {
-    title: "UNE VRAIE LOGIQUE DE DIAGNOSTIQUE",
-    desc: "Chaque appareil est analysé en profondeur avant toute intervention.",
-  },
-  {
-    title: "UNE EXPERTISE TECHNIQUE",
-    desc: "Au-delà de la réparation classique, nous intervenons aussi sur l'électronique et la micro-soudure.",
-  },
-];
 
 const Index = () => {
-  
-  const scrollRef = useScrollReveal();
-
   return (
     <Layout>
-      <div ref={scrollRef}>
-        {/* Hero */}
-        <section className="py-16 md:py-24">
-          <div className="container mx-auto px-4 grid md:grid-cols-2 gap-14 items-center">
-            <div className="space-y-8 scroll-reveal">
-              <h1 className="text-3xl md:text-5xl font-bold leading-tight font-heading uppercase tracking-wide">
-                Réparation<br />
-                <span className="text-gradient">smartphone</span> et carte électronique
-              </h1>
-              <p className="text-muted-foreground leading-relaxed max-w-lg text-base">
-                Diagnostic, réparation et intervention sur smartphones,
-                console, pc, carte électronique et accessoires high-tech.
-                Nous sommes un atelier local, sérieux et orienté réparation durable.
-              </p>
-              <div className="flex flex-wrap gap-4 pt-2">
-                <Link
-                  to="/contact"
-                  className="btn-premium px-8 py-3 rounded-xl text-sm inline-block"
-                >
-                  Venir à l'atelier
-                </Link>
-                <Link
-                  to="/contact"
-                  className="px-8 py-3 rounded-xl text-sm font-semibold border-2 border-primary/20 text-primary hover:border-accent hover:text-accent transition-all duration-300 inline-block"
-                >
-                  Nos horaires
-                </Link>
-              </div>
-            </div>
-            <div className="scroll-reveal">
-              <img
-                src={atelier}
-                alt="Atelier de micro-soudure MOMUY & TECH"
-                className="rounded-2xl shadow-premium-lg w-full h-72 md:h-96 object-cover"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </section>
+      <main className="min-h-screen bg-[#f4efe7] text-[#102337]">
+        <section className="relative overflow-hidden bg-[#f4efe7]">
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] min-h-[450px] gap-8 lg:gap-0">
+            <div className="relative z-10 py-10 flex items-center bg-[#f4efe7] justify-center">
+              <div className="w-full max-w-lg px-6 lg:translate-x-4">
+                <p className="uppercase tracking-[0.18em] text-[#d87532] font-bold mb-5">
+                  Atelier de réparation
+                </p>
 
-        <div className="divider-glow my-4" />
+                <h1 className="font-serif text-6xl md:text-6xl xl:text-5xl leading-[0.9] font-bold text-[#102337] mb-5">
+                  <span className="block">L’EXPERTISE</span>
+                  <span className="block">AU SERVICE DE</span>
+                  <span className="block">VOS APPAREILS</span>
+                </h1>
 
-        {/* Nos Services */}
-        <section className="py-16 md:py-24">
-          <div className="container mx-auto px-4">
-            <div className="scroll-reveal text-center mb-14">
-              <h2 className="text-2xl md:text-4xl font-bold mb-5 font-heading uppercase tracking-wide">
-                Nos <span className="text-gradient">Services</span>
-              </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Nous vous proposons une prise en charge claire,
-                du diagnostic à la réparation grâce à un check-up complet,
-                la prise en charge et la remise de l'appareil
-                ainsi que grâce à un suivi de réparation en direct.
-              </p>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 scroll-reveal">
-             {services.map((s) => (
-                <div
-                  key={s.title}
-                  className="card-premium p-7 stagger-child group transition-all duration-300 hover:shadow-lg hover:shadow-black/5 hover:border-accent/15"
-                >
+                <p className="text-base md:text-lg leading-8 text-[#2b3d4d] mb-6">
+                  Diagnostic, réparation et intervention sur smartphones,
+                  consoles, PC, carte électronique et accessoires high-tech.
+                  Un atelier local, un savoir-faire précis et un service durable.
+                </p>
 
-            {/* ICON + TITRE */}
-            <div className="flex items-center gap-3 mb-4">
-             <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center transition-all duration-300 group-hover:bg-accent/15 shrink-0">
-                {s.icon === "custom-solder" ? (
-                  <img
-                    src={solderIcon}
-                    alt="Fer à souder"
-                    className="w-12 h-12 object-contain"
-                   />
-                ) : (
-                    <s.icon className="w-6 h-6 text-accent transition-opacity duration-300 group-hover:opacity-90" />
-                )}
-              </div>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link
+                    to="/contact#map"
+                    className="inline-flex items-center justify-center gap-3 rounded-md bg-[#d87532] px-7 py-4 text-white font-bold uppercase shadow-lg hover:bg-[#c96325] transition"
+                  >
+                    <MapPin className="w-5 h-5" />
+                    Venir à l’atelier
+                  </Link>
 
-              <h3 className="font-bold text-lg font-heading transition-colors duration-300 group-hover:text-accent">
-                {s.title}
-              </h3>
-            </div>
-
-            {/* LISTE */}
-             <ul className="space-y-2.5">
-              {s.items.map((item) => (
-                <li
-                  key={item}
-                  className="text-sm text-muted-foreground flex items-start gap-2"
-                >
-                  <span className="text-accent mt-0.5 text-xs">●</span>
-                    {item}
-                </li>
-              ))}
-            </ul>
-        </div>
-      ))}
-  </div>
-</div>
- </section>
-
-        <div className="divider-glow my-4" />
-
-        {/* Pourquoi choisir */}
-        <section className="py-16 md:py-24">
-          <div className="container mx-auto px-4">
-            <div className="scroll-reveal text-center mb-14">
-              <h2 className="text-2xl md:text-4xl font-bold font-heading uppercase tracking-wide">
-                Pourquoi choisir <span className="text-gradient">MOMUY & TECH</span>
-              </h2>
-            </div>
-            <div className="grid md:grid-cols-3 gap-8 scroll-reveal">
-              {reasons.map((r) => (
-                <div
-                  key={r.title}
-                  className="card-premium p-10 text-center stagger-child"
-                >
-                  <h3 className="font-bold text-base mb-5 font-heading uppercase tracking-wide">{r.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{r.desc}</p>
+                  <Link
+                    to="/contact#time"
+                    className="inline-flex items-center justify-center gap-3 rounded-md border border-[#d87532] px-7 py-4 text-[#102337] font-bold uppercase hover:bg-white/60 transition"
+                  >
+                    <Clock className="w-5 h-5" />
+                    Nos horaires
+                  </Link>
                 </div>
-              ))}
+              </div>
+            </div>
+
+            <div className="relative min-h-[calc(80vh-110px)]">
+              <img
+                src={heroImage}
+                alt="Atelier de réparation électronique"
+                className="absolute inset-0 w-full h-full object-cover object-center"
+              />
+
+              <div className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#f4efe7] via-[#f4efe7]/90 to-transparent backdrop-blur-[1px]" />
             </div>
           </div>
         </section>
 
-        <div className="divider-glow my-4" />
-
-        {/* CTA */}
-        <section className="py-16 md:py-24 scroll-reveal">
-          <div className="container mx-auto px-4 text-center space-y-6">
-            <p className="text-xl md:text-2xl font-bold font-heading">Besoin d'un diagnostic ?</p>
-            <p className="text-muted-foreground max-w-md mx-auto leading-relaxed">
-              Appelez-nous ou passez à l'atelier pour échanger sur votre appareil.
-            </p>
-            <Link
-              to="/contact"
-              className="btn-premium px-10 py-4 rounded-xl text-sm inline-block mt-4"
-            >
-              Nous contacter
-            </Link>
+        <section className="bg-[#09233a] text-white">
+          <div className="container mx-auto px-6 py-12 grid md:grid-cols-4 gap-8">
+            {[
+              {
+                title: "Diagnostic",
+                text: "Contrôle et recherche de panne",
+              },
+              {
+                title: "Électronique",
+                text: "Cartes électroniques, PC, consoles",
+              },
+              {
+                title: "Smartphones",
+                text: "Écrans, batteries, connecteurs",
+              },
+              {
+                title: "Microsoudure",
+                text: "Soudure fine, composants et interventions délicates",
+              },
+            ].map((item, index) => (
+              <div
+                key={item.title}
+                className={`flex flex-col items-center text-center px-6 ${index !== 0 ? "md:border-l md:border-[#d87532]/60" : ""
+                  }`}
+              >
+                <img
+                  src={
+                    item.title === "Diagnostic"
+                      ? diagnosticImg
+                      : item.title === "Électronique"
+                        ? electroniqueImg
+                        : item.title === "Smartphones"
+                          ? smartphonesImg
+                          : microsoudureImg
+                  }
+                  alt={item.title}
+                  className="block w-28 h-28 mb-4 object-contain flex-shrink-0"
+                />
+                <h3 className="uppercase font-bold tracking-wide mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-sm leading-6 text-white/80">{item.text}</p>
+              </div>
+            ))}
           </div>
         </section>
-      </div>
+
+        <section className="bg-[#f7f1e8] border-b border-[#e0d2c1]">
+          <div className="container mx-auto px-6 py-10 grid md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: MapPin,
+                title: "Un atelier local",
+                text: "Service de proximité, suivi personnalisé.",
+              },
+              {
+                icon: ShieldCheck,
+                title: "Diagnostic transparent",
+                text: "Devis clair et détaillé, sans surprise.",
+              },
+              {
+                icon: Wrench,
+                title: "Expertise technique",
+                text: "Matériel professionnel et réparations durables.",
+              },
+            ].map((item, index) => (
+              <div
+                key={item.title}
+                className={`flex items-center gap-5 ${index !== 0 ? "md:border-l md:border-[#d8c8b5] md:pl-8" : ""
+                  }`}
+              >
+                <item.icon className="w-12 h-12 text-[#102337]" />
+                <div>
+                  <h3 className="uppercase font-bold mb-2">{item.title}</h3>
+                  <p className="text-sm text-[#52606c] leading-6">{item.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="bg-[#f4efe7] text-center px-6 py-12">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-[0.18em] uppercase mb-3">
+            Besoin d’un diagnostic ?
+          </h2>
+          <p className="text-[#52606c] mb-6">
+            Passez à l’atelier pour échanger sur votre appareil.
+          </p>
+          <Link
+            to="/contact#contact"
+            className="inline-flex items-center justify-center rounded-md bg-[#09233a] px-10 py-3 text-white font-bold uppercase hover:bg-[#12314c] transition"
+          >
+            Nous contacter →
+          </Link>
+        </section>
+      </main>
     </Layout>
   );
 };

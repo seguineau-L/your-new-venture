@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { supabase } from "@/lib/supabase";
 import facade from "@/assets/facade.jpg"; // remplace si ton fichier a un autre nom
+import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
 
 type OpeningHour = {
   id: number;
@@ -85,7 +86,7 @@ const Contact = () => {
   return (
     <Layout>
       <section className="py-16 md:py-24" ref={scrollRef}>
-        <div className="container mx-auto px-4">
+        <div id="time" className="container mx-auto px-4">
           <div className="scroll-reveal text-center mb-14">
             <h1 className="text-2xl md:text-4xl font-bold font-heading">
               <span className="text-gradient">Contactez</span>-nous
@@ -130,7 +131,7 @@ const Contact = () => {
 
                 <div className="card-premium p-6 md:p-8 space-y-6">
                   {contactInfo.map((info) => (
-                    <div key={info.title} className="flex items-start gap-5 group">
+                    <div id="contact" key={info.title} className="flex items-start gap-5 group">
                       <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 group-hover:shadow-premium-glow transition-all duration-300">
                         <info.icon className="w-5 h-5 text-accent" />
                       </div>
@@ -158,7 +159,7 @@ const Contact = () => {
 
             {/* Carte pleine largeur en bas */}
             <div className="scroll-reveal">
-              <div className="card-premium p-0 overflow-hidden">
+              <div id="map" className="card-premium p-0 overflow-hidden">
                 <a
                   href={MAPS_URL}
                   target="_blank"
