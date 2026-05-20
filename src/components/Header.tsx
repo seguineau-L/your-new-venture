@@ -25,7 +25,7 @@ const Header = () => {
           />
         </Link>
 
-        <nav className="hidden md:flex items-center gap-10 text-xl font-bold uppercase">
+        <nav className="hidden lg:flex items-center gap-10 text-xl font-bold uppercase">
           {navLinks.map((link) => {
             const isActive = location.pathname === link.path;
 
@@ -49,7 +49,7 @@ const Header = () => {
 
         <button
           type="button"
-          className="md:hidden text-[#102337]"
+          className="lg:hidden text-[#102337]"
           onClick={() => setMobileOpen((prev) => !prev)}
           aria-label="Menu"
         >
@@ -58,7 +58,7 @@ const Header = () => {
       </div>
 
       {mobileOpen && (
-        <nav className="md:hidden border-t border-[#d8c8b5] bg-[#f7f1e8] px-6 py-4">
+        <nav className="lg:hidden border-t border-[#d8c8b5] bg-[#f7f1e8] px-6 py-4">
           <div className="flex flex-col gap-4">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;

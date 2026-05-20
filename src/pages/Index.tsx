@@ -17,14 +17,26 @@ const Index = () => {
     <Layout>
       <main className="min-h-screen bg-[#f4efe7] text-[#102337]">
         <section className="relative overflow-hidden bg-[#f4efe7]">
-          <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] min-h-[450px] gap-8 lg:gap-0">
-            <div className="relative z-10 py-10 flex items-center bg-[#f4efe7] justify-center">
-              <div className="w-full max-w-lg px-6 lg:translate-x-4">
+          <div className="relative lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] min-h-[calc(100vh-110px)] gap-8 lg:gap-0">
+
+            {/* Image en fond sur mobile */}
+            <div className="absolute inset-0 lg:hidden">
+              <img
+                src={heroImage}
+                alt="Atelier de réparation électronique"
+                className="w-full h-full object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-[#f4efe7]/85 backdrop-blur-[1px]" />
+            </div>
+
+            {/* Texte */}
+            <div className="relative z-10 py-10 flex items-center justify-center bg-transparent lg:bg-[#f4efe7]">
+              <div className="w-full max-w-lg px-6 text-center lg:text-left lg:translate-x-4">
                 <p className="uppercase tracking-[0.18em] text-[#d87532] font-bold mb-5">
                   Atelier de réparation
                 </p>
 
-                <h1 className="font-serif text-6xl md:text-6xl xl:text-5xl leading-[0.9] font-bold text-[#102337] mb-5">
+                <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl xl:text-5xl leading-[0.9] font-bold text-[#102337] mb-5">
                   <span className="block">L’EXPERTISE</span>
                   <span className="block">AU SERVICE DE</span>
                   <span className="block">VOS APPAREILS</span>
@@ -36,7 +48,7 @@ const Index = () => {
                   Un atelier local, un savoir-faire précis et un service durable.
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Link
                     to="/contact#map"
                     className="inline-flex items-center justify-center gap-3 rounded-md bg-[#d87532] px-7 py-4 text-white font-bold uppercase shadow-lg hover:bg-[#c96325] transition"
@@ -46,7 +58,7 @@ const Index = () => {
                   </Link>
 
                   <Link
-                    to="/contact#time"
+                    to="/contact#horaires"
                     className="inline-flex items-center justify-center gap-3 rounded-md border border-[#d87532] px-7 py-4 text-[#102337] font-bold uppercase hover:bg-white/60 transition"
                   >
                     <Clock className="w-5 h-5" />
@@ -56,7 +68,8 @@ const Index = () => {
               </div>
             </div>
 
-            <div className="relative min-h-[calc(80vh-110px)]">
+            {/* Image à droite sur desktop */}
+            <div className="relative hidden lg:block min-h-[calc(80vh-110px)]">
               <img
                 src={heroImage}
                 alt="Atelier de réparation électronique"

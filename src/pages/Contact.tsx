@@ -1,10 +1,10 @@
 import Layout from "@/components/Layout";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Clock } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { supabase } from "@/lib/supabase";
 import facade from "@/assets/facade.jpg"; // remplace si ton fichier a un autre nom
-import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
 
 type OpeningHour = {
   id: number;
@@ -20,7 +20,6 @@ type OpeningHour = {
 
 const CONTACT_ADDRESS = "À venir — Momuy, Landes (40)";
 const CONTACT_PHONE = "À venir";
-const CONTACT_EMAIL = "À venir";
 
 /**
  * Remplace cette URL dès que tu as l’adresse exacte du magasin.
@@ -33,11 +32,11 @@ const MAPS_URL =
 const contactInfo = [
   { icon: MapPin, title: "Adresse", value: CONTACT_ADDRESS },
   { icon: Phone, title: "Téléphone", value: CONTACT_PHONE },
-  { icon: Mail, title: "Email", value: CONTACT_EMAIL },
 ];
 
 const Contact = () => {
   const scrollRef = useScrollReveal();
+  const location = useLocation();
   const [openingHours, setOpeningHours] = useState<OpeningHour[]>([]);
   const [hoursLoading, setHoursLoading] = useState(true);
 
@@ -63,6 +62,28 @@ const Contact = () => {
     fetchOpeningHours();
   }, []);
 
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+
+      if (element) {
+        setTimeout(() => {
+          const yOffset =
+            location.hash === "#horaires" ? -140 : -80;
+
+          const y =
+            element.getBoundingClientRect().top +
+            window.scrollY +
+            yOffset;
+
+          window.scrollTo({
+            top: y,
+            behavior: "smooth",
+          });
+        }, 100);
+      }
+    }
+  }, [location]);
   const formatHours = (hour: OpeningHour) => {
     if (hour.is_closed) return "Fermé";
 
@@ -85,11 +106,11 @@ const Contact = () => {
 
   return (
     <Layout>
-      <section className="py-16 md:py-24" ref={scrollRef}>
+      <section className="py-16 md:py-24 bg-[#f4efe7] text-[#102337]" ref={scrollRef}>
         <div id="time" className="container mx-auto px-4">
           <div className="scroll-reveal text-center mb-14">
-            <h1 className="text-2xl md:text-4xl font-bold font-heading">
-              <span className="text-gradient">Contactez</span>-nous
+            <h1 className="font-serif text-4xl md:text-5xl leading-[0.95] font-bold text-[#102337]">
+              <span className="text-[#d87532]">Contactez</span>-nous
             </h1>
           </div>
 
@@ -97,21 +118,24 @@ const Contact = () => {
             <div className="grid lg:grid-cols-2 gap-10 items-start">
               {/* Colonne gauche */}
               <div className="space-y-8 scroll-reveal">
-                <div className="card-premium p-6 md:p-8">
+                <div
+                  id="horaires"
+                  className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm p-8"
+                >
                   <div className="flex items-center gap-3 mb-5">
                     <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
-                      <Clock className="w-5 h-5 text-accent" />
+                      <Clock className="w-5 h-5 text-[#d87532]" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-base">Horaires</h3>
-                      <p className="text-muted-foreground text-sm">
+                      <p className="text-[#52606c] text-sm">
                         Nos horaires d’ouverture
                       </p>
                     </div>
                   </div>
 
                   {hoursLoading ? (
-                    <p className="text-sm text-muted-foreground">Chargement...</p>
+                    <p className="text-sm text-[#52606c]">Chargement...</p>
                   ) : (
                     <div className="space-y-2">
                       {openingHours.map((hour) => (
@@ -120,7 +144,7 @@ const Contact = () => {
                           className="flex justify-between gap-4 text-sm border-b border-border/20 pb-2 last:border-0"
                         >
                           <span className="font-medium">{hour.day_label}</span>
-                          <span className="text-muted-foreground text-right">
+                          <span className="text-[#52606c] text-right">
                             {formatHours(hour)}
                           </span>
                         </div>
@@ -129,15 +153,19 @@ const Contact = () => {
                   )}
                 </div>
 
-                <div className="card-premium p-6 md:p-8 space-y-6">
+                <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm p-8">
                   {contactInfo.map((info) => (
-                    <div id="contact" key={info.title} className="flex items-start gap-5 group">
-                      <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 group-hover:shadow-premium-glow transition-all duration-300">
-                        <info.icon className="w-5 h-5 text-accent" />
+                    <div
+                      id="contact"
+                      key={info.title}
+                      className="flex items-start gap-6 py-3 group"
+                    >
+                      <div className="w-12 h-12 rounded-xl bg-[#d87532]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#d87532]/20 transition-all duration-300">
+                        <info.icon className="w-5 h-5 text-[#d87532]" />
                       </div>
                       <div>
-                        <h3 className="font-semibold mb-1 text-base">{info.title}</h3>
-                        <p className="text-muted-foreground text-sm">{info.value}</p>
+                        <h3 className="font-bold text-[#102337] mb-1 text-base">{info.title}</h3>
+                        <p className="text-[#52606c] text-sm">{info.value}</p>
                       </div>
                     </div>
                   ))}
@@ -146,11 +174,11 @@ const Contact = () => {
 
               {/* Colonne droite */}
               <div className="scroll-reveal">
-                <div className="card-premium p-0 overflow-hidden">
+                <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm">
                   <img
                     src={facade}
                     alt="Façade du magasin"
-                    className="w-full h-[420px] md:h-[520px] object-cover object-center"
+                    className="w-full h-[420px] md:h-[520px] object-cover object-center rounded-2xl"
                     loading="lazy"
                   />
                 </div>
@@ -159,7 +187,10 @@ const Contact = () => {
 
             {/* Carte pleine largeur en bas */}
             <div className="scroll-reveal">
-              <div id="map" className="card-premium p-0 overflow-hidden">
+              <div
+                id="map"
+                className="rounded-2xl overflow-hidden border border-[#d8c8b5] bg-[#f7f1e8] shadow-sm"
+              >
                 <a
                   href={MAPS_URL}
                   target="_blank"
@@ -170,7 +201,7 @@ const Contact = () => {
                   <iframe
                     title="Carte du magasin"
                     src="https://www.google.com/maps?q=121+route+d%27orthez+40700+momuy&z=16&output=embed"
-                    className="w-full h-[360px] md:h-[440px] border-0 pointer-events-none"
+                    className="w-full h-[360px] md:h-[440px] border-0 rounded-2xl"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                   />
@@ -189,7 +220,7 @@ const Contact = () => {
           </div>
         </div>
       </section>
-    </Layout>
+    </Layout >
   );
 };
 

@@ -260,9 +260,9 @@ const Tarifs = () => {
   }) => (
     <button
       onClick={onClick}
-      className={`px-4 py-1.5 rounded-xl text-[11px] font-semibold tracking-wider transition-all duration-300 ${active
-        ? "btn-premium"
-        : "bg-card/60 text-muted-foreground hover:bg-card hover:shadow-premium border border-border/30"
+      className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wide transition-all duration-300 ${active
+        ? "bg-[#d87532] text-white shadow-md"
+        : "bg-[#f7f1e8] text-[#102337] border border-[#d8c8b5] hover:bg-white"
         }`}
     >
       {children}
@@ -271,15 +271,15 @@ const Tarifs = () => {
 
   return (
     <Layout>
-      <section className="py-16 md:py-24" ref={scrollRef}>
+      <section className="py-16 md:py-24 bg-[#f4efe7] text-[#102337]" ref={scrollRef}>
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-[1fr_auto_1.2fr] gap-10 lg:gap-12 items-start">
             <div className="space-y-8 scroll-reveal max-w-sm mx-auto">
               <div className="text-center">
-                <h1 className="text-2xl md:text-4xl font-bold font-heading mb-3">
+                <h1 className="font-serif text-4xl md:text-5xl leading-[0.95] font-bold text-[#102337] mb-3">
                   NOS <span className="text-gradient">TARIFS</span>
                 </h1>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-[#52606c] text-sm">
                   Sélectionnez la catégorie de votre appareil
                 </p>
               </div>
@@ -367,15 +367,15 @@ const Tarifs = () => {
               {selectedModel && pricingLoading && pricingRows.length === 0 ? (
                 <CircuitLoader />
               ) : currentModel ? (
-                <div className="card-premium p-7 md:p-10 border-peach/20 animate-in fade-in slide-in-from-right-2 duration-300">
+                <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm">
                   <div className="space-y-5">
                     {currentModel.sections.map((section) => (
                       <div
                         key={section.title}
-                        className="rounded-xl bg-card/40 p-4 border border-border/20"
+                        className="rounded-xl bg-white/60 p-4 border border-border/20"
                       >
                         <div className="flex justify-between items-center mb-3 pb-1 border-b border-accent/10">
-                          <h3 className="text-gradient font-bold text-sm tracking-wide uppercase">
+                          <h3 className="text-[#d87532] font-bold text-sm tracking-wide uppercase">
                             {section.title}
                           </h3>
                           <span className="text-gradient font-bold text-sm">
@@ -436,7 +436,7 @@ const Tarifs = () => {
                 </div>
               ) : (
                 <div className="card-premium p-7 md:p-10 border-peach/20 min-h-[420px] flex items-center justify-center">
-                  <p className="text-sm text-muted-foreground text-center max-w-sm">
+                  <p className="text-sm text-[#52606c] text-center max-w-sm">
                     Sélectionnez un appareil, puis une marque, un modèle et une déclinaison pour afficher les tarifs correspondants.
                   </p>
                 </div>
@@ -445,7 +445,7 @@ const Tarifs = () => {
           </div>
         </div>
       </section>
-    </Layout>
+    </Layout >
   );
 };
 
