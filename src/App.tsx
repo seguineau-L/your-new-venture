@@ -13,6 +13,7 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminHours from "./pages/AdminHours";
 import AdminPricing from "./pages/AdminPricing";
+import AdminTexts from "./pages/AdminTexts";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/horaires" element={<AdminHours />} />
           <Route path="/admin/tarifs" element={<AdminPricing />} />
+          <Route path="/admin/textes" element={<AdminTexts />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

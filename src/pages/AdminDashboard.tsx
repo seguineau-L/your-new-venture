@@ -8,34 +8,38 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [adminEmail, setAdminEmail] = useState("");
+  const [heroKicker, setHeroKicker] = useState("");
+  const [heroTitle1, setHeroTitle1] = useState("");
+  const [heroTitle2, setHeroTitle2] = useState("");
+  const [heroTitle3, setHeroTitle3] = useState("");
+  const [heroDescription, setHeroDescription] = useState("");
+  const [ctaMap, setCtaMap] = useState("");
+  const [ctaHours, setCtaHours] = useState("");
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    const checkSession = async () => {
+    const initAdmin = async () => {
       const { data, error } = await supabase.auth.getSession();
 
-      if (error) {
-        console.error("Erreur session admin :", error);
+      if (error || !data.session) {
         setLoading(false);
         return;
       }
 
-      const session = data.session;
+      setIsAuthenticated(true);
+      setAdminEmail(data.session.user.email ?? "");
 
-      if (session?.user) {
-        setIsAuthenticated(true);
-        setAdminEmail(session.user.email ?? "");
+      try {
+        await fetchSiteContent();
+      } catch (error) {
+        console.error("Erreur chargement contenu admin :", error);
       }
 
       setLoading(false);
     };
 
-    checkSession();
+    initAdmin();
   }, []);
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    window.location.href = "/admin/login";
-  };
 
   if (loading) {
     return (
@@ -52,6 +56,82 @@ const AdminDashboard = () => {
       </Layout>
     );
   }
+
+  const fetchSiteContent = async () => {
+    const { data, error } = await supabase
+      .from("site_content")
+      .select("content_key, content_value");
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const getValue = (key: string) =>
+      data?.find((item) => item.content_key === key)?.content_value || "";
+
+    setHeroKicker(getValue("home_hero_kicker"));
+    setHeroTitle1(getValue("home_hero_title_line_1"));
+    setHeroTitle2(getValue("home_hero_title_line_2"));
+    setHeroTitle3(getValue("home_hero_title_line_3"));
+    setHeroDescription(getValue("home_hero_description"));
+    setCtaMap(getValue("home_cta_map"));
+    setCtaHours(getValue("home_cta_hours"));
+  };
+
+  const saveSiteContent = async () => {
+    setSaving(true);
+
+    const updates = [
+      {
+        content_key: "home_hero_kicker",
+        content_value: heroKicker,
+      },
+      {
+        content_key: "home_hero_title_line_1",
+        content_value: heroTitle1,
+      },
+      {
+        content_key: "home_hero_title_line_2",
+        content_value: heroTitle2,
+      },
+      {
+        content_key: "home_hero_title_line_3",
+        content_value: heroTitle3,
+      },
+      {
+        content_key: "home_hero_description",
+        content_value: heroDescription,
+      },
+      {
+        content_key: "home_cta_map",
+        content_value: ctaMap,
+      },
+      {
+        content_key: "home_cta_hours",
+        content_value: ctaHours,
+      },
+    ];
+
+    const { error } = await supabase
+      .from("site_content")
+      .upsert(updates);
+
+    if (error) {
+      console.error(error);
+      alert("Erreur sauvegarde");
+    } else {
+      alert("Contenu sauvegardé");
+    }
+
+    setSaving(false);
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = "/admin/login";
+  };
+
 
   if (!isAuthenticated) {
     return <Navigate to="/admin/login" replace />;
@@ -116,15 +196,18 @@ const AdminDashboard = () => {
                 </p>
               </Link>
 
-              <div className="card-premium p-7 opacity-80">
-                <p className="text-sm text-muted-foreground mb-2">À venir</p>
-                <h2 className="text-xl font-bold font-heading mb-3">
+              <Link
+                to="/admin/textes"
+                className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm p-6 hover:border-[#d87532] transition"
+              >
+                <h2 className="text-xl font-bold text-[#102337] mb-2">
                   Textes du site
                 </h2>
-                <p className="text-sm text-muted-foreground">
-                  Modifier les titres, paragraphes et contenus.
+
+                <p className="text-[#52606c] text-sm leading-relaxed">
+                  Modifier les textes de l’accueil, des boutons et du contenu du site.
                 </p>
-              </div>
+              </Link>
 
               <div className="card-premium p-7 opacity-80">
                 <p className="text-sm text-muted-foreground mb-2">À venir</p>

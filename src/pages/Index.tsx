@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
 import {
   Clock,
   MapPin,
   ShieldCheck,
   Wrench,
 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/atelier-reparation.webp";
 import diagnosticImg from "@/assets/icons/diagnostique.svg";
@@ -12,7 +14,45 @@ import smartphonesImg from "@/assets/icons/reparation.svg";
 import microsoudureImg from "@/assets/icons/microsoudure.svg";
 import Layout from "@/components/Layout";
 
+const defaultContent = {
+  home_hero_kicker: "Atelier de réparation",
+  home_hero_title_line_1: "L’EXPERTISE",
+  home_hero_title_line_2: "AU SERVICE DE",
+  home_hero_title_line_3: "VOS APPAREILS",
+  home_hero_description:
+    "Diagnostic, réparation et intervention sur smartphones, consoles, PC, carte électronique et accessoires high-tech. Un atelier local, un savoir-faire précis et un service durable.",
+  home_cta_map: "Venir à l’atelier",
+  home_cta_hours: "Nos horaires",
+};
+
 const Index = () => {
+  const [content, setContent] = useState(defaultContent);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      const { data, error } = await supabase
+        .from("site_content")
+        .select("content_key, content_value");
+
+      if (error) {
+        console.error("Erreur chargement contenu accueil :", error);
+        return;
+      }
+
+      const formattedContent = { ...defaultContent };
+
+      data?.forEach((item) => {
+        if (item.content_key in formattedContent) {
+          formattedContent[item.content_key as keyof typeof defaultContent] =
+            item.content_value;
+        }
+      });
+
+      setContent(formattedContent);
+    };
+
+    fetchContent();
+  }, []);
   return (
     <Layout>
       <main className="min-h-screen bg-[#f4efe7] text-[#102337]">
@@ -33,19 +73,17 @@ const Index = () => {
             <div className="relative z-10 py-10 flex items-center justify-center bg-transparent lg:bg-[#f4efe7]">
               <div className="w-full max-w-lg px-6 text-center lg:text-left lg:translate-x-4">
                 <p className="uppercase tracking-[0.18em] text-[#d87532] font-bold mb-5">
-                  Atelier de réparation
+                  {content.home_hero_kicker}
                 </p>
 
                 <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl xl:text-5xl leading-[0.9] font-bold text-[#102337] mb-5">
-                  <span className="block">L’EXPERTISE</span>
-                  <span className="block">AU SERVICE DE</span>
-                  <span className="block">VOS APPAREILS</span>
+                  <span className="block">{content.home_hero_title_line_1}</span>
+                  <span className="block">{content.home_hero_title_line_2}</span>
+                  <span className="block">{content.home_hero_title_line_3}</span>
                 </h1>
 
                 <p className="text-base md:text-lg leading-8 text-[#2b3d4d] mb-6">
-                  Diagnostic, réparation et intervention sur smartphones,
-                  consoles, PC, carte électronique et accessoires high-tech.
-                  Un atelier local, un savoir-faire précis et un service durable.
+                  {content.home_hero_description}
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -54,7 +92,7 @@ const Index = () => {
                     className="inline-flex items-center justify-center gap-3 rounded-md bg-[#d87532] px-7 py-4 text-white font-bold uppercase shadow-lg hover:bg-[#c96325] transition"
                   >
                     <MapPin className="w-5 h-5" />
-                    Venir à l’atelier
+                    {content.home_cta_map}
                   </Link>
 
                   <Link
@@ -62,7 +100,7 @@ const Index = () => {
                     className="inline-flex items-center justify-center gap-3 rounded-md border border-[#d87532] px-7 py-4 text-[#102337] font-bold uppercase hover:bg-white/60 transition"
                   >
                     <Clock className="w-5 h-5" />
-                    Nos horaires
+                    {content.home_cta_hours}
                   </Link>
                 </div>
               </div>
