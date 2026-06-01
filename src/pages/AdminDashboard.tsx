@@ -139,7 +139,7 @@ const AdminDashboard = () => {
 
   return (
     <Layout>
-      <section className="py-16 md:py-24">
+      <section className="py-16 md:py-24 bg-[#f4efe7]">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto space-y-8">
             <div className="card-premium p-8 md:p-10">
@@ -172,8 +172,7 @@ const AdminDashboard = () => {
             <div className="grid md:grid-cols-2 gap-6">
               <Link
                 to="/admin/horaires"
-                className="card-premium p-7 block hover:border-accent/20 transition-all duration-300"
-              >
+                className="card-premium p-7 block transition-all duration-300"              >
                 <p className="text-sm text-muted-foreground mb-2">Gestion</p>
                 <h2 className="text-xl font-bold font-heading mb-3">
                   Horaires d’ouverture
@@ -185,8 +184,7 @@ const AdminDashboard = () => {
 
               <Link
                 to="/admin/tarifs"
-                className="card-premium p-7 block hover:border-accent/20 transition-all duration-300"
-              >
+                className="card-premium p-7 block transition-all duration-300"              >
                 <p className="text-sm text-muted-foreground mb-2">Gestion</p>
                 <h2 className="text-xl font-bold font-heading mb-3">
                   Tarifs
@@ -198,8 +196,7 @@ const AdminDashboard = () => {
 
               <Link
                 to="/admin/textes"
-                className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm p-6 hover:border-[#d87532] transition"
-              >
+                className="card-premium p-7 block transition-all duration-300"              >
                 <h2 className="text-xl font-bold text-[#102337] mb-2">
                   Textes du site
                 </h2>
@@ -209,7 +206,7 @@ const AdminDashboard = () => {
                 </p>
               </Link>
 
-              <div className="card-premium p-7 opacity-80">
+              <div className="card-premium p-7 block transition-all duration-300">
                 <p className="text-sm text-muted-foreground mb-2">À venir</p>
                 <h2 className="text-xl font-bold font-heading mb-3">
                   Photos & médias
