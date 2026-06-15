@@ -206,7 +206,9 @@ const AdminDashboard = () => {
                 </p>
               </Link>
 
-              <div className="card-premium p-7 block transition-all duration-300">
+              <Link
+                to="/admin/media"
+                className="card-premium p-7 block transition-all duration-300">
                 <p className="text-sm text-muted-foreground mb-2">À venir</p>
                 <h2 className="text-xl font-bold font-heading mb-3">
                   Photos & médias
@@ -214,12 +216,12 @@ const AdminDashboard = () => {
                 <p className="text-sm text-muted-foreground">
                   Mettre à jour les images du site.
                 </p>
-              </div>
+              </Link>
             </div>
           </div>
         </div>
       </section>
-    </Layout>
+    </Layout >
   );
 };
 
