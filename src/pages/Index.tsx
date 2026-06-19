@@ -14,6 +14,8 @@ import smartphonesImg from "@/assets/icons/reparation.svg";
 import microsoudureImg from "@/assets/icons/microsoudure.svg";
 import Layout from "@/components/Layout";
 
+
+
 const defaultContent = {
   home_hero_kicker: "Atelier de réparation",
   home_hero_title_line_1: "L’EXPERTISE",
@@ -27,6 +29,7 @@ const defaultContent = {
 
 const Index = () => {
   const [content, setContent] = useState(defaultContent);
+  const [heroImageUrl, setHeroImageUrl] = useState(heroImage);
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -49,6 +52,15 @@ const Index = () => {
       });
 
       setContent(formattedContent);
+      const { data: imageData, error: imageError } = await supabase
+        .from("site_images")
+        .select("image_url")
+        .eq("image_key", "home_hero_image")
+        .single();
+
+      if (!imageError && imageData?.image_url?.startsWith("http")) {
+        setHeroImageUrl(imageData.image_url);
+      }
     };
 
     fetchContent();
@@ -62,7 +74,7 @@ const Index = () => {
             {/* Image en fond sur mobile */}
             <div className="absolute inset-0 lg:hidden">
               <img
-                src={heroImage}
+                src={heroImageUrl}
                 alt="Atelier de réparation électronique"
                 className="w-full h-full object-cover object-center"
               />
@@ -109,7 +121,7 @@ const Index = () => {
             {/* Image à droite sur desktop */}
             <div className="relative hidden lg:block min-h-[calc(80vh-110px)]">
               <img
-                src={heroImage}
+                src={heroImageUrl}
                 alt="Atelier de réparation électronique"
                 className="absolute inset-0 w-full h-full object-cover object-center"
               />

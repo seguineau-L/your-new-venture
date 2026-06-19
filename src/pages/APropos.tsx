@@ -29,6 +29,8 @@ const defaultContent = {
 const APropos = () => {
   const scrollRef = useScrollReveal();
   const [content, setContent] = useState(defaultContent);
+  const [shopImageUrl, setShopImageUrl] = useState(boutique);
+  const [workshopImageUrl, setWorkshopImageUrl] = useState(atelier);
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -52,6 +54,27 @@ const APropos = () => {
       });
 
       setContent(formattedContent);
+      const { data: imagesData, error: imagesError } = await supabase
+        .from("site_images")
+        .select("image_key, image_url");
+
+      if (!imagesError && imagesData) {
+        imagesData.forEach((image) => {
+          if (
+            image.image_key === "about_shop_image" &&
+            image.image_url.startsWith("http")
+          ) {
+            setShopImageUrl(image.image_url);
+          }
+
+          if (
+            image.image_key === "about_workshop_image" &&
+            image.image_url.startsWith("http")
+          ) {
+            setWorkshopImageUrl(image.image_url);
+          }
+        });
+      }
     };
 
     fetchContent();
@@ -71,7 +94,7 @@ const APropos = () => {
           <div className="space-y-20">
             <div className="grid md:grid-cols-2 gap-10 items-center scroll-reveal">
               <img
-                src={boutique}
+                src={shopImageUrl}
                 alt="Boutique MOMUY & TECH"
                 className="rounded-2xl border border-[#d8c8b5] shadow-sm w-full h-72 object-cover"
                 loading="lazy"
@@ -104,7 +127,7 @@ const APropos = () => {
                 </p>
               </div>
               <img
-                src={atelier}
+                src={workshopImageUrl}
                 alt="Atelier de micro-soudure MOMUY & TECH"
                 className="rounded-2xl border border-[#d8c8b5] shadow-sm w-full h-72 object-cover md:order-2"
                 loading="lazy"

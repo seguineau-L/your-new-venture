@@ -39,6 +39,7 @@ const Contact = () => {
   const location = useLocation();
   const [openingHours, setOpeningHours] = useState<OpeningHour[]>([]);
   const [hoursLoading, setHoursLoading] = useState(true);
+  const [facadeImageUrl, setFacadeImageUrl] = useState(facade);
 
   useEffect(() => {
     const fetchOpeningHours = async () => {
@@ -56,6 +57,17 @@ const Contact = () => {
       }
 
       setOpeningHours((data ?? []) as OpeningHour[]);
+
+      const { data: imageData, error: imageError } = await supabase
+        .from("site_images")
+        .select("image_url")
+        .eq("image_key", "contact_facade_image")
+        .single();
+
+      if (!imageError && imageData?.image_url?.startsWith("http")) {
+        setFacadeImageUrl(imageData.image_url);
+      }
+
       setHoursLoading(false);
     };
 
@@ -176,7 +188,7 @@ const Contact = () => {
               <div className="scroll-reveal">
                 <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm">
                   <img
-                    src={facade}
+                    src={facadeImageUrl}
                     alt="Façade du magasin"
                     className="w-full h-[420px] md:h-[520px] object-cover object-center rounded-2xl"
                     loading="lazy"
