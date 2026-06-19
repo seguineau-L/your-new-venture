@@ -4,6 +4,7 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { supabase } from "@/lib/supabase";
 import CircuitLoader from "@/components/CircuitLoader";
 import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
+import { Link } from "react-router-dom";
 
 type PricingRow = {
   id: string;
@@ -244,6 +245,24 @@ const Tarifs = () => {
     setSelectedModel(null);
   };
 
+
+  const isQuoteOnly =
+    (selectedCategory === "ORDINATEUR PORTABLE" &&
+      (selectedBrand === "APPLE" || selectedBrand === "AUTRE")) ||
+    (selectedCategory === "TABLETTE" &&
+      (selectedBrand === "APPLE" || selectedBrand === "AUTRE"));
+
+  const quoteTitle =
+    selectedCategory === "TABLETTE"
+      ? "Réparation de tablette"
+      : "Réparation d'ordinateur portable";
+
+  const quoteText =
+    selectedCategory === "TABLETTE"
+      ? "Nous réparons les iPad ainsi que les tablettes Android dans notre atelier."
+      : "Nous réparons les MacBook ainsi que les ordinateurs portables Windows dans notre atelier.";
+
+
   const handleGenerationChange = (generation: string) => {
     setSelectedGeneration(generation);
     setSelectedModel(null);
@@ -268,6 +287,7 @@ const Tarifs = () => {
       {children}
     </button>
   );
+
 
   return (
     <Layout>
@@ -313,14 +333,18 @@ const Tarifs = () => {
                         active={selectedBrand === brand}
                         onClick={() => handleBrandChange(brand)}
                       >
-                        {brand}
+                        {brand === "AUTRE"
+                          ? selectedCategory === "TABLETTE"
+                            ? "ANDROID"
+                            : "WINDOWS"
+                          : brand}
                       </FilterButton>
                     ))}
                   </div>
                 </div>
               )}
 
-              {selectedCategory && selectedBrand && (
+              {selectedCategory && selectedBrand && !isQuoteOnly && (
                 <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
                   <h2 className="text-lg font-bold mb-4 font-heading uppercase">
                     Modèle
@@ -363,8 +387,36 @@ const Tarifs = () => {
               <div className="divider-glow-vertical self-stretch min-h-full" />
             </div>
 
+
             <div className="scroll-reveal">
-              {selectedModel && pricingLoading && pricingRows.length === 0 ? (
+              {isQuoteOnly ? (
+                <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm p-8 md:p-10 text-center">
+                  <h2 className="text-3xl font-bold text-[#102337] mb-6">
+                    {quoteTitle}
+                  </h2>
+
+                  <p className="text-[#102337] leading-relaxed mb-4">
+                    {quoteText}
+                  </p>
+
+                  <p className="text-[#102337] leading-relaxed mb-8">
+                    En raison des nombreuses références et configurations existantes,
+                    nous ne pouvons pas afficher un tarif unique.
+                  </p>
+
+                  <p className="text-[#102337] leading-relaxed mb-8">
+                    Nous vous invitons à venir directement en boutique avec votre appareil
+                    afin d'obtenir un devis adapté à votre réparation.
+                  </p>
+
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center rounded-xl bg-[#d87532] px-6 py-3 font-semibold text-white hover:bg-[#c96325] transition"
+                  >
+                    Venir en boutique
+                  </Link>
+                </div>
+              ) : selectedModel && pricingLoading && pricingRows.length === 0 ? (
                 <CircuitLoader />
               ) : currentModel ? (
                 <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm">
