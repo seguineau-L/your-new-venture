@@ -112,7 +112,7 @@ const APropos = () => {
               </div>
             </div>
 
-            <div className="h-px w-full bg-[#d8c8b5]" />
+            <div className="divider-glow" />
 
             <div className="grid md:grid-cols-2 gap-10 items-center scroll-reveal">
               <div className="space-y-5 md:order-1">
@@ -132,6 +132,7 @@ const APropos = () => {
                 className="rounded-2xl border border-[#d8c8b5] shadow-sm w-full h-72 object-cover md:order-2"
                 loading="lazy"
               />
+
             </div>
           </div>
         </div>

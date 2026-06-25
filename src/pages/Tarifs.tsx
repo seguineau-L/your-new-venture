@@ -279,9 +279,9 @@ const Tarifs = () => {
   }) => (
     <button
       onClick={onClick}
-      className={`px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wide transition-all duration-300 ${active
-        ? "bg-[#d87532] text-white shadow-md"
-        : "bg-[#f7f1e8] text-[#102337] border border-[#d8c8b5] hover:bg-white"
+      className={`px-5 py-3 rounded-xl text-sm font-semibold uppercase tracking-wide transition-all duration-300 border ${active
+          ? "bg-[#d87532] border-[#d87532] text-white shadow-lg"
+          : "bg-[#f7f1e8] border-[#d8c8b5] text-[#102337] hover:bg-white hover:border-[#d87532]/50"
         }`}
     >
       {children}

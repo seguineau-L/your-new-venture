@@ -101,7 +101,7 @@ const Index = () => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Link
                     to="/contact#map"
-                    className="inline-flex items-center justify-center gap-3 rounded-md bg-[#d87532] px-7 py-4 text-white font-bold uppercase shadow-lg hover:bg-[#c96325] transition"
+                    className="inline-flex items-center justify-center gap-3 rounded-xl bg-[#d87532] px-7 py-4 text-white font-bold uppercase shadow-lg hover:bg-[#c96325] transition"
                   >
                     <MapPin className="w-5 h-5" />
                     {content.home_cta_map}
@@ -109,7 +109,7 @@ const Index = () => {
 
                   <Link
                     to="/contact#horaires"
-                    className="inline-flex items-center justify-center gap-3 rounded-md border border-[#d87532] px-7 py-4 text-[#102337] font-bold uppercase hover:bg-white/60 transition"
+                    className="inline-flex items-center justify-center gap-3 rounded-xl border border-[#d87532] px-7 py-4 text-[#102337] font-bold uppercase hover:bg-white/60 transition"
                   >
                     <Clock className="w-5 h-5" />
                     {content.home_cta_hours}
@@ -167,7 +167,7 @@ const Index = () => {
                           : microsoudureImg
                   }
                   alt={item.title}
-                  className="block w-28 h-28 mb-4 object-contain flex-shrink-0"
+                  className="block w-32 h-32 mb-4 object-contain flex-shrink-0"
                 />
                 <h3 className="uppercase font-bold tracking-wide mb-2">
                   {item.title}
@@ -212,22 +212,26 @@ const Index = () => {
           </div>
         </section>
 
-        <section className="bg-[#f4efe7] text-center px-6 py-12">
-          <h2 className="text-2xl md:text-3xl font-bold tracking-[0.18em] uppercase mb-3">
-            Besoin d’un diagnostic ?
-          </h2>
-          <p className="text-[#52606c] mb-6">
-            Passez à l’atelier pour échanger sur votre appareil.
-          </p>
-          <Link
-            to="/contact#contact"
-            className="inline-flex items-center justify-center rounded-md bg-[#09233a] px-10 py-3 text-white font-bold uppercase hover:bg-[#12314c] transition"
-          >
-            Nous contacter →
-          </Link>
+        <section className="bg-[#f4efe7] py-16">
+          <div className="container mx-auto px-6">
+            <div className="card-premium p-10 text-center animate-in fade-in duration-300">
+              <h2 className="text-2xl md:text-3xl font-bold tracking-[0.18em] uppercase mb-3">
+                Besoin d’un diagnostic ?
+              </h2>
+              <p className="text-[#52606c] mb-6">
+                Passez à l’atelier pour échanger sur votre appareil.
+              </p>
+              <Link
+                to="/contact#contact"
+                className="inline-flex items-center justify-center rounded-xl bg-[#09233a] px-10 py-3 text-white font-bold uppercase hover:bg-[#12314c] transition"
+              >
+                Nous contacter →
+              </Link>
+            </div>
+          </div>
         </section>
       </main>
-    </Layout>
+    </Layout >
   );
 };
 

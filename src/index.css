@@ -69,12 +69,14 @@
       border-color 0.3s ease;
   }
 
-  .card-premium:hover {
-    border-color: rgba(216, 117, 50, 0.45);
+  .card-premium-hover:hover {
+    background: #faf6ef;
+
+    border-color: rgba(216, 117, 50, 0.55);
 
     box-shadow:
-      0 12px 35px rgba(16, 35, 55, 0.08),
-      0 0 18px rgba(216, 117, 50, 0.10);
+      0 14px 36px rgba(16, 35, 55, 0.08),
+      0 0 18px rgba(216, 117, 50, 0.12);
 
     transform: translateY(-2px);
   }

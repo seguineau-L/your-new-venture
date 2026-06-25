@@ -15,6 +15,7 @@ import AdminHours from "./pages/AdminHours";
 import AdminPricing from "./pages/AdminPricing";
 import AdminTexts from "./pages/AdminTexts";
 import AdminMedia from "./pages/AdminMedia";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,8 @@ const App = () => (
           v7_relativeSplatPath: true,
         }}
       >
+        <ScrollToTop />
+
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/tarifs" element={<Tarifs />} />

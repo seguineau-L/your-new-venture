@@ -132,7 +132,7 @@ const Contact = () => {
               <div className="space-y-8 scroll-reveal">
                 <div
                   id="horaires"
-                  className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm p-8"
+                  className="card-premium p-8"
                 >
                   <div className="flex items-center gap-3 mb-5">
                     <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
@@ -165,14 +165,14 @@ const Contact = () => {
                   )}
                 </div>
 
-                <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm p-8">
+                <div className="card-premium p-8">
                   {contactInfo.map((info) => (
                     <div
                       id="contact"
                       key={info.title}
-                      className="flex items-start gap-6 py-3 group"
+                      className="flex items-start gap-6 py-3"
                     >
-                      <div className="w-12 h-12 rounded-xl bg-[#d87532]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#d87532]/20 transition-all duration-300">
+                      <div className="w-12 h-12 rounded-xl bg-[#d87532]/10 flex items-center justify-center flex-shrink-0" >
                         <info.icon className="w-5 h-5 text-[#d87532]" />
                       </div>
                       <div>
@@ -186,11 +186,11 @@ const Contact = () => {
 
               {/* Colonne droite */}
               <div className="scroll-reveal">
-                <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm">
+                <div className="card-premium overflow-hidden" >
                   <img
                     src={facadeImageUrl}
                     alt="Façade du magasin"
-                    className="w-full h-[420px] md:h-[520px] object-cover object-center rounded-2xl"
+                    className="w-full h-[420px] md:h-[520px] object-cover object-center"
                     loading="lazy"
                   />
                 </div>
@@ -201,8 +201,9 @@ const Contact = () => {
             <div className="scroll-reveal">
               <div
                 id="map"
-                className="rounded-2xl overflow-hidden border border-[#d8c8b5] bg-[#f7f1e8] shadow-sm"
+                className="card-premium overflow-hidden"
               >
+
                 <a
                   href={MAPS_URL}
                   target="_blank"
@@ -213,7 +214,7 @@ const Contact = () => {
                   <iframe
                     title="Carte du magasin"
                     src="https://www.google.com/maps?q=121+route+d%27orthez+40700+momuy&z=16&output=embed"
-                    className="w-full h-[360px] md:h-[440px] border-0 rounded-2xl"
+                    className="w-full h-[360px] md:h-[440px] border-0 rounded-xl"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                   />

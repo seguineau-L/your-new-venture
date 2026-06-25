@@ -15,7 +15,7 @@ const Header = () => {
   const location = useLocation();
 
   return (
-    <header className="relative z-50 border-b border-[#d8c8b5] bg-[#f7f1e8]/95">
+    <header className="relative z-50 border-b border-[#d8c8b5] bg-[#f7f1e8]/95 backdrop-blur-md">
       <div className="w-full px-6 xl:px-12 py-2 flex items-center justify-between">
         <Link to="/" className="flex items-center" onClick={() => setMobileOpen(false)}>
           <img
@@ -33,7 +33,7 @@ const Header = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`relative pb-1 transition-colors duration-200 ${isActive ? "text-[#102337]" : "text-[#102337]/80 hover:text-[#102337]"
+                className={`relative pb-1 transition-colors duration-300 ${isActive ? "text-[#102337]" : "text-[#102337]/80 hover:text-[#102337]"
                   }`}
               >
                 {link.label}
