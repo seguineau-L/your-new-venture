@@ -1,6 +1,7 @@
 import Layout from "@/components/Layout";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
+import { Helmet } from "react-helmet-async";
 
 const sections = [
   {
@@ -30,6 +31,16 @@ const CGV = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>
+          Conditions Générales de Vente | MOMUY & TECH
+        </title>
+
+        <meta
+          name="description"
+          content="Consultez les Conditions Générales de Vente de MOMUY & TECH applicables aux prestations de réparation électronique et aux services proposés par notre atelier."
+        />
+      </Helmet>
       <section className="py-16 md:py-24" ref={scrollRef}>
         <div className="container mx-auto px-4 max-w-3xl">
           <div className="scroll-reveal text-center mb-14">

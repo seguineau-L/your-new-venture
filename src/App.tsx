@@ -16,41 +16,44 @@ import AdminPricing from "./pages/AdminPricing";
 import AdminTexts from "./pages/AdminTexts";
 import AdminMedia from "./pages/AdminMedia";
 import ScrollToTop from "@/components/ScrollToTop";
+import { HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter
-        future={{
-          v7_startTransition: true,
-          v7_relativeSplatPath: true,
-        }}
-      >
-        <ScrollToTop />
+    <HelmetProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }}
+        >
+          <ScrollToTop />
 
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/tarifs" element={<Tarifs />} />
-          <Route path="/a-propos" element={<APropos />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/cgv" element={<CGV />} />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/tarifs" element={<Tarifs />} />
+            <Route path="/a-propos" element={<APropos />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/cgv" element={<CGV />} />
 
-          {/* ADMIN */}
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/horaires" element={<AdminHours />} />
-          <Route path="/admin/tarifs" element={<AdminPricing />} />
-          <Route path="/admin/textes" element={<AdminTexts />} />
-          <Route path="/admin/media" element={<AdminMedia />} />
+            {/* ADMIN */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/horaires" element={<AdminHours />} />
+            <Route path="/admin/tarifs" element={<AdminPricing />} />
+            <Route path="/admin/textes" element={<AdminTexts />} />
+            <Route path="/admin/media" element={<AdminMedia />} />
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </HelmetProvider>
   </QueryClientProvider>
 );
 

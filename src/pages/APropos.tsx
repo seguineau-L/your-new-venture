@@ -5,6 +5,7 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { Helmet } from "react-helmet-async";
 
 const defaultContent = {
   about_title: "À propos",
@@ -82,6 +83,16 @@ const APropos = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>
+          À propos de MOMUY & TECH | Atelier de réparation électronique
+        </title>
+
+        <meta
+          name="description"
+          content="Découvrez MOMUY & TECH, atelier de réparation électronique situé à Momuy. Une entreprise spécialisée dans la réparation de smartphones, ordinateurs, cartes électroniques et micro-soudure de précision."
+        />
+      </Helmet>
       <section className="py-16 md:py-24 bg-[#f4efe7] text-[#102337]"
         ref={scrollRef} >
         <div className="container mx-auto px-4 max-w-5xl">

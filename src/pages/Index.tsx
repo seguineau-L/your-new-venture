@@ -13,6 +13,7 @@ import electroniqueImg from "@/assets/icons/carte-elec.svg";
 import smartphonesImg from "@/assets/icons/reparation.svg";
 import microsoudureImg from "@/assets/icons/microsoudure.svg";
 import Layout from "@/components/Layout";
+import { Helmet } from "react-helmet-async";
 
 
 
@@ -67,6 +68,21 @@ const Index = () => {
   }, []);
   return (
     <Layout>
+      <Helmet>
+        <title>
+          Réparation Smartphones, Tablettes, PC & Cartes électroniques | MOMUY & TECH
+        </title>
+
+        <meta
+          name="description"
+          content="Atelier de réparation électronique à Momuy (Landes). Réparation de smartphones, tablettes, ordinateurs, cartes mères, cartes graphiques et cartes électroniques. Spécialiste de la micro-soudure et des réparations complexes."
+        />
+
+        <meta
+          name="keywords"
+          content="réparation smartphone Momuy, réparation téléphone Landes, réparation tablette, réparation ordinateur, réparation console, micro soudure, diagnostic électronique"
+        />
+      </Helmet>
       <main className="min-h-screen bg-[#f4efe7] text-[#102337]">
         <section className="relative overflow-hidden bg-[#f4efe7]">
           <div className="relative lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] min-h-[calc(100vh-110px)] gap-8 lg:gap-0">

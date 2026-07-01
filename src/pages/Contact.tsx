@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { supabase } from "@/lib/supabase";
 import facade from "@/assets/facade.jpg"; // remplace si ton fichier a un autre nom
+import { Helmet } from "react-helmet-async";
 
 type OpeningHour = {
   id: number;
@@ -118,6 +119,16 @@ const Contact = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>
+          Contact & Horaires | MOMUY & TECH
+        </title>
+
+        <meta
+          name="description"
+          content="Contactez MOMUY & TECH ou rendez-vous directement à notre atelier de Momuy. Retrouvez nos horaires, notre adresse et l'itinéraire vers notre boutique."
+        />
+      </Helmet>
       <section className="py-16 md:py-24 bg-[#f4efe7] text-[#102337]" ref={scrollRef}>
         <div id="time" className="container mx-auto px-4">
           <div className="scroll-reveal text-center mb-14">

@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import CircuitLoader from "@/components/CircuitLoader";
 import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 type PricingRow = {
   id: string;
@@ -280,8 +281,8 @@ const Tarifs = () => {
     <button
       onClick={onClick}
       className={`px-5 py-3 rounded-xl text-sm font-semibold uppercase tracking-wide transition-all duration-300 border ${active
-          ? "bg-[#d87532] border-[#d87532] text-white shadow-lg"
-          : "bg-[#f7f1e8] border-[#d8c8b5] text-[#102337] hover:bg-white hover:border-[#d87532]/50"
+        ? "bg-[#d87532] border-[#d87532] text-white shadow-lg"
+        : "bg-[#f7f1e8] border-[#d8c8b5] text-[#102337] hover:bg-white hover:border-[#d87532]/50"
         }`}
     >
       {children}
@@ -291,6 +292,16 @@ const Tarifs = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>
+          Tarifs de réparation | Smartphones, PC & Cartes électroniques | MOMUY & TECH
+        </title>
+
+        <meta
+          name="description"
+          content="Consultez les tarifs de réparation de smartphones, tablettes et autres appareils. Pour les ordinateurs, cartes électroniques et réparations complexes, rendez-vous en boutique pour un diagnostic personnalisé."
+        />
+      </Helmet>
       <section className="py-16 md:py-24 bg-[#f4efe7] text-[#102337]" ref={scrollRef}>
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-[1fr_auto_1.2fr] gap-10 lg:gap-12 items-start">
