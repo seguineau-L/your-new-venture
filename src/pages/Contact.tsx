@@ -19,28 +19,14 @@ type OpeningHour = {
   sort_order: number;
 };
 
-const CONTACT_ADDRESS = "À venir — Momuy, Landes (40)";
-const CONTACT_PHONE = "À venir";
-
-/**
- * Remplace cette URL dès que tu as l’adresse exacte du magasin.
- * Exemple :
- * https://www.google.com/maps/search/?api=1&query=40+Rue+Exemple+40250+Mugron
- */
-const MAPS_URL =
-  "https://www.google.com/maps/dir/?api=1&destination=121+route+d%27orthez+40700+momuy";
-
-const contactInfo = [
-  { icon: MapPin, title: "Adresse", value: CONTACT_ADDRESS },
-  { icon: Phone, title: "Téléphone", value: CONTACT_PHONE },
-];
-
 const Contact = () => {
   const scrollRef = useScrollReveal();
   const location = useLocation();
   const [openingHours, setOpeningHours] = useState<OpeningHour[]>([]);
   const [hoursLoading, setHoursLoading] = useState(true);
   const [facadeImageUrl, setFacadeImageUrl] = useState(facade);
+  const [phone, setPhone] = useState("À venir");
+  const [address, setAddress] = useState("À venir — Momuy, Landes (40)");
 
   useEffect(() => {
     const fetchOpeningHours = async () => {
@@ -58,6 +44,19 @@ const Contact = () => {
       }
 
       setOpeningHours((data ?? []) as OpeningHour[]);
+
+      // Charger le téléphone et l'adresse
+      const { data: contentData } = await supabase
+        .from("site_content")
+        .select("content_key, content_value")
+        .in("content_key", ["contact_phone", "contact_address"]);
+
+      if (contentData) {
+        const phoneVal = contentData.find(i => i.content_key === "contact_phone")?.content_value;
+        const addressVal = contentData.find(i => i.content_key === "contact_address")?.content_value;
+        if (phoneVal) setPhone(phoneVal);
+        if (addressVal) setAddress(addressVal);
+      }
 
       const { data: imageData, error: imageError } = await supabase
         .from("site_images")
@@ -116,6 +115,9 @@ const Contact = () => {
 
     return "Fermé";
   };
+
+  const MAPS_URL =
+    "https://www.google.com/maps/dir/?api=1&destination=121+route+d%27orthez+40700+momuy";
 
   return (
     <Layout>
@@ -177,7 +179,10 @@ const Contact = () => {
                 </div>
 
                 <div className="card-premium p-8">
-                  {contactInfo.map((info) => (
+                  {[
+                    { icon: MapPin, title: "Adresse", value: address },
+                    { icon: Phone, title: "Téléphone", value: phone },
+                  ].map((info) => (
                     <div
                       id="contact"
                       key={info.title}

@@ -21,6 +21,8 @@ const AdminHours = () => {
   const [saving, setSaving] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [hours, setHours] = useState<OpeningHour[]>([]);
+  const [contactPhone, setContactPhone] = useState("");
+  const [contactAddress, setContactAddress] = useState("");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -53,6 +55,18 @@ const AdminHours = () => {
       }
 
       setHours((data ?? []) as OpeningHour[]);
+
+      // Charger le téléphone et l'adresse
+      const { data: contentData } = await supabase
+        .from("site_content")
+        .select("content_key, content_value")
+        .in("content_key", ["contact_phone", "contact_address"]);
+
+      if (contentData) {
+        setContactPhone(contentData.find(i => i.content_key === "contact_phone")?.content_value || "");
+        setContactAddress(contentData.find(i => i.content_key === "contact_address")?.content_value || "");
+      }
+
       setLoading(false);
     };
 
@@ -119,7 +133,17 @@ const AdminHours = () => {
         }
       }
 
-      setMessage("Horaires enregistrés avec succès.");
+      // Sauvegarder téléphone et adresse
+      const { error: contentError } = await supabase
+        .from("site_content")
+        .upsert([
+          { content_key: "contact_phone", content_value: contactPhone },
+          { content_key: "contact_address", content_value: contactAddress }
+        ]);
+
+      if (contentError) throw contentError;
+
+      setMessage("Horaires et informations de contact enregistrés avec succès.");
     } catch (error) {
       console.error("Erreur sauvegarde :", error);
       setMessage("Une erreur est survenue pendant l’enregistrement.");
@@ -172,6 +196,33 @@ const AdminHours = () => {
             </div>
 
             <div className="card-premium p-6 md:p-8 space-y-6">
+              <div className="grid md:grid-cols-2 gap-6 pb-6 border-b border-border/20">
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold">
+                    Numéro de téléphone
+                  </label>
+                  <input
+                    type="text"
+                    value={contactPhone}
+                    onChange={(e) => setContactPhone(e.target.value)}
+                    placeholder="Ex: 06 00 00 00 00"
+                    className="w-full rounded-xl border border-border/30 bg-card/60 px-4 py-3 text-sm outline-none focus:border-accent"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold">
+                    Adresse de l'atelier
+                  </label>
+                  <input
+                    type="text"
+                    value={contactAddress}
+                    onChange={(e) => setContactAddress(e.target.value)}
+                    placeholder="Ex: 12 rue de la Paix, 75000 Paris"
+                    className="w-full rounded-xl border border-border/30 bg-card/60 px-4 py-3 text-sm outline-none focus:border-accent"
+                  />
+                </div>
+              </div>
+
               {hours.map((hour) => (
                 <div
                   key={hour.id}
