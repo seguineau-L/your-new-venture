@@ -26,6 +26,8 @@ const defaultContent = {
     "Diagnostic, réparation et intervention sur smartphones, consoles, PC, carte électronique et accessoires high-tech. Un atelier local, un savoir-faire précis et un service durable.",
   home_cta_map: "Venir à l’atelier",
   home_cta_hours: "Nos horaires",
+  contact_phone: "À venir",
+  contact_address: "121 route d'orthez, 40700 Momuy, Landes",
 };
 
 const Index = () => {
@@ -82,6 +84,27 @@ const Index = () => {
           name="keywords"
           content="réparation smartphone Momuy, réparation téléphone Landes, réparation tablette, réparation ordinateur, réparation console, micro soudure, diagnostic électronique"
         />
+
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "MOMUY & TECH",
+            "image": "https://momuy-tech.fr/assets/atelier-reparation.webp",
+            "telePhone": content.contact_phone,
+            "url": "https://momuy-tech.fr",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": content.contact_address,
+              "addressLocality": "Momuy",
+              "postalCode": "40700",
+              "addressRegion": "Landes",
+              "addressCountry": "FR"
+            },
+            "description": content.home_hero_description,
+            "priceRange": "$$"
+          })}
+        </script>
       </Helmet>
       <main className="min-h-screen bg-[#f4efe7] text-[#102337]">
         <section className="relative overflow-hidden bg-[#f4efe7]">
