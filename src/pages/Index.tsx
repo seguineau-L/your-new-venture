@@ -188,7 +188,7 @@ const Index = () => {
               },
               {
                 title: "Électronique",
-                text: "Cartes électroniques, PC, consoles",
+                text: "Console de jeux, PC, montres, ecouteurs",
               },
               {
                 title: "Smartphones",
@@ -196,7 +196,7 @@ const Index = () => {
               },
               {
                 title: "Microsoudure",
-                text: "Soudure fine, composants et interventions délicates",
+                text: "remplacement composant, reflow et interventions délicates",
               },
             ].map((item, index) => (
               <div
