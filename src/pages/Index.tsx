@@ -206,7 +206,8 @@ const Index = () => {
                           : microsoudureImg
                   }
                   alt={`${item.title} - Service de réparation électronique à Momuy`}
-                  className="block w-32 h-32 mb-4 object-contain flex-shrink-0"
+                  className={`block w-32 h-32 mb-4 object-contain flex-shrink-0 ${item.title === "Électronique" ? "scale-150" : ""
+                    }`}
                 />
                 <h3 className="uppercase font-bold tracking-wide mb-2">
                   {item.title}
