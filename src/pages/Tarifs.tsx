@@ -315,7 +315,8 @@ const Tarifs = () => {
                 </p>
                 <div className="max-w-[280px] mx-auto h-px bg-[#d87532]/20 mb-6" />
                 <p className="text-[#52606c] text-sm leading-relaxed mb-10 italic">
-                  Sélectionnez votre appareil pour découvrir nos forfaits de réparation Apple, Samsung et micro-soudure.
+                  Votre spécialiste de la réparation de téléphones et smartphones à Momuy. 
+                  Nous intervenons également sur tablettes, ordinateurs et micro-soudure de précision.
                 </p>
               </div>
 
