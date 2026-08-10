@@ -311,7 +311,7 @@ const Tarifs = () => {
                   NOS TARIFS DE RÉPARATION
                 </h1>
                 <p className="text-sm font-semibold text-[#d87532] uppercase tracking-[0.2em] mb-10">
-                  réparation smartphone, pc, tablette et carte électronique
+                  réparation smartphone, tablette, pc, montre, écouteurs et carte électronique
                 </p>
               </div>
 
