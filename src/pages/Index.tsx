@@ -72,17 +72,17 @@ const Index = () => {
     <Layout>
       <Helmet>
         <title>
-          Réparation Smartphones, Tablettes, PC & Cartes électroniques | MOMUY & TECH
+          Réparation Smartphone & Informatique Landes (40) | MOMUY & TECH | Hagetmau, Orthez
         </title>
 
         <meta
           name="description"
-          content="Atelier de réparation électronique à Momuy (Landes). Réparation de smartphones, tablettes, ordinateurs, cartes mères, cartes graphiques et cartes électroniques. Spécialiste de la micro-soudure et des réparations complexes."
+          content="Atelier de réparation électronique à Momuy. Service de proximité pour Hagetmau, Orthez et Mont-de-Marsan. Spécialiste smartphones, tablettes, PC et micro-soudure de précision dans les Landes (40)."
         />
 
         <meta
           name="keywords"
-          content="réparation smartphone Momuy, réparation téléphone Landes, réparation tablette, réparation ordinateur, réparation console, micro soudure, diagnostic électronique"
+          content="réparation smartphone Hagetmau, réparateur téléphone Orthez, réparation PC Mont-de-Marsan, micro-soudure Landes, MOMUY TECH, réparation console Landes"
         />
 
         <script type="application/ld+json">
@@ -101,11 +101,20 @@ const Index = () => {
               "addressRegion": "Landes",
               "addressCountry": "FR"
             },
+            "areaServed": [
+              { "@type": "City", "name": "Momuy" },
+              { "@type": "City", "name": "Hagetmau" },
+              { "@type": "City", "name": "Orthez" },
+              { "@type": "City", "name": "Mont-de-Marsan" },
+              { "@type": "City", "name": "Saint-Sever" },
+              { "@type": "City", "name": "Mugron" }
+            ],
             "description": content.home_hero_description,
             "priceRange": "$$"
           })}
         </script>
       </Helmet>
+
       <main className="min-h-screen bg-[#f4efe7] text-[#102337]">
         <section className="relative overflow-hidden bg-[#f4efe7]">
           <div className="relative lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] min-h-[calc(100vh-110px)] gap-8 lg:gap-0">
@@ -252,6 +261,36 @@ const Index = () => {
           </div>
         </section>
 
+        <section className="bg-[#f7f1e8] py-12 border-t border-[#e0d2c1]">
+          <div className="container mx-auto px-6 text-center">
+            <h2 className="text-xl font-bold uppercase tracking-widest text-[#102337] mb-4">
+              Atelier local à Momuy
+            </h2>
+            <p className="text-[#52606c] text-sm max-w-2xl mx-auto leading-relaxed">
+              Notre atelier est situé au cœur des Landes à <strong>Momuy</strong>. Nous accueillons les clients de tout le département et sommes la solution de proximité pour :
+              <br />
+              <span className="font-semibold text-[#d87532]">
+                Hagetmau • Mugron • Saint-Sever • Orthez • Mont-de-Marsan • Aire-sur-l'Adour
+              </span>
+            </p>
+          </div>
+        </section>
+
+        <section className="bg-[#f7f1e8] py-12 border-t border-[#e0d2c1]">
+          <div className="container mx-auto px-6 text-center">
+            <h2 className="text-xl font-bold uppercase tracking-widest text-[#102337] mb-4">
+              Atelier local à Momuy
+            </h2>
+            <p className="text-[#52606c] text-sm max-w-2xl mx-auto leading-relaxed">
+              Notre atelier est situé au cœur des Landes à <strong>Momuy</strong>. Nous accueillons les clients de tout le département et sommes la solution de proximité pour :
+              <br />
+              <span className="font-semibold text-[#d87532]">
+                Hagetmau • Mugron • Saint-Sever • Orthez • Mont-de-Marsan • Aire-sur-l'Adour
+              </span>
+            </p>
+          </div>
+        </section>
+
         <section className="bg-[#f4efe7] py-16">
           <div className="container mx-auto px-6">
             <div className="card-premium p-10 text-center animate-in fade-in duration-300">
@@ -268,14 +307,6 @@ const Index = () => {
                 Nous contacter →
               </Link>
             </div>
-          </div>
-        </section>
-
-        <section className="bg-[#f4efe7] py-8 border-t border-[#e0d2c1]">
-          <div className="container mx-auto px-6 text-center">
-            <p className="text-[10px] text-[#52606c]/50 uppercase tracking-widest">
-              Atelier situé à Momuy, à proximité de : Hagetmau • Mugron • Saint-Sever • Orthez • Mont-de-Marsan • Aire-sur-l'Adour
-            </p>
           </div>
         </section>
       </main>
