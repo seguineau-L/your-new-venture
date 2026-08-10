@@ -308,15 +308,15 @@ const Tarifs = () => {
             <div className="space-y-8 scroll-reveal max-w-sm mx-auto">
               <div className="text-center">
                 <h1 className="font-serif text-3xl md:text-5xl leading-[0.95] font-bold text-[#102337] mb-2 uppercase">
-                  TARIFS <br /> <span className="text-gradient">Réparation Smartphone</span> <br /> & Électronique
+                  NOS TARIFS DE RÉPARATION
                 </h1>
                 <p className="text-sm font-semibold text-[#d87532] uppercase tracking-[0.2em] mb-6">
-                  Atelier à Momuy (Landes)
+                  réparation smartphone, pc, tablette
                 </p>
                 <div className="max-w-[280px] mx-auto h-px bg-[#d87532]/20 mb-6" />
                 <p className="text-[#52606c] text-sm leading-relaxed mb-10 italic">
-                  Votre spécialiste de la réparation de téléphones et smartphones à Momuy. 
-                  Nous intervenons également sur tablettes, ordinateurs et micro-soudure de précision.
+                  Consultez nos forfaits pour la réparation de vos téléphones et smartphones. 
+                  Notre atelier à Momuy prend également en charge les tablettes et ordinateurs, ainsi que vos besoins en micro-soudure.
                 </p>
               </div>
 
