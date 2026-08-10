@@ -4,6 +4,7 @@ import {
   MapPin,
   ShieldCheck,
   Wrench,
+  Leaf,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Link } from "react-router-dom";
@@ -77,7 +78,7 @@ const Index = () => {
 
         <meta
           name="description"
-          content="Atelier de réparation électronique à Momuy. Service de proximité pour Hagetmau, Orthez et Mont-de-Marsan. Spécialiste smartphones, tablettes, PC et micro-soudure de précision dans les Landes (40)."
+          content="Atelier à Momuy : réparation smartphones, tablettes, PC et micro-soudure. Service local pour Hagetmau et Orthez. Expertise technique dans les Landes (40)."
         />
 
         <meta
@@ -224,6 +225,33 @@ const Index = () => {
                 <p className="text-sm leading-6 text-white/80">{item.text}</p>
               </div>
             ))}
+          </div>
+        </section>
+
+        <section className="bg-white py-16">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10">
+              <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                <Leaf className="w-10 h-10 text-green-600" />
+              </div>
+              <div className="text-center md:text-left">
+                <h2 className="text-2xl font-bold font-heading mb-4 uppercase tracking-wide">
+                  Réparer pour la <span className="text-green-600">planète</span>
+                </h2>
+                <div className="text-[#52606c] leading-relaxed">
+                  <p>
+                    D'ici 2030, la production mondiale de déchets électroniques atteindra 82 millions de tonnes par an.
+                    C'est l'équivalent d'une montagne de smartphones plus haute que le Mont Blanc.
+                  </p>
+                  <p className="mt-4">
+                    En choisissant la réparation, vous prolongez la vie de vos appareils et luttez activement contre ce gaspillage.
+                  </p>
+                  <p className="mt-8 text-center font-bold text-[#102337] uppercase tracking-wide">
+                    Un geste pour votre portefeuille, un grand pas pour la planète.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
