@@ -307,11 +307,11 @@ const Tarifs = () => {
           <div className="grid lg:grid-cols-[1fr_auto_1.2fr] gap-10 lg:gap-12 items-start">
             <div className="space-y-8 scroll-reveal max-w-sm mx-auto">
               <div className="text-center">
-                <h1 className="font-serif text-4xl md:text-5xl leading-[0.95] font-bold text-[#102337] mb-3">
-                  NOS <span className="text-gradient">TARIFS</span>
+                <h1 className="font-serif text-3xl md:text-5xl leading-[0.95] font-bold text-[#102337] mb-2 uppercase">
+                  NOS TARIFS DE RÉPARATION
                 </h1>
-                <p className="text-[#52606c] text-sm">
-                  Sélectionnez la catégorie de votre appareil
+                <p className="text-sm font-semibold text-[#d87532] uppercase tracking-[0.2em] mb-10">
+                  réparation smartphone, tablette, pc, montre, écouteurs et carte électronique
                 </p>
               </div>
 
