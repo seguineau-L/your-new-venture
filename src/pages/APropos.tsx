@@ -106,7 +106,7 @@ const APropos = () => {
             <div className="grid md:grid-cols-2 gap-10 items-center scroll-reveal">
               <img
                 src={shopImageUrl}
-                alt="Boutique MOMUY & TECH"
+                alt={`Boutique MOMUY & TECH - Votre réparateur de proximité à Momuy`}
                 className="rounded-2xl border border-[#d8c8b5] shadow-sm w-full h-72 object-cover"
                 loading="lazy"
               />
@@ -139,7 +139,7 @@ const APropos = () => {
               </div>
               <img
                 src={workshopImageUrl}
-                alt="Atelier de micro-soudure MOMUY & TECH"
+                alt={`Atelier de micro-soudure MOMUY & TECH - Expertise électronique Landes`}
                 className="rounded-2xl border border-[#d8c8b5] shadow-sm w-full h-72 object-cover md:order-2"
                 loading="lazy"
               />

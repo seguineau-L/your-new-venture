@@ -205,7 +205,7 @@ const Index = () => {
                           ? smartphonesImg
                           : microsoudureImg
                   }
-                  alt={item.title}
+                  alt={`${item.title} - Service de réparation électronique à Momuy`}
                   className="block w-32 h-32 mb-4 object-contain flex-shrink-0"
                 />
                 <h3 className="uppercase font-bold tracking-wide mb-2">
@@ -267,6 +267,14 @@ const Index = () => {
                 Nous contacter →
               </Link>
             </div>
+          </div>
+        </section>
+
+        <section className="bg-[#f4efe7] py-8 border-t border-[#e0d2c1]">
+          <div className="container mx-auto px-6 text-center">
+            <p className="text-[10px] text-[#52606c]/50 uppercase tracking-widest">
+              Réparation informatique et mobile à : Momuy • Hagetmau • Mugron • Saint-Sever • Orthez • Mont-de-Marsan • Aire-sur-l'Adour
+            </p>
           </div>
         </section>
       </main>

@@ -307,11 +307,15 @@ const Tarifs = () => {
           <div className="grid lg:grid-cols-[1fr_auto_1.2fr] gap-10 lg:gap-12 items-start">
             <div className="space-y-8 scroll-reveal max-w-sm mx-auto">
               <div className="text-center">
-                <h1 className="font-serif text-4xl md:text-5xl leading-[0.95] font-bold text-[#102337] mb-3">
-                  NOS <span className="text-gradient">TARIFS</span>
+                <h1 className="font-serif text-3xl md:text-5xl leading-[0.95] font-bold text-[#102337] mb-4 uppercase">
+                  Réparation <span className="text-gradient">Smartphone</span> & Électronique à Momuy
                 </h1>
-                <p className="text-[#52606c] text-sm">
-                  Sélectionnez la catégorie de votre appareil
+                <p className="text-[#52606c] text-sm leading-relaxed mb-6">
+                  Découvrez nos tarifs transparents pour la réparation de vos téléphones, tablettes et PC. 
+                  Spécialiste Apple, Samsung et micro-soudure de précision dans les Landes.
+                </p>
+                <p className="text-[#d87532] text-xs uppercase tracking-widest font-bold mb-8">
+                  Sélectionnez votre appareil
                 </p>
               </div>
 
