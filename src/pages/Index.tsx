@@ -276,21 +276,6 @@ const Index = () => {
           </div>
         </section>
 
-        <section className="bg-[#f7f1e8] py-12 border-t border-[#e0d2c1]">
-          <div className="container mx-auto px-6 text-center">
-            <h2 className="text-xl font-bold uppercase tracking-widest text-[#102337] mb-4">
-              Atelier local à Momuy
-            </h2>
-            <p className="text-[#52606c] text-sm max-w-2xl mx-auto leading-relaxed">
-              Notre atelier est situé au cœur des Landes à <strong>Momuy</strong>. Nous accueillons les clients de tout le département et sommes la solution de proximité pour :
-              <br />
-              <span className="font-semibold text-[#d87532]">
-                Hagetmau • Mugron • Saint-Sever • Orthez • Mont-de-Marsan • Aire-sur-l'Adour
-              </span>
-            </p>
-          </div>
-        </section>
-
         <section className="bg-[#f4efe7] py-16">
           <div className="container mx-auto px-6">
             <div className="card-premium p-10 text-center animate-in fade-in duration-300">
