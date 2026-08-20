@@ -13,10 +13,10 @@ const defaultContent = {
   about_shop_title: "Notre boutique",
 
   about_shop_text_1:
-    "MOMUY & TECH est un atelier de réparation de smartphones et d’électronique situé à Momuy, dans les Landes. Fondée par un couple passionné de technologie, notre boutique allie expertise technique et service de proximité.",
+    "MOMUY & TECH est un atelier de réparation de smartphones, de consoles et d’appareils électroniques situé à Momuy, dans les Landes. Fondée par Kilian et Léonie, notre boutique propose un service de proximité et des solutions adaptées à chaque appareil.",
 
   about_shop_text_2:
-    "Nous accueillons nos clients dans un espace convivial où chaque appareil est traité avec le plus grand soin.",
+    "Nous intervenons notamment sur les cartes électroniques grâce à la micro-soudure, ainsi que sur le remplacement de pièces de vos appareils. Nous vous accueillons dans un espace convivial, où chaque demande est prise en charge avec soin et où la confidentialité de vos données est respectée.",
 
   about_workshop_title: "Notre atelier",
 

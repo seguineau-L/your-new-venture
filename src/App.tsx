@@ -15,6 +15,7 @@ import AdminHours from "./pages/AdminHours";
 import AdminPricing from "./pages/AdminPricing";
 import AdminTexts from "./pages/AdminTexts";
 import AdminMedia from "./pages/AdminMedia";
+import ServicePage from "./pages/ServicePage";
 import ScrollToTop from "@/components/ScrollToTop";
 import { HelmetProvider } from "react-helmet-async";
 
@@ -40,6 +41,10 @@ const App = () => (
             <Route path="/a-propos" element={<APropos />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/cgv" element={<CGV />} />
+            <Route path="/reparation-smartphone" element={<ServicePage serviceKey="smartphone" />} />
+            <Route path="/reparation-pc" element={<ServicePage serviceKey="pc" />} />
+            <Route path="/reparation-console" element={<ServicePage serviceKey="console" />} />
+            <Route path="/micro-soudure-carte-electronique" element={<ServicePage serviceKey="microsoudure" />} />
 
             {/* ADMIN */}
             <Route path="/admin/login" element={<AdminLogin />} />

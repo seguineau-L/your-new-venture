@@ -73,7 +73,7 @@ const Index = () => {
     <Layout>
       <Helmet>
         <title>
-          Réparation Smartphone & Informatique Landes (40) | MOMUY & TECH | Hagetmau, Orthez
+          Réparation smartphone et PC à Momuy | MOMUY & TECH
         </title>
 
         <meta
@@ -92,7 +92,7 @@ const Index = () => {
             "@type": "LocalBusiness",
             "name": "MOMUY & TECH",
             "image": "https://momuy-tech.fr/assets/atelier-reparation.webp",
-            "telePhone": content.contact_phone,
+            "telephone": content.contact_phone !== "À venir" ? content.contact_phone : undefined,
             "url": "https://momuy-tech.fr",
             "address": {
               "@type": "PostalAddress",
@@ -138,10 +138,12 @@ const Index = () => {
                 </p>
 
                 <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl xl:text-5xl leading-[0.9] font-bold text-[#102337] mb-5">
-                  <span className="block">{content.home_hero_title_line_1}</span>
-                  <span className="block">{content.home_hero_title_line_2}</span>
-                  <span className="block">{content.home_hero_title_line_3}</span>
+                  Réparation de smartphones et appareils électroniques à Momuy
                 </h1>
+
+                <p className="mb-5 uppercase tracking-[0.12em] text-[#d87532] font-bold">
+                  {content.home_hero_title_line_1} {content.home_hero_title_line_2} {content.home_hero_title_line_3}
+                </p>
 
                 <p className="text-base md:text-lg leading-8 text-[#2b3d4d] mb-6">
                   {content.home_hero_description}
@@ -185,18 +187,22 @@ const Index = () => {
             {[
               {
                 title: "Diagnostic",
+                path: "/reparation-smartphone",
                 text: "Contrôle et recherche de panne",
               },
               {
                 title: "Électronique",
+                path: "/reparation-pc",
                 text: "Console de jeux, PC, montres, ecouteurs",
               },
               {
                 title: "Smartphones",
+                path: "/reparation-smartphone",
                 text: "Écrans, batteries, connecteurs",
               },
               {
                 title: "Microsoudure",
+                path: "/micro-soudure-carte-electronique",
                 text: "remplacement composant, reflow et interventions délicates",
               },
             ].map((item, index) => (
@@ -205,24 +211,34 @@ const Index = () => {
                 className={`flex flex-col items-center text-center px-6 ${index !== 0 ? "md:border-l md:border-[#d87532]/60" : ""
                   }`}
               >
-                <img
-                  src={
-                    item.title === "Diagnostic"
-                      ? diagnosticImg
-                      : item.title === "Électronique"
-                        ? electroniqueImg
-                        : item.title === "Smartphones"
-                          ? smartphonesImg
-                          : microsoudureImg
-                  }
-                  alt={`${item.title} - Service de réparation électronique à Momuy`}
-                  className={`block w-32 h-32 mb-4 object-contain flex-shrink-0 ${item.title === "Électronique" ? "scale-150" : ""
-                    }`}
-                />
-                <h3 className="uppercase font-bold tracking-wide mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-sm leading-6 text-white/80">{item.text}</p>
+                <Link
+                  to={item.path}
+                  aria-label={`Découvrir le service ${item.title}`}
+                  className="group flex w-full flex-col items-center rounded-2xl px-4 py-5 transition-all duration-300 hover:bg-white/5 hover:shadow-[0_0_24px_rgba(216,117,50,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d87532]"
+                >
+                  <img
+                    src={
+                      item.title === "Diagnostic"
+                        ? diagnosticImg
+                        : item.title === "Électronique"
+                          ? electroniqueImg
+                          : item.title === "Smartphones"
+                            ? smartphonesImg
+                            : microsoudureImg
+                    }
+                    alt={`${item.title} - Service de réparation électronique à Momuy`}
+                    className={`block w-32 h-32 mb-4 object-contain flex-shrink-0 transition-transform duration-300 ${item.title === "Électronique"
+                      ? "scale-150 group-hover:scale-[1.65]"
+                      : "group-hover:scale-110"
+                      }`}
+                  />
+                  <h3 className="mb-2 uppercase font-bold tracking-wide transition-colors group-hover:text-[#d87532]">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm leading-6 text-white/80">
+                    {item.text}
+                  </p>
+                </Link>
               </div>
             ))}
           </div>
@@ -270,8 +286,8 @@ const Index = () => {
               },
               {
                 icon: Wrench,
-                title: "Expertise technique",
-                text: "Matériel professionnel et réparations durables.",
+                title: "Savoir-faire technique",
+                text: "Du diagnostic aux réparations adaptées à votre appareil.",
               },
             ].map((item, index) => (
               <div
