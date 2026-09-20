@@ -3,7 +3,7 @@ import Layout from "@/components/Layout";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { supabase } from "@/lib/supabase";
 import CircuitLoader from "@/components/CircuitLoader";
-import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
+import logoImg from "@/assets/icons/momuy-tech-top-logo.svg";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
@@ -299,11 +299,27 @@ const Tarifs = () => {
 
         <meta
           name="description"
-          content="Consultez les tarifs de réparation de smartphones, tablettes et autres appareils. Pour les ordinateurs, cartes électroniques et réparations complexes, rendez-vous en boutique pour un diagnostic personnalisé."
+          content="Consultez les tarifs de réparation de smartphones, tablettes, PC, consoles et cartes électroniques chez MOMUY & TECH à Momuy. Sélectionnez votre appareil ou demandez un diagnostic."
         />
+        <link rel="canonical" href="https://momuy-tech.fr/tarifs" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: "Tarifs de réparation à Momuy",
+            url: "https://momuy-tech.fr/tarifs",
+            description: "Tarifs de réparation de smartphones, tablettes, PC, consoles et cartes électroniques chez MOMUY & TECH.",
+            isPartOf: { "@type": "WebSite", name: "MOMUY & TECH", url: "https://momuy-tech.fr/" },
+          })}
+        </script>
       </Helmet>
       <section className="py-16 md:py-24 bg-[#f4efe7] text-[#102337]" ref={scrollRef}>
         <div className="container mx-auto px-4">
+          <nav aria-label="Fil d’Ariane" className="mb-8 text-center text-sm text-[#52606c]">
+            <Link to="/" className="hover:text-[#d87532]">Accueil</Link>
+            <span aria-hidden="true" className="mx-2">/</span>
+            <span>Tarifs de réparation</span>
+          </nav>
           <div className="grid lg:grid-cols-[1fr_auto_1.2fr] gap-10 lg:gap-12 items-start">
             <div className="space-y-8 scroll-reveal max-w-sm mx-auto">
               <div className="text-center">

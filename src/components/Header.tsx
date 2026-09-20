@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
+import logoImg from "@/assets/icons/momuy-tech-top-logo.svg";
 
 const navLinks = [
   { label: "ACCUEIL", path: "/" },

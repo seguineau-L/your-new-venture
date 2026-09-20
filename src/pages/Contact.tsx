@@ -26,7 +26,7 @@ const Contact = () => {
   const [hoursLoading, setHoursLoading] = useState(true);
   const [facadeImageUrl, setFacadeImageUrl] = useState(facade);
   const [phone, setPhone] = useState("À venir");
-  const [address, setAddress] = useState("À venir — Momuy, Landes (40)");
+  const [address, setAddress] = useState("121 route d'orthez, 40700 Momuy, Landes");
 
   useEffect(() => {
     const fetchOpeningHours = async () => {
@@ -128,11 +128,26 @@ const Contact = () => {
 
         <meta
           name="description"
-          content="Contactez MOMUY & TECH ou rendez-vous directement à notre atelier de Momuy. Retrouvez nos horaires, notre adresse et l'itinéraire vers notre boutique."
+          content="Contactez MOMUY & TECH à Momuy pour un diagnostic et une réparation de smartphone, PC, console ou carte électronique. Retrouvez l’adresse, les horaires et l’itinéraire."
         />
+        <link rel="canonical" href="https://momuy-tech.fr/contact" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            name: "Contact et horaires de MOMUY & TECH",
+            url: "https://momuy-tech.fr/contact",
+            isPartOf: { "@type": "WebSite", name: "MOMUY & TECH", url: "https://momuy-tech.fr/" },
+          })}
+        </script>
       </Helmet>
       <section className="py-16 md:py-24 bg-[#f4efe7] text-[#102337]" ref={scrollRef}>
         <div id="time" className="container mx-auto px-4">
+          <nav aria-label="Fil d’Ariane" className="mb-8 text-center text-sm text-[#52606c]">
+            <a href="/" className="hover:text-[#d87532]">Accueil</a>
+            <span aria-hidden="true" className="mx-2">/</span>
+            <span>Contact</span>
+          </nav>
           <div className="scroll-reveal text-center mb-14">
             <h1 className="font-serif text-4xl md:text-5xl leading-[0.95] font-bold text-[#102337]">
               <span className="text-[#d87532]">Contactez</span>-nous
@@ -160,7 +175,9 @@ const Contact = () => {
                   </div>
 
                   {hoursLoading ? (
-                    <p className="text-sm text-[#52606c]">Chargement...</p>
+                    <p className="text-sm text-[#52606c]" role="status">Les horaires sont en cours de chargement.</p>
+                  ) : openingHours.length === 0 ? (
+                    <p className="text-sm text-[#52606c]">Horaires à confirmer auprès de l’atelier.</p>
                   ) : (
                     <div className="space-y-2">
                       {openingHours.map((hour) => (

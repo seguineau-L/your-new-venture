@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import atelier from "@/assets/atelier-reparation.webp";
 import boutique from "@/assets/boutique.png";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
+import logoImg from "@/assets/icons/momuy-tech-top-logo.svg";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Helmet } from "react-helmet-async";
@@ -90,12 +90,27 @@ const APropos = () => {
 
         <meta
           name="description"
-          content="Découvrez MOMUY & TECH, atelier de réparation électronique situé à Momuy. Une entreprise spécialisée dans la réparation de smartphones, ordinateurs, cartes électroniques et micro-soudure de précision."
+          content="Découvrez MOMUY & TECH, atelier de réparation de smartphones, PC, consoles et cartes électroniques à Momuy. Présentation de l’équipe, du savoir-faire et du service local."
         />
+        <link rel="canonical" href="https://momuy-tech.fr/a-propos" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "AboutPage",
+            name: "À propos de MOMUY & TECH",
+            url: "https://momuy-tech.fr/a-propos",
+            isPartOf: { "@type": "WebSite", name: "MOMUY & TECH", url: "https://momuy-tech.fr/" },
+          })}
+        </script>
       </Helmet>
       <section className="py-16 md:py-24 bg-[#f4efe7] text-[#102337]"
         ref={scrollRef} >
         <div className="container mx-auto px-4 max-w-5xl">
+          <nav aria-label="Fil d’Ariane" className="mb-8 text-center text-sm text-[#52606c]">
+            <a href="/" className="hover:text-[#d87532]">Accueil</a>
+            <span aria-hidden="true" className="mx-2">/</span>
+            <span>À propos</span>
+          </nav>
           <div className="scroll-reveal text-center mb-16">
             <h1 className="font-serif text-4xl md:text-5xl leading-[0.95] font-bold text-[#102337]">
               {content.about_title}

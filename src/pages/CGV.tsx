@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
+import logoImg from "@/assets/icons/momuy-tech-top-logo.svg";
 import { Helmet } from "react-helmet-async";
 
 const sections = [
@@ -10,7 +10,7 @@ const sections = [
   },
   {
     title: "Article 2 — Devis et diagnostic",
-    content: "Un diagnostic est réalisé avant toute intervention. Un devis est établi et doit être accepté par le client avant le début des travaux. Le diagnostic est gratuit.",
+    content: "Un diagnostic est réalisé avant toute intervention et facturé 20 €. Un devis est ensuite établi et doit être accepté par le client avant le début des travaux. Si la réparation est réalisée par MOMUY & TECH, le montant du diagnostic est déduit du prix total de la réparation.",
   },
   {
     title: "Article 3 — Garantie",
@@ -18,7 +18,7 @@ const sections = [
   },
   {
     title: "Article 4 — Paiement",
-    content: "Le paiement est dû à la restitution de l'appareil. Nous acceptons les paiements par carte bancaire, espèces et virement.",
+    content: "Le paiement est dû à la restitution de l'appareil. Jusqu'à nouvel ordre, le règlement s'effectue exclusivement par carte bancaire.",
   },
   {
     title: "Article 5 — Responsabilité",
@@ -38,11 +38,17 @@ const CGV = () => {
 
         <meta
           name="description"
-          content="Consultez les Conditions Générales de Vente de MOMUY & TECH applicables aux prestations de réparation électronique et aux services proposés par notre atelier."
+          content="Consultez les Conditions Générales de Vente de MOMUY & TECH pour les prestations de réparation de smartphones et d’appareils électroniques."
         />
+        <link rel="canonical" href="https://momuy-tech.fr/cgv" />
       </Helmet>
       <section className="py-16 md:py-24" ref={scrollRef}>
         <div className="container mx-auto px-4 max-w-3xl">
+          <nav aria-label="Fil d’Ariane" className="mb-8 text-center text-sm text-muted-foreground">
+            <a href="/" className="hover:text-[#d87532]">Accueil</a>
+            <span aria-hidden="true" className="mx-2">/</span>
+            <span>CGV</span>
+          </nav>
           <div className="scroll-reveal text-center mb-14">
             <h1 className="text-2xl md:text-4xl font-bold font-heading">
               Conditions Générales de <span className="text-gradient">Vente</span>

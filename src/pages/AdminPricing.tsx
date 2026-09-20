@@ -3,7 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { supabase } from "@/lib/supabase";
 import { useRef } from "react";
-import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
+import logoImg from "@/assets/icons/momuy-tech-top-logo.svg";
 
 type PricingRow = {
     id: string;

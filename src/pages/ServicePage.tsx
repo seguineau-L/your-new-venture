@@ -80,21 +80,39 @@ const services = {
 
 type ServiceKey = keyof typeof services;
 
+const serviceRoutes: Record<ServiceKey, string> = {
+  smartphone: "/reparation-smartphone",
+  pc: "/reparation-pc",
+  console: "/reparation-console",
+  microsoudure: "/micro-soudure-carte-electronique",
+};
+
+const relatedServices: Record<ServiceKey, Array<{ label: string; path: string }>> = {
+  smartphone: [
+    { label: "Réparation de PC", path: "/reparation-pc" },
+    { label: "Réparation de consoles", path: "/reparation-console" },
+  ],
+  pc: [
+    { label: "Réparation de smartphones", path: "/reparation-smartphone" },
+    { label: "Micro-soudure de cartes électroniques", path: "/micro-soudure-carte-electronique" },
+  ],
+  console: [
+    { label: "Réparation de smartphones", path: "/reparation-smartphone" },
+    { label: "Réparation de PC", path: "/reparation-pc" },
+  ],
+  microsoudure: [
+    { label: "Réparation de smartphones", path: "/reparation-smartphone" },
+    { label: "Réparation de PC", path: "/reparation-pc" },
+  ],
+};
+
 type ServicePageProps = {
   serviceKey: ServiceKey;
 };
 
 const ServicePage = ({ serviceKey }: ServicePageProps) => {
   const service = services[serviceKey];
-  const canonical = `https://momuy-tech.fr/${
-    serviceKey === "smartphone"
-      ? "reparation-smartphone"
-      : serviceKey === "pc"
-        ? "reparation-pc"
-        : serviceKey === "console"
-          ? "reparation-console"
-          : "micro-soudure-carte-electronique"
-  }`;
+  const canonical = `https://momuy-tech.fr${serviceRoutes[serviceKey]}`;
 
   return (
     <Layout>
@@ -109,9 +127,11 @@ const ServicePage = ({ serviceKey }: ServicePageProps) => {
             name: service.heading,
             description: service.description,
             serviceType: service.heading,
+            url: canonical,
             provider: {
               "@type": "LocalBusiness",
               name: "MOMUY & TECH",
+              url: "https://momuy-tech.fr/",
               address: {
                 "@type": "PostalAddress",
                 addressLocality: "Momuy",
@@ -126,12 +146,27 @@ const ServicePage = ({ serviceKey }: ServicePageProps) => {
             })),
           })}
         </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Accueil", item: "https://momuy-tech.fr/" },
+              { "@type": "ListItem", position: 2, name: service.heading, item: canonical },
+            ],
+          })}
+        </script>
       </Helmet>
 
       <main className="min-h-screen bg-[#f4efe7] text-[#102337]">
         <section className="py-16 md:py-24">
           <div className="container mx-auto max-w-5xl px-4">
             <div className="mx-auto max-w-3xl text-center">
+              <nav aria-label="Fil d’Ariane" className="mb-6 text-sm text-[#52606c]">
+                <Link to="/" className="hover:text-[#d87532]">Accueil</Link>
+                <span aria-hidden="true" className="mx-2">/</span>
+                <span>{service.heading}</span>
+              </nav>
               <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#d87532]">
                 MOMUY & TECH — Atelier à Momuy
               </p>
@@ -178,6 +213,34 @@ const ServicePage = ({ serviceKey }: ServicePageProps) => {
               >
                 Demander un diagnostic
               </Link>
+            </div>
+
+            <div className="mt-12 grid gap-8 md:grid-cols-2">
+              <div className="card-premium p-7">
+                <h2 className="mb-4 text-xl font-bold">Questions fréquentes</h2>
+                <div className="space-y-4 text-sm leading-7 text-[#52606c]">
+                  <div>
+                    <h3 className="font-semibold text-[#102337]">Faut-il demander un diagnostic ?</h3>
+                    <p>Oui. Chaque appareil est examiné avant intervention afin de confirmer la panne et la solution adaptée.</p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-[#102337]">Où intervenez-vous ?</h3>
+                    <p>L’atelier est situé à Momuy et accueille les clients de Hagetmau, Mugron, Saint-Sever, Orthez et Mont-de-Marsan.</p>
+                  </div>
+                </div>
+              </div>
+              <div className="card-premium p-7">
+                <h2 className="mb-4 text-xl font-bold">Autres services</h2>
+                <ul className="space-y-3 text-sm text-[#52606c]">
+                  {relatedServices[serviceKey].map((related) => (
+                    <li key={related.path}>
+                      <Link to={related.path} className="font-semibold text-[#d87532] hover:underline">
+                        {related.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
             <p className="mt-12 text-center text-sm leading-7 text-[#52606c]">
