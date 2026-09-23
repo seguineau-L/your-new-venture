@@ -25,7 +25,7 @@ const Contact = () => {
   const [openingHours, setOpeningHours] = useState<OpeningHour[]>([]);
   const [hoursLoading, setHoursLoading] = useState(true);
   const [facadeImageUrl, setFacadeImageUrl] = useState(facade);
-  const [phone, setPhone] = useState("À venir");
+  const [phone, setPhone] = useState("09 61 08 13 02");
   const [address, setAddress] = useState("121 route d'orthez, 40700 Momuy, Landes");
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const Contact = () => {
       if (contentData) {
         const phoneVal = contentData.find(i => i.content_key === "contact_phone")?.content_value;
         const addressVal = contentData.find(i => i.content_key === "contact_address")?.content_value;
-        if (phoneVal) setPhone(phoneVal);
+        if (phoneVal && phoneVal !== "À venir") setPhone(phoneVal);
         if (addressVal) setAddress(addressVal);
       }
 

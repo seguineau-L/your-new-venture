@@ -13,19 +13,21 @@ const serviceAreas = [
 
 const services = {
   smartphone: {
-    title: "Réparation de téléphone et smartphone à Momuy",
+    title: "Réparation téléphone près d’Hagetmau | MOMUY & TECH",
     description:
-      "Réparation de téléphones et smartphones à Momuy : écran, batterie, connecteur de charge, caméra et diagnostic. Atelier proche d’Hagetmau, Orthez et Mont-de-Marsan.",
-    heading: "Réparation de téléphones et smartphones",
+      "Réparation de téléphone et smartphone à Momuy, près d’Hagetmau : écran cassé, batterie, port de charge, téléphone HS et diagnostic. Nous vous accueillons durant nos horaires d’ouverture.",
+    heading: "Réparation de téléphone près d’Hagetmau",
     paragraphs: [
-      "Notre atelier situé à Momuy prend en charge les téléphones et smartphones présentant un écran cassé, une batterie usée, un connecteur de charge endommagé ou une panne nécessitant un diagnostic.",
-      "Selon l’appareil et la panne, nous vous expliquons les possibilités de réparation et vous proposons une solution adaptée. Les tarifs disponibles sont consultables sur la page dédiée ou directement auprès de l’atelier.",
+      "MOMUY & TECH répare les téléphones et smartphones à Momuy, près d’Hagetmau. Nous prenons en charge les écrans cassés, batteries usées, ports de charge endommagés et pannes nécessitant un diagnostic.",
+      "Votre téléphone ne s’allume plus, reste bloqué sur un écran noir, redémarre en boucle ou ne charge plus ? Un diagnostic permet d’identifier la panne et de vous présenter les possibilités de réparation avant toute intervention.",
+      "Les tarifs disponibles sont consultables sur la page dédiée. Pour connaître la solution adaptée à votre modèle, demandez un diagnostic ou contactez directement l’atelier.",
     ],
     points: [
-      "Remplacement d’écran et de batterie",
-      "Connecteur de charge et caméra",
+      "Réparation d’écran cassé et remplacement de batterie",
+      "Port de charge, connecteur et caméra",
+      "Téléphone HS, écran noir ou téléphone qui ne s’allume plus",
       "Diagnostic avant réparation",
-      "Accueil des clients de Momuy et des communes voisines",
+      "Accueil des clients de Momuy, Hagetmau et des communes voisines",
     ],
   },
   pc: {
@@ -200,6 +202,17 @@ const ServicePage = ({ serviceKey }: ServicePageProps) => {
               </aside>
             </div>
 
+            {serviceKey === "smartphone" && (
+              <div className="mt-8 flex justify-center">
+                <Link
+                  to="/contact#horaires"
+                  className="rounded-xl border border-[#d87532] px-6 py-3 text-center font-bold text-[#102337] transition hover:bg-white/60"
+                >
+                  Voir les horaires d’ouverture
+                </Link>
+              </div>
+            )}
+
             <div className="mt-12 flex flex-col justify-center gap-4 sm:flex-row">
               <Link
                 to="/tarifs"
@@ -242,6 +255,36 @@ const ServicePage = ({ serviceKey }: ServicePageProps) => {
                 </ul>
               </div>
             </div>
+
+            {serviceKey === "smartphone" && (
+              <section className="card-premium mt-12 grid gap-7 p-7 md:grid-cols-[1fr_auto] md:items-center md:p-9" aria-labelledby="zone-reparation">
+                <div>
+                  <h2 id="zone-reparation" className="mb-3 text-2xl font-bold">Réparation de téléphone près de Hagetmau</h2>
+                  <p className="leading-8 text-[#52606c]">
+                    L’atelier MOMUY & TECH se trouve au 121 route d’Orthez, 40700 Momuy, dans les Landes. Nous accueillons les personnes qui recherchent un réparateur de téléphone à Hagetmau, Momuy et dans les communes voisines.
+                  </p>
+                  <p className="mt-3 text-sm leading-7 text-[#52606c]">
+                    Zone desservie : {serviceAreas.slice(1).join(", ")}.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=121+route+d%27Orthez+40700+Momuy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-xl border border-[#d87532] px-5 py-3 text-center text-sm font-bold text-[#102337] transition hover:bg-white/60"
+                  >
+                    Voir l’itinéraire
+                  </a>
+                  <Link
+                    to="/contact#contact"
+                    className="rounded-xl bg-[#d87532] px-5 py-3 text-center text-sm font-bold text-white transition hover:bg-[#c96325]"
+                  >
+                    Nous contacter
+                  </Link>
+                </div>
+              </section>
+            )}
 
             <p className="mt-12 text-center text-sm leading-7 text-[#52606c]">
               L’atelier est situé à Momuy, dans les Landes. Nous accueillons également les clients des communes voisines, notamment {serviceAreas.slice(1).join(", ")}.

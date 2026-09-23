@@ -17,8 +17,6 @@ import microsoudureImg from "@/assets/icons/microsoudure.svg";
 import Layout from "@/components/Layout";
 import { Helmet } from "react-helmet-async";
 
-
-
 const defaultContent = {
   home_hero_kicker: "Atelier de réparation",
   home_hero_title_line_1: "L’EXPERTISE",
@@ -28,7 +26,7 @@ const defaultContent = {
     "Diagnostic, réparation et intervention sur smartphones, consoles, PC, carte électronique et accessoires high-tech. Un atelier local, un savoir-faire précis et un service durable.",
   home_cta_map: "Venir à l’atelier",
   home_cta_hours: "Nos horaires",
-  contact_phone: "À venir",
+  contact_phone: "09 61 08 13 02",
   contact_address: "121 route d'orthez, 40700 Momuy, Landes",
 };
 
@@ -52,7 +50,7 @@ const Index = () => {
       const formattedContent = { ...defaultContent };
 
       data?.forEach((item) => {
-        if (item.content_key in formattedContent) {
+        if (item.content_key in formattedContent && !(item.content_key === "contact_phone" && item.content_value === "À venir")) {
           formattedContent[item.content_key as keyof typeof defaultContent] =
             item.content_value;
         }
@@ -98,7 +96,7 @@ const Index = () => {
             "@type": "LocalBusiness",
              "name": "MOMUY & TECH",
              "image": "https://momuy-tech.fr/assets/atelier-reparation.webp",
-             "telephone": content.contact_phone !== "À venir" ? content.contact_phone : undefined,
+             "telephone": content.contact_phone,
              "url": "https://momuy-tech.fr/",
              "address": {
                "@type": "PostalAddress",
