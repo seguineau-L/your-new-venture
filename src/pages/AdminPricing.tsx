@@ -17,22 +17,22 @@ type PricingRow = {
 };
 
 const DEFAULT_REPAIRS = [
-    { repair_type: "Écran", price: "259€", section: "Interventions classiques" },
-    { repair_type: "Batterie", price: "139€", section: "Interventions classiques" },
-    { repair_type: "Connecteur de charge", price: "139€", section: "Interventions classiques" },
-    { repair_type: "Caméra avant", price: "99€", section: "Interventions classiques" },
-    { repair_type: "Caméra arrière", price: "109€", section: "Interventions classiques" },
-    { repair_type: "Lentille caméra", price: "69€", section: "Interventions classiques" },
-    { repair_type: "Remplacement châssis", price: "139€", section: "Interventions classiques" },
-    { repair_type: "Face ID (selon panne)", price: "Entre 89€ et 109€", section: "Interventions classiques" },
-    { repair_type: "Restauration / mise à jour", price: "20€", section: "Interventions classiques" },
+    { repair_type: "Écran", price: "Tarif à venir", section: "Interventions classiques" },
+    { repair_type: "Batterie", price: "Tarif à venir", section: "Interventions classiques" },
+    { repair_type: "Connecteur de charge", price: "Tarif à venir", section: "Interventions classiques" },
+    { repair_type: "Caméra avant", price: "Tarif à venir", section: "Interventions classiques" },
+    { repair_type: "Caméra arrière", price: "Tarif à venir", section: "Interventions classiques" },
+    { repair_type: "Lentille caméra", price: "Tarif à venir", section: "Interventions classiques" },
+    { repair_type: "Remplacement châssis", price: "Tarif à venir", section: "Interventions classiques" },
+    { repair_type: "Face ID (selon panne)", price: "Tarif à venir", section: "Interventions classiques" },
+    { repair_type: "Restauration / mise à jour", price: "Tarif à venir", section: "Interventions classiques" },
 
-    { repair_type: "Toutes pannes carte mère", price: "359€", section: "Interventions sur carte mère" },
-    { repair_type: "Lecteur SIM", price: "À définir", section: "Interventions sur carte mère" },
+    { repair_type: "Toutes pannes carte mère", price: "Tarif à venir", section: "Interventions sur carte mère" },
+    { repair_type: "Lecteur SIM", price: "Tarif à venir", section: "Interventions sur carte mère" },
 
-    { repair_type: "Récupération de données - Carte mère HS", price: "À partir de 429€", section: "Récupération de données" },
+    { repair_type: "Récupération de données - Carte mère HS", price: "Tarif à venir", section: "Récupération de données" },
 
-    { repair_type: "Effacement de données certifié", price: "20€", section: "Autres" },
+    { repair_type: "Effacement de données certifié", price: "Tarif à venir", section: "Autres" },
 ];
 
 const SECTIONS = [
@@ -131,7 +131,10 @@ const AdminPricing = () => {
             return;
         }
 
-        const pricingRows = (data ?? []) as PricingRow[];
+        const pricingRows = (data ?? []).map((row) => ({
+            ...(row as PricingRow),
+            price: "Tarif à venir",
+        }));
         setRows(pricingRows);
 
         if (pricingRows.length > 0) {

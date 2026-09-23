@@ -28,6 +28,10 @@ type ModelPricing = {
 
 const PRICING_CACHE_KEY = "pricing_cache_v1";
 const PRICING_CACHE_DURATION = 1000 * 60 * 10; // 10 minutes
+const PRICE_PLACEHOLDER = "Tarif à venir";
+
+const normalizePricingRows = (rows: PricingRow[]) =>
+  rows.map((row) => ({ ...row, price: PRICE_PLACEHOLDER }));
 
 const SECTION_ORDER = [
   "Interventions classiques",
@@ -66,7 +70,7 @@ const Tarifs = () => {
             Date.now() - parsedCache.timestamp > PRICING_CACHE_DURATION;
 
           if (!isExpired) {
-            setPricingRows(parsedCache.data);
+            setPricingRows(normalizePricingRows(parsedCache.data));
             setTimeout(() => {
               setPricingLoading(false);
             }, 800);
@@ -95,7 +99,7 @@ const Tarifs = () => {
         return;
       }
 
-      const freshData = (data ?? []) as PricingRow[];
+      const freshData = normalizePricingRows((data ?? []) as PricingRow[]);
 
       setPricingRows(freshData);
 
@@ -458,7 +462,7 @@ const Tarifs = () => {
                             {section.title}
                           </h3>
                           <span className="text-gradient font-bold text-sm">
-                            Prix (€ TTC)
+                            Tarif
                           </span>
                         </div>
 
@@ -492,7 +496,7 @@ const Tarifs = () => {
                             {section.title}
                           </h3>
                           <span className="text-gradient font-bold text-sm">
-                            Prix (€ TTC)
+                            Tarif
                           </span>
                         </div>
 

@@ -7,34 +7,34 @@ export const pricingData = {
       {
         title: "Interventions classiques",
         items: [
-          { label: "Ecran", price: "169€" },
-          { label: "Batterie", price: "129€" },
-          { label: "Connecteur de charge", price: "149€" },
-          { label: "Caméra Avant", price: "99€" },
-          { label: "Caméra Arrière", price: "109€" },
-          { label: "Lentille Caméra", price: "69€" },
-          { label: "Remplacement chassi", price: "139€" },
-          { label: "face ID (selon panne)", price: "entre 89€ et 109€" },
-          { label: "restauration mise a jour", price: "20€" },
+          { label: "Ecran", price: "Tarif à venir" },
+          { label: "Batterie", price: "Tarif à venir" },
+          { label: "Connecteur de charge", price: "Tarif à venir" },
+          { label: "Caméra Avant", price: "Tarif à venir" },
+          { label: "Caméra Arrière", price: "Tarif à venir" },
+          { label: "Lentille Caméra", price: "Tarif à venir" },
+          { label: "Remplacement chassi", price: "Tarif à venir" },
+          { label: "face ID (selon panne)", price: "Tarif à venir" },
+          { label: "restauration mise a jour", price: "Tarif à venir" },
         ],
       },
       {
         title: "Interventions sur carte mère",
         items: [
-          { label: "Toutes pannes sur carte mère", price: "299€" },
-          { label: "lecteur sim", price: "A partir de 429€" },
+          { label: "Toutes pannes sur carte mère", price: "Tarif à venir" },
+          { label: "lecteur sim", price: "Tarif à venir" },
         ],
       },
       {
         title: "Récuperation de données",
         items: [
-          { label: "Carte mère HS", price: "" },
+          { label: "Carte mère HS", price: "Tarif à venir" },
         ],
       },
       {
         title: " ",
         items: [
-          { label: "effacement de données certifié", price: "20€" },
+          { label: "effacement de données certifié", price: "Tarif à venir" },
         ],
       },
     ],
@@ -45,9 +45,9 @@ export const pricingData = {
           {
             title: "RÉPARATIONS",
             items: [
-              { label: "Écran", price: "109€" },
-              { label: "Batterie", price: "69€" },
-              { label: "Connecteur de charge", price: "79€" },
+              { label: "Écran", price: "Tarif à venir" },
+              { label: "Batterie", price: "Tarif à venir" },
+              { label: "Connecteur de charge", price: "Tarif à venir" },
             ],
           },
         ],
@@ -61,8 +61,8 @@ export const pricingData = {
           {
             title: "RÉPARATIONS",
             items: [
-              { label: "Écran", price: "149€" },
-              { label: "Batterie", price: "79€" },
+              { label: "Écran", price: "Tarif à venir" },
+              { label: "Batterie", price: "Tarif à venir" },
             ],
           },
         ],
@@ -78,8 +78,8 @@ export const pricingData = {
           {
             title: "RÉPARATIONS",
             items: [
-              { label: "Écran", price: "129€" },
-              { label: "Batterie", price: "89€" },
+              { label: "Écran", price: "Tarif à venir" },
+              { label: "Batterie", price: "Tarif à venir" },
             ],
           },
         ],
