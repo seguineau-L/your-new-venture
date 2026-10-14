@@ -5,7 +5,6 @@ import {
   ShieldCheck,
   Wrench,
   Leaf,
-  ArrowRight,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Link } from "react-router-dom";
@@ -17,6 +16,8 @@ import microsoudureImg from "@/assets/icons/microsoudure.svg";
 import Layout from "@/components/Layout";
 import { Helmet } from "react-helmet-async";
 
+
+
 const defaultContent = {
   home_hero_kicker: "Atelier de réparation",
   home_hero_title_line_1: "L’EXPERTISE",
@@ -26,14 +27,15 @@ const defaultContent = {
     "Diagnostic, réparation et intervention sur smartphones, consoles, PC, carte électronique et accessoires high-tech. Un atelier local, un savoir-faire précis et un service durable.",
   home_cta_map: "Venir à l’atelier",
   home_cta_hours: "Nos horaires",
-  contact_phone: "09 61 08 13 02",
+  contact_phone: "À venir",
   contact_address: "121 route d'orthez, 40700 Momuy, Landes",
 };
 
 const Index = () => {
   const [content, setContent] = useState(defaultContent);
-  const [heroImageUrl, setHeroImageUrl] = useState(heroImage);
-  const [contentLoaded, setContentLoaded] = useState(false);
+  const [heroImageUrl, setHeroImageUrl] = useState(() => {
+    return localStorage.getItem("site_image_home_hero") || heroImage;
+  });
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -43,14 +45,13 @@ const Index = () => {
 
       if (error) {
         console.error("Erreur chargement contenu accueil :", error);
-        setContentLoaded(true);
         return;
       }
 
       const formattedContent = { ...defaultContent };
 
       data?.forEach((item) => {
-        if (item.content_key in formattedContent && !(item.content_key === "contact_phone" && item.content_value === "À venir")) {
+        if (item.content_key in formattedContent) {
           formattedContent[item.content_key as keyof typeof defaultContent] =
             item.content_value;
         }
@@ -65,9 +66,8 @@ const Index = () => {
 
       if (!imageError && imageData?.image_url?.startsWith("http")) {
         setHeroImageUrl(imageData.image_url);
+        localStorage.setItem("site_image_home_hero", imageData.image_url);
       }
-
-      setContentLoaded(true);
     };
 
     fetchContent();
@@ -76,14 +76,13 @@ const Index = () => {
     <Layout>
       <Helmet>
         <title>
-          Réparation smartphone et PC à Momuy | MOMUY & TECH
+          Réparation Smartphone & Informatique Landes (40) | MOMUY & TECH | Hagetmau, Orthez
         </title>
 
         <meta
           name="description"
-          content="MOMUY & TECH répare smartphones, PC, consoles et cartes électroniques à Momuy. Diagnostic, micro-soudure et service local près d’Hagetmau, Orthez et Mont-de-Marsan."
+          content="Atelier à Momuy : réparation smartphones, tablettes, PC et micro-soudure. Service local pour Hagetmau et Orthez. Expertise technique dans les Landes (40)."
         />
-        <link rel="canonical" href="https://momuy-tech.fr/" />
 
         <meta
           name="keywords"
@@ -94,13 +93,13 @@ const Index = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
-             "name": "MOMUY & TECH",
-             "image": "https://momuy-tech.fr/assets/atelier-reparation.webp",
-             "telephone": content.contact_phone,
-             "url": "https://momuy-tech.fr/",
-             "address": {
-               "@type": "PostalAddress",
-               "streetAddress": content.contact_address,
+            "name": "MOMUY & TECH",
+            "image": "https://momuy-tech.fr/assets/atelier-reparation.webp",
+            "telePhone": content.contact_phone,
+            "url": "https://momuy-tech.fr",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": content.contact_address,
               "addressLocality": "Momuy",
               "postalCode": "40700",
               "addressRegion": "Landes",
@@ -138,21 +137,17 @@ const Index = () => {
             <div className="relative z-10 py-10 flex items-center justify-center bg-transparent lg:bg-[#f4efe7]">
               <div className="w-full max-w-lg px-6 text-center lg:text-left lg:translate-x-4">
                 <p className="uppercase tracking-[0.18em] text-[#d87532] font-bold mb-5">
-                  {contentLoaded ? content.home_hero_kicker : "\u00a0"}
+                  {content.home_hero_kicker}
                 </p>
 
                 <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl xl:text-5xl leading-[0.9] font-bold text-[#102337] mb-5">
-                  Réparation de smartphones et appareils électroniques à Momuy
+                  <span className="block">{content.home_hero_title_line_1}</span>
+                  <span className="block">{content.home_hero_title_line_2}</span>
+                  <span className="block">{content.home_hero_title_line_3}</span>
                 </h1>
 
-                <p className="mb-5 uppercase tracking-[0.12em] text-[#d87532] font-bold">
-                  {contentLoaded
-                    ? `${content.home_hero_title_line_1} ${content.home_hero_title_line_2} ${content.home_hero_title_line_3}`
-                    : "\u00a0"}
-                </p>
-
                 <p className="text-base md:text-lg leading-8 text-[#2b3d4d] mb-6">
-                  {contentLoaded ? content.home_hero_description : "\u00a0"}
+                  {content.home_hero_description}
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -161,7 +156,7 @@ const Index = () => {
                     className="inline-flex items-center justify-center gap-3 rounded-xl bg-[#d87532] px-7 py-4 text-white font-bold uppercase shadow-lg hover:bg-[#c96325] transition"
                   >
                     <MapPin className="w-5 h-5" />
-                    {contentLoaded ? content.home_cta_map : "\u00a0"}
+                    {content.home_cta_map}
                   </Link>
 
                   <Link
@@ -169,7 +164,7 @@ const Index = () => {
                     className="inline-flex items-center justify-center gap-3 rounded-xl border border-[#d87532] px-7 py-4 text-[#102337] font-bold uppercase hover:bg-white/60 transition"
                   >
                     <Clock className="w-5 h-5" />
-                    {contentLoaded ? content.home_cta_hours : "\u00a0"}
+                    {content.home_cta_hours}
                   </Link>
                 </div>
               </div>
@@ -193,22 +188,18 @@ const Index = () => {
             {[
               {
                 title: "Diagnostic",
-                path: "/reparation-smartphone",
                 text: "Contrôle et recherche de panne",
               },
               {
                 title: "Électronique",
-                path: "/reparation-pc",
                 text: "Console de jeux, PC, montres, ecouteurs",
               },
               {
                 title: "Smartphones",
-                path: "/reparation-smartphone",
                 text: "Écrans, batteries, connecteurs",
               },
               {
                 title: "Microsoudure",
-                path: "/micro-soudure-carte-electronique",
                 text: "remplacement composant, reflow et interventions délicates",
               },
             ].map((item, index) => (
@@ -217,38 +208,24 @@ const Index = () => {
                 className={`flex flex-col items-center text-center px-6 ${index !== 0 ? "md:border-l md:border-[#d87532]/60" : ""
                   }`}
               >
-                <Link
-                  to={item.path}
-                  aria-label={`Découvrir le service ${item.title}`}
-                  className="group flex w-full flex-col items-center rounded-2xl border border-white/20 bg-white/[0.04] px-4 py-5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] transition-all duration-300 hover:border-[#d87532] hover:bg-white/10 hover:shadow-[0_0_24px_rgba(216,117,50,0.4)] active:scale-[0.98] active:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d87532] md:border-transparent md:bg-transparent md:shadow-none"
-                >
-                  <img
-                    src={
-                      item.title === "Diagnostic"
-                        ? diagnosticImg
-                        : item.title === "Électronique"
-                          ? electroniqueImg
-                          : item.title === "Smartphones"
-                            ? smartphonesImg
-                            : microsoudureImg
-                    }
-                    alt={`${item.title} - Service de réparation électronique à Momuy`}
-                    className={`block w-32 h-32 mb-4 object-contain flex-shrink-0 transition-transform duration-300 ${item.title === "Électronique"
-                      ? "scale-150 group-hover:scale-[1.65]"
-                      : "group-hover:scale-110"
-                      }`}
-                  />
-                  <h3 className="mb-2 uppercase font-bold tracking-wide transition-colors group-hover:text-[#d87532]">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm leading-6 text-white/80">
-                    {item.text}
-                  </p>
-                  <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[#f0a064] md:opacity-0 md:transition-opacity md:duration-300 md:group-hover:opacity-100">
-                    Voir le service
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
-                  </span>
-                </Link>
+                <img
+                  src={
+                    item.title === "Diagnostic"
+                      ? diagnosticImg
+                      : item.title === "Électronique"
+                        ? electroniqueImg
+                        : item.title === "Smartphones"
+                          ? smartphonesImg
+                          : microsoudureImg
+                  }
+                  alt={`${item.title} - Service de réparation électronique à Momuy`}
+                  className={`block w-32 h-32 mb-4 object-contain flex-shrink-0 ${item.title === "Électronique" ? "scale-150" : ""
+                    }`}
+                />
+                <h3 className="uppercase font-bold tracking-wide mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-sm leading-6 text-white/80">{item.text}</p>
               </div>
             ))}
           </div>
@@ -264,24 +241,17 @@ const Index = () => {
                 <h2 className="text-2xl font-bold font-heading mb-4 uppercase tracking-wide">
                   Réparer pour la <span className="text-green-600">planète</span>
                 </h2>
-                <div className="text-[#52606c] leading-relaxed">
-                  <p>
-                    D'ici 2030, la production mondiale de déchets électroniques atteindra 82 millions de tonnes par an.
-                    C'est l'équivalent d'une montagne de smartphones plus haute que le Mont Blanc.
-                  </p>
-                  <p className="mt-4">
-                    En choisissant la réparation, vous prolongez la vie de vos appareils et luttez activement contre ce gaspillage.
-                  </p>
-                  <p className="mt-8 text-center font-bold text-[#102337] uppercase tracking-wide">
-                    Un geste pour votre portefeuille, un grand pas pour la planète.
-                  </p>
-                </div>
+                <p className="text-[#52606c] leading-relaxed">
+                  Chaque année, des millions de tonnes de déchets électroniques sont produites. En choisissant la réparation, vous prolongez la vie de vos appareils, économisez des ressources naturelles et réduisez votre empreinte carbone.
+                  <strong> Un geste pour votre portefeuille, un grand pas pour l'environnement.</strong>
+                </p>
               </div>
             </div>
           </div>
         </section>
 
         <section className="bg-[#f7f1e8] border-b border-[#e0d2c1]">
+
           <div className="container mx-auto px-6 py-10 grid md:grid-cols-3 gap-8">
             {[
               {
@@ -296,8 +266,8 @@ const Index = () => {
               },
               {
                 icon: Wrench,
-                title: "Savoir-faire technique",
-                text: "Du diagnostic aux réparations adaptées à votre appareil.",
+                title: "Expertise technique",
+                text: "Matériel professionnel et réparations durables.",
               },
             ].map((item, index) => (
               <div

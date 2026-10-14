@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import atelier from "@/assets/atelier-reparation.webp";
 import boutique from "@/assets/boutique.png";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import logoImg from "@/assets/icons/momuy-tech-top-logo.svg";
+import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Helmet } from "react-helmet-async";
@@ -13,10 +13,10 @@ const defaultContent = {
   about_shop_title: "Notre boutique",
 
   about_shop_text_1:
-    "MOMUY & TECH est un atelier de réparation de smartphones, de consoles et d’appareils électroniques situé à Momuy, dans les Landes. Fondée par Kilian et Léonie, notre boutique propose un service de proximité et des solutions adaptées à chaque appareil.",
+    "Chez MOMUY & TECH, nous vous accueillons pour toute réparation de smartphones, de consoles et d’appareils électroniques.\nSituée à Momuy, dans les Landes, notre boutique a été fondée par Kilian et Léonie en 2026, par pure passion de la réparation.\n\nNotre aventure a débuté en plein confinement, lors de la grande pénurie de cartes graphiques. Passionné de technologie, Kilian décide alors d'apprendre à réparer ces composants introuvables et devenus hors de prix. Installé dans un atelier de fortune au sous-sol de notre ancien logement, il y consacre chaque heure de son temps libre : tests, persévérance, achat de matériel hors service pour s’exercer encore et encore.\n\nToute cette agitation pique la curiosité de Léonie, qui s'intéresse à son tour à la réparation. Kilian l'encourage en lui permettant de suivre une formation certifiée en réparation de téléphonie.",
 
   about_shop_text_2:
-    "Nous intervenons notamment sur les cartes électroniques grâce à la micro-soudure, ainsi que sur le remplacement de pièces de vos appareils. Nous vous accueillons dans un espace convivial, où chaque demande est prise en charge avec soin et où la confidentialité de vos données est respectée.",
+    "Aujourd’hui, nous sommes fiers de vous ouvrir les portes de notre boutique landaise. Notre objectif est simple : mettre nos compétences techniques au service de vos appareils, pour que vous n’ayez plus jamais à entendre un SAV vous annoncer : « La carte mère est morte, il faut racheter un appareil neuf », dans la mesure du possible.\n\nNous intervenons notamment sur les cartes électroniques grâce à la micro-soudure, ainsi que sur le remplacement de pièces de vos appareils. Nous vous accueillons dans un espace convivial, où chaque demande est prise en charge avec soin et où la confidentialité de vos données est respectée.",
 
   about_workshop_title: "Notre atelier",
 
@@ -81,6 +81,29 @@ const APropos = () => {
     fetchContent();
   }, []);
 
+  const fullShopText =
+    (content.about_shop_text_1 || "") +
+    (content.about_shop_text_2 ? "\n\n" + content.about_shop_text_2 : "");
+
+  const splitIndex = fullShopText.search(/Aujourd['’]hui/i);
+  const topShopText =
+    splitIndex !== -1
+      ? fullShopText.slice(0, splitIndex).trim()
+      : content.about_shop_text_1;
+  const bottomShopTextRaw =
+    splitIndex !== -1
+      ? fullShopText.slice(splitIndex).trim()
+      : content.about_shop_text_2;
+
+  const bottomShopText = bottomShopTextRaw
+    ? bottomShopTextRaw
+        .replace(
+          /«\s*La carte mère est morte, il faut racheter un appareil neuf\s*»\.?(?!\s*,\s*dans la mesure)/i,
+          "« La carte mère est morte, il faut racheter un appareil neuf », dans la mesure du possible."
+        )
+        .replace(/\.\./g, ".")
+    : "";
+
   return (
     <Layout>
       <Helmet>
@@ -90,65 +113,56 @@ const APropos = () => {
 
         <meta
           name="description"
-          content="Découvrez MOMUY & TECH, atelier de réparation de smartphones, PC, consoles et cartes électroniques à Momuy. Présentation de l’équipe, du savoir-faire et du service local."
+          content="Découvrez MOMUY & TECH, atelier de réparation électronique situé à Momuy. Une entreprise spécialisée dans la réparation de smartphones, ordinateurs, cartes électroniques et micro-soudure de précision."
         />
-        <link rel="canonical" href="https://momuy-tech.fr/a-propos" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "AboutPage",
-            name: "À propos de MOMUY & TECH",
-            url: "https://momuy-tech.fr/a-propos",
-            isPartOf: { "@type": "WebSite", name: "MOMUY & TECH", url: "https://momuy-tech.fr/" },
-          })}
-        </script>
       </Helmet>
       <section className="py-16 md:py-24 bg-[#f4efe7] text-[#102337]"
         ref={scrollRef} >
         <div className="container mx-auto px-4 max-w-5xl">
-          <nav aria-label="Fil d’Ariane" className="mb-8 text-center text-sm text-[#52606c]">
-            <a href="/" className="hover:text-[#d87532]">Accueil</a>
-            <span aria-hidden="true" className="mx-2">/</span>
-            <span>À propos</span>
-          </nav>
           <div className="scroll-reveal text-center mb-16">
             <h1 className="font-serif text-4xl md:text-5xl leading-[0.95] font-bold text-[#102337]">
               {content.about_title}
             </h1>
           </div>
 
-          <div className="space-y-20">
-            <div className="grid md:grid-cols-2 gap-10 items-center scroll-reveal">
-              <img
-                src={shopImageUrl}
-                alt={`Boutique MOMUY & TECH - Votre réparateur de proximité à Momuy`}
-                className="rounded-2xl border border-[#d8c8b5] shadow-sm w-full h-72 object-cover"
-                loading="lazy"
-              />
-              <div className="space-y-5">
-                <h2 className="text-2xl md:text-3xl font-bold text-[#102337]">
-                  {content.about_shop_title}
-                </h2>
-                <p className="text-[#52606c] leading-relaxed">
-                  {content.about_shop_text_1}
-                </p>
-                <p className="text-[#52606c] leading-relaxed">
-                  {content.about_shop_text_2}
-                </p>
+          <div className="space-y-16 md:space-y-20">
+            {/* Section Notre boutique conforme à la maquette */}
+            <div className="space-y-6 scroll-reveal">
+              <div className="grid md:grid-cols-2 gap-8 lg:gap-10 items-start">
+                <img
+                  src={shopImageUrl}
+                  alt={`Boutique MOMUY & TECH - Votre réparateur de proximité à Momuy`}
+                  className="rounded-2xl border border-[#d8c8b5] shadow-sm w-full aspect-[4/3] object-cover"
+                  loading="lazy"
+                />
+                <div className="space-y-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#102337]">
+                    {content.about_shop_title}
+                  </h2>
+                  <p className="text-[#52606c] leading-relaxed whitespace-pre-line text-sm sm:text-base">
+                    {topShopText}
+                  </p>
+                </div>
               </div>
+
+              {bottomShopText && (
+                <p className="text-[#52606c] leading-relaxed whitespace-pre-line text-sm sm:text-base pt-1">
+                  {bottomShopText}
+                </p>
+              )}
             </div>
 
             <div className="divider-glow" />
 
             <div className="grid md:grid-cols-2 gap-10 items-center scroll-reveal">
               <div className="space-y-5 md:order-1">
-                <h2 className="text-xl md:text-2xl font-bold font-heading">
+                <h2 className="text-xl md:text-2xl font-bold font-heading text-[#102337]">
                   {content.about_workshop_title}
                 </h2>
-                <p className="text-[#52606c] leading-relaxed">
+                <p className="text-[#52606c] leading-relaxed whitespace-pre-line">
                   {content.about_workshop_text_1}
                 </p>
-                <p className="text-[#52606c] leading-relaxed">
+                <p className="text-[#52606c] leading-relaxed whitespace-pre-line">
                   {content.about_workshop_text_2}
                 </p>
               </div>
