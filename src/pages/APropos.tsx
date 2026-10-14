@@ -47,7 +47,33 @@ const APropos = () => {
       const formattedContent = { ...defaultContent };
 
       data?.forEach((item) => {
-        if (item.content_key in formattedContent) {
+        if (item.content_key in formattedContent && item.content_value) {
+          // Ignorer les anciens textes par défaut de la base si non personnalisés
+          if (
+            item.content_key === "about_workshop_text_1" &&
+            item.content_value.includes("Équipé d’un matériel professionnel")
+          ) {
+            return;
+          }
+          if (
+            item.content_key === "about_workshop_text_2" &&
+            item.content_value.includes("De la simple réparation d’écran")
+          ) {
+            return;
+          }
+          if (
+            item.content_key === "about_shop_text_1" &&
+            item.content_value.includes("Fondée par un couple passionné de technologie")
+          ) {
+            return;
+          }
+          if (
+            item.content_key === "about_shop_text_2" &&
+            item.content_value.includes("Nous accueillons nos clients dans un espace convivial")
+          ) {
+            return;
+          }
+
           formattedContent[
             item.content_key as keyof typeof defaultContent
           ] = item.content_value;
