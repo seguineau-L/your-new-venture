@@ -10,10 +10,12 @@ interface Section {
 
 const sections: Section[] = [
   {
-    title: "Article 1 — Objet et champ d'application",
+    title: "Article 1 — Objet, champ d'application et règles d'accueil",
     paragraphs: [
       "Les présentes Conditions Générales de Vente (CGV) régissent l'ensemble des relations contractuelles entre l'atelier MOMUY & TECH et ses clients (particuliers ou professionnels) dans le cadre de prestations de réparation, diagnostic, maintenance électronique, micro-soudure sur cartes mères et vente d'accessoires ou pièces détachées.",
       "Toute commande ou dépôt d'appareil pour intervention implique l'acceptation pleine et entière des présentes conditions par le client.",
+      "Réserve d'acceptation et motifs légitimes de refus : MOMUY & TECH se réserve le droit de refuser la prise en charge ou l'intervention sur tout appareil pour des motifs légitimes, notamment en cas d'impossibilité technique, d'altération trop sévère du matériel, de risque manifeste pour la sécurité de l'atelier ou des personnes (batteries gonflées, risques de court-circuit dangereux), d'antécédents d'impayés, de litiges non résolus ou de doute fondé sur la capacité du client à honorer le règlement de la prestation.",
+      "Respect mutuel et sérénité des échanges : MOMUY & TECH s'engage à accueillir sa clientèle avec professionnalisme et bienveillance. En retour, un respect strict envers notre équipe est exigé au sein de notre établissement comme lors des échanges téléphoniques ou écrits. Tout comportement irrespectueux, agressif, menaçant ou injurieux à l'égard de notre personnel entraînera le refus ou l'interruption immédiate de toute prestation, la restitution de l'appareil en l'état et, le cas échéant, fera l'objet de poursuites judiciaires conformément aux dispositions du Code pénal.",
     ],
   },
   {
