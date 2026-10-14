@@ -21,10 +21,10 @@ const defaultContent = {
   about_workshop_title: "Notre atelier",
 
   about_workshop_text_1:
-    "Équipé d’un matériel professionnel de pointe — microscopes, stations de micro-soudure, outils de diagnostic avancés — notre atelier nous permet d’intervenir sur les réparations les plus délicates.",
+    "Pour vous garantir des réparations durables et soignées, nous avons fait le choix d’investir dans un équipement moderne et adapté à chaque besoin.\n\nCôté atelier, Kilian dispose de tout le matériel nécessaire pour intervenir avec une précision chirurgicale : microscope haute définition pour inspecter les circuits presque invisibles à l’œil nu, stations de soudure de précision et outils de diagnostic avancés. Cela nous permet de localiser les pannes complexes et de réparer vos cartes électroniques pouvant aller jusqu’à la reconstruction des pistes.",
 
   about_workshop_text_2:
-    "De la simple réparation d’écran à la micro-soudure de composants sur carte mère, nous mettons notre savoir-faire au service de la longévité de vos appareils.",
+    "Nous sommes également équipés d’une machine de découpe de film hydrogel sur mesure. En quelques secondes, elle nous permet de découper et de poser une protection d'écran ultra-résistante, parfaitement ajustée à n’importe quel modèle : smartphones (anciens comme récents), consoles portables, tablettes ou montres connectées.\n\nChaque appareil qui passe entre nos mains bénéficie ainsi du bon outil et de toute notre attention.",
 };
 
 const APropos = () => {
@@ -154,22 +154,22 @@ const APropos = () => {
 
             <div className="divider-glow" />
 
-            <div className="grid md:grid-cols-2 gap-10 items-center scroll-reveal">
-              <div className="space-y-5 md:order-1">
-                <h2 className="text-xl md:text-2xl font-bold font-heading text-[#102337]">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-10 items-start scroll-reveal">
+              <div className="space-y-4 md:order-1">
+                <h2 className="text-2xl md:text-3xl font-bold text-[#102337]">
                   {content.about_workshop_title}
                 </h2>
-                <p className="text-[#52606c] leading-relaxed whitespace-pre-line">
+                <p className="text-[#52606c] leading-relaxed whitespace-pre-line text-sm sm:text-base">
                   {content.about_workshop_text_1}
                 </p>
-                <p className="text-[#52606c] leading-relaxed whitespace-pre-line">
+                <p className="text-[#52606c] leading-relaxed whitespace-pre-line text-sm sm:text-base">
                   {content.about_workshop_text_2}
                 </p>
               </div>
               <img
                 src={workshopImageUrl}
                 alt={`Atelier de micro-soudure MOMUY & TECH - Expertise électronique Landes`}
-                className="rounded-2xl border border-[#d8c8b5] shadow-sm w-full h-72 object-cover md:order-2"
+                className="rounded-2xl border border-[#d8c8b5] shadow-sm w-full aspect-[4/3] object-cover md:order-2"
                 loading="lazy"
               />
 
