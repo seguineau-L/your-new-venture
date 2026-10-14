@@ -17,11 +17,12 @@ const sections: Section[] = [
     ],
   },
   {
-    title: "Article 2 — Devis, diagnostics et recherche de panne",
+    title: "Article 2 — Devis, diagnostics, recherche de panne et responsabilité",
     paragraphs: [
       "Diagnostic standard (smartphones, ordinateurs, pannes matérielles courantes) : facturé 20 € TTC. Ce montant couvre l'examen initial de l'appareil et l'établissement du devis.",
       "Diagnostic approfondi et recherche de panne en Micro-soudure : les interventions complexes sur cartes mères (pannes d'allumage, courts-circuits, Face ID, rétro-éclairage, pannes réseau, etc.) nécessitent des investigations microscopiques et des mesures électroniques avancées. Ce diagnostic approfondi fait l'objet d'un forfait de recherche de 40 € TTC.",
       "Déduction intégrale en cas de réparation : si le devis de réparation est accepté et les travaux réalisés par MOMUY & TECH, le montant du diagnostic (20 € pour un diagnostic standard ou 40 € pour une recherche en micro-soudure) est intégralement déduit de la facture finale de réparation.",
+      "Obligation de moyens et appareils irréparables : MOMUY & TECH met en œuvre tout son savoir-faire et ses équipements pour tenter de sauver votre appareil. Si celui-ci s'avère techniquement irréparable en raison de dégâts internes trop importants, notre responsabilité ne pourra être engagée. L’appareil est alors restitué en l’état après règlement des frais de diagnostic engagés.",
       "Option de cession gratuite de l'appareil (sans frais pour le client) : si l'appareil s'avère non réparable, ou si le client refuse le devis proposé et ne souhaite pas s'acquitter des frais de diagnostic/recherche (20 € ou 40 €), il a la possibilité de céder gratuitement son appareil à MOMUY & TECH. En contrepartie de cette cession définitive pour recyclage écologique ou récupération de pièces détachées, aucun frais de recherche ou de diagnostic ne lui sera facturé.",
     ],
   },
@@ -62,13 +63,7 @@ const sections: Section[] = [
     ],
   },
   {
-    title: "Article 8 — Responsabilité",
-    paragraphs: [
-      "MOMUY & TECH est tenu à une obligation de moyens dans l'exécution de ses prestations. En cas d'impossibilité technique avérée de réparer l'appareil, celui-ci est restitué en l'état sous réserve du règlement des frais de diagnostic convenus ou de sa cession gratuite selon les termes de l'Article 2.",
-    ],
-  },
-  {
-    title: "Article 9 — Droit applicable et litiges",
+    title: "Article 8 — Droit applicable et litiges",
     paragraphs: [
       "Les présentes Conditions Générales de Vente sont soumises à la législation française.",
       "En cas de réclamation ou de litige, les parties s'engagent à rechercher prioritairement un accord amiable. À défaut, le client consommateur peut recourir gratuitement à un médiateur de la consommation conformément aux dispositions du Code de la consommation.",
