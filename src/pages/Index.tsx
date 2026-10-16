@@ -84,27 +84,33 @@ const Index = () => {
           content="Atelier à Momuy : réparation smartphones, tablettes, PC et micro-soudure. Service local pour Hagetmau et Orthez. Expertise technique dans les Landes (40)."
         />
 
-        <meta
-          name="keywords"
-          content="réparation smartphone Hagetmau, réparateur téléphone Orthez, réparation PC Mont-de-Marsan, micro-soudure Landes, MOMUY TECH, réparation console Landes"
-        />
+        <link rel="canonical" href="https://momuy-tech.fr/" />
 
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "LocalBusiness",
+            "@type": ["LocalBusiness", "ElectronicsRepairShop"],
             "name": "MOMUY & TECH",
-            "image": "https://momuy-tech.fr/assets/atelier-reparation.webp",
-            "telePhone": content.contact_phone,
+            "image": "https://momuy-tech.fr/og-image.jpg",
+            "telephone": content.contact_phone || "09 61 08 13 02",
             "url": "https://momuy-tech.fr",
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": content.contact_address,
+              "streetAddress": content.contact_address || "121 route d'orthez",
               "addressLocality": "Momuy",
               "postalCode": "40700",
               "addressRegion": "Landes",
               "addressCountry": "FR"
             },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 43.6167,
+              "longitude": -0.6333
+            },
+            "sameAs": [
+              "https://www.instagram.com/momuy_tech/",
+              "https://www.facebook.com/profile.php?id=61594369072643"
+            ],
             "areaServed": [
               { "@type": "City", "name": "Momuy" },
               { "@type": "City", "name": "Hagetmau" },
@@ -114,7 +120,7 @@ const Index = () => {
               { "@type": "City", "name": "Mugron" }
             ],
             "description": content.home_hero_description,
-            "priceRange": "$$"
+            "priceRange": "€€"
           })}
         </script>
       </Helmet>

@@ -141,6 +141,7 @@ const APropos = () => {
           name="description"
           content="Découvrez MOMUY & TECH, atelier de réparation électronique situé à Momuy. Une entreprise spécialisée dans la réparation de smartphones, ordinateurs, cartes électroniques et micro-soudure de précision."
         />
+        <link rel="canonical" href="https://momuy-tech.fr/a-propos" />
       </Helmet>
       <section className="py-16 md:py-24 bg-[#f4efe7] text-[#102337]"
         ref={scrollRef} >
