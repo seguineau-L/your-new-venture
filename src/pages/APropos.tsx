@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import atelier from "@/assets/atelier-reparation.webp";
-import boutique from "@/assets/boutique.png";
+import boutique from "@/assets/boutique.webp";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import logoImg from "@/assets/icons/momuy-tech-algerian.svg";
 import { useEffect, useState } from "react";
