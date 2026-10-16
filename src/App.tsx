@@ -8,6 +8,7 @@ import Tarifs from "./pages/Tarifs";
 import APropos from "./pages/APropos";
 import Contact from "./pages/Contact";
 import CGV from "./pages/CGV";
+import MentionsLegales from "./pages/MentionsLegales";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -17,6 +18,7 @@ import AdminTexts from "./pages/AdminTexts";
 import AdminMedia from "./pages/AdminMedia";
 import ServicePage from "./pages/ServicePage";
 import ScrollToTop from "@/components/ScrollToTop";
+import CookieBanner from "@/components/CookieBanner";
 import { HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();
@@ -41,6 +43,7 @@ const App = () => (
             <Route path="/a-propos" element={<APropos />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/cgv" element={<CGV />} />
+            <Route path="/mentions-legales" element={<MentionsLegales />} />
             <Route path="/reparation-smartphone" element={<ServicePage serviceKey="smartphone" />} />
             <Route path="/reparation-pc" element={<ServicePage serviceKey="pc" />} />
             <Route path="/reparation-console" element={<ServicePage serviceKey="console" />} />
@@ -56,6 +59,7 @@ const App = () => (
 
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <CookieBanner />
         </BrowserRouter>
       </TooltipProvider>
     </HelmetProvider>

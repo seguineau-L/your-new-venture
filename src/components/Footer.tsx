@@ -14,6 +14,7 @@ const footerLinks = [
   { label: "À propos", path: "/a-propos" },
   { label: "Contact", path: "/contact" },
   { label: "CGV", path: "/cgv" },
+  { label: "Mentions Légales", path: "/mentions-legales" },
 ];
 
 const serviceLinks = [
