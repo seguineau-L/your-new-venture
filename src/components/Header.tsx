@@ -21,6 +21,9 @@ const Header = () => {
           <img
             src={logoImg}
             alt="Momuy & Tech"
+            width="550"
+            height="110"
+            fetchPriority="high"
             className="block h-[86px] md:h-[100px] w-auto"
           />
         </Link>

@@ -60,6 +60,10 @@ const Footer = () => {
           <img
             src={logoImg}
             alt="Momuy & Tech"
+            loading="lazy"
+            decoding="async"
+            width="148"
+            height="32"
             className="w-[96px] md:w-[120px] lg:w-[148px] h-auto object-contain"
           />
         </Link>

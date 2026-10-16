@@ -134,6 +134,8 @@ const Index = () => {
               <img
                 src={heroImageUrl}
                 alt="Atelier de réparation électronique"
+                fetchPriority="high"
+                decoding="async"
                 className="w-full h-full object-cover object-center"
               />
               <div className="absolute inset-0 bg-[#f4efe7]/85 backdrop-blur-[1px]" />
@@ -181,6 +183,8 @@ const Index = () => {
               <img
                 src={heroImageUrl}
                 alt="Atelier de réparation électronique"
+                fetchPriority="high"
+                decoding="async"
                 className="absolute inset-0 w-full h-full object-cover object-center"
               />
 
@@ -194,24 +198,29 @@ const Index = () => {
             {[
               {
                 title: "Diagnostic",
+                path: "/tarifs",
                 text: "Contrôle et recherche de panne",
               },
               {
                 title: "Électronique",
-                text: "Console de jeux, PC, montres, ecouteurs",
+                path: "/reparation-pc",
+                text: "Console de jeux, PC, montres, écouteurs",
               },
               {
                 title: "Smartphones",
+                path: "/reparation-smartphone",
                 text: "Écrans, batteries, connecteurs",
               },
               {
                 title: "Microsoudure",
-                text: "remplacement composant, reflow et interventions délicates",
+                path: "/micro-soudure-carte-electronique",
+                text: "Remplacement composant, reflow et interventions délicates",
               },
             ].map((item, index) => (
-              <div
+              <Link
                 key={item.title}
-                className={`flex flex-col items-center text-center px-6 ${index !== 0 ? "md:border-l md:border-[#d87532]/60" : ""
+                to={item.path}
+                className={`group flex flex-col items-center text-center px-6 transition-all duration-200 hover:-translate-y-1 ${index !== 0 ? "md:border-l md:border-[#d87532]/60" : ""
                   }`}
               >
                 <img
@@ -225,14 +234,18 @@ const Index = () => {
                           : microsoudureImg
                   }
                   alt={`${item.title} - Service de réparation électronique à Momuy`}
-                  className={`block w-32 h-32 mb-4 object-contain flex-shrink-0 ${item.title === "Électronique" ? "scale-150" : ""
+                  loading="lazy"
+                  decoding="async"
+                  width="128"
+                  height="128"
+                  className={`block w-32 h-32 mb-4 object-contain flex-shrink-0 transition-transform duration-200 group-hover:scale-110 ${item.title === "Électronique" ? "scale-150 group-hover:scale-[1.65]" : ""
                     }`}
                 />
-                <h3 className="uppercase font-bold tracking-wide mb-2">
+                <h3 className="uppercase font-bold tracking-wide mb-2 group-hover:text-[#d87532] transition-colors">
                   {item.title}
                 </h3>
                 <p className="text-sm leading-6 text-white/80">{item.text}</p>
-              </div>
+              </Link>
             ))}
           </div>
         </section>

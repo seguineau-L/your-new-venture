@@ -223,8 +223,11 @@ const Contact = () => {
                   <img
                     src={facadeImageUrl}
                     alt="Façade du magasin"
+                    width="600"
+                    height="450"
                     className="w-full h-[420px] md:h-[520px] object-cover object-center"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
               </div>

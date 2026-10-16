@@ -159,8 +159,11 @@ const APropos = () => {
                 <img
                   src={shopImageUrl}
                   alt={`Boutique MOMUY & TECH - Votre réparateur de proximité à Momuy`}
-                  className="rounded-2xl border border-[#d8c8b5] shadow-sm w-full aspect-[4/3] object-cover"
+                  width="600"
+                  height="450"
                   loading="lazy"
+                  decoding="async"
+                  className="rounded-2xl border border-[#d8c8b5] shadow-sm w-full aspect-[4/3] object-cover"
                 />
                 <div className="space-y-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-[#102337]">
@@ -196,8 +199,11 @@ const APropos = () => {
               <img
                 src={workshopImageUrl}
                 alt={`Atelier de micro-soudure MOMUY & TECH - Expertise électronique Landes`}
-                className="rounded-2xl border border-[#d8c8b5] shadow-sm w-full aspect-[4/3] object-cover md:order-2"
+                width="600"
+                height="450"
                 loading="lazy"
+                decoding="async"
+                className="rounded-2xl border border-[#d8c8b5] shadow-sm w-full aspect-[4/3] object-cover md:order-2"
               />
 
             </div>
