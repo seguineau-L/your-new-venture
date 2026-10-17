@@ -341,36 +341,36 @@ const ServicePage = ({ serviceKey }: ServicePageProps) => {
 
       <main className="min-h-screen bg-[#f4efe7] text-[#102337]">
         {/* En-tête héro */}
-        <section className="py-16 md:py-20 border-b border-[#e0d2c1]">
+        <section className="py-14 md:py-18 bg-[#09233a] text-[#f4efe7] border-b border-white/10 shadow-inner">
           <div className="container mx-auto max-w-5xl px-4 text-center">
-            <nav aria-label="Fil d’Ariane" className="mb-6 text-sm text-[#52606c]">
-              <Link to="/" className="hover:text-[#d87532]">Accueil</Link>
-              <span aria-hidden="true" className="mx-2">/</span>
-              <span>{service.heading}</span>
+            <nav aria-label="Fil d’Ariane" className="mb-6 text-sm text-[#f4efe7]/60">
+              <Link to="/" className="hover:text-[#d87532] transition-colors">Accueil</Link>
+              <span aria-hidden="true" className="mx-2 text-[#d87532]">/</span>
+              <span className="text-[#f4efe7]/90">{service.heading}</span>
             </nav>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#d87532]">
+            <p className="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-[#d87532]">
               MOMUY & TECH — Atelier à Momuy
             </p>
-            <h1 className="font-serif text-3xl font-bold leading-tight md:text-5xl">
+            <h1 className="font-serif text-3xl font-bold leading-tight md:text-5xl text-[#f4efe7]">
               {service.heading}
             </h1>
-            <p className="mt-4 text-base md:text-lg font-medium text-[#102337]/80 max-w-3xl mx-auto">
+            <p className="mt-4 text-base md:text-lg font-medium text-[#f4efe7]/90 max-w-3xl mx-auto">
               {service.subheading}
             </p>
-            <p className="mt-4 text-sm md:text-base leading-relaxed text-[#52606c] max-w-3xl mx-auto">
+            <p className="mt-4 text-sm md:text-base leading-relaxed text-[#f4efe7]/75 max-w-3xl mx-auto">
               {service.intro}
             </p>
           </div>
         </section>
 
         {/* Bloc 1 : Quels appareils pouvez-vous nous apporter ? */}
-        <section className="py-16 bg-white">
+        <section className="py-12 md:py-16 bg-white">
           <div className="container mx-auto max-w-5xl px-4">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="inline-block rounded-full bg-[#d87532]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#d87532] mb-3">
+            <div className="text-center max-w-2xl mx-auto mb-10">
+              <span className="inline-block rounded-full bg-[#d87532]/10 border border-[#d87532]/30 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#d87532] mb-3">
                 Prise en charge
               </span>
-              <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wide text-[#102337]">
+              <h2 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-[#09233a]">
                 Quels appareils pouvez-vous nous apporter ?
               </h2>
             </div>
@@ -387,7 +387,7 @@ const ServicePage = ({ serviceKey }: ServicePageProps) => {
                       <div className="w-12 h-12 rounded-xl bg-[#09233a] text-white flex items-center justify-center mb-4">
                         <Icon className="w-6 h-6 text-[#d87532]" />
                       </div>
-                      <h3 className="text-lg font-bold text-[#102337] mb-2">
+                      <h3 className="text-lg font-bold text-[#09233a] mb-2 tracking-tight">
                         {device.category}
                       </h3>
                       <p className="text-sm leading-relaxed text-[#52606c]">
@@ -402,13 +402,13 @@ const ServicePage = ({ serviceKey }: ServicePageProps) => {
         </section>
 
         {/* Bloc 2 : Les pannes courantes prises en charge */}
-        <section className="py-16 bg-[#f7f1e8] border-t border-b border-[#e0d2c1]">
+        <section className="py-12 md:py-16 bg-[#f7f1e8] border-t border-b border-[#e0d2c1]">
           <div className="container mx-auto max-w-5xl px-4">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="inline-block rounded-full bg-[#d87532]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#d87532] mb-3">
+            <div className="text-center max-w-2xl mx-auto mb-10">
+              <span className="inline-block rounded-full bg-[#d87532]/10 border border-[#d87532]/30 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#d87532] mb-3">
                 Diagnostic & Réparation
               </span>
-              <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wide text-[#102337]">
+              <h2 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-[#09233a]">
                 Les pannes courantes prises en charge
               </h2>
             </div>
@@ -417,10 +417,10 @@ const ServicePage = ({ serviceKey }: ServicePageProps) => {
               {service.commonFailures.map((failure) => (
                 <div
                   key={failure.title}
-                  className="card-premium p-6 bg-white shadow-sm hover:border-[#d87532]/60 transition-colors"
+                  className="card-premium p-6 bg-white shadow-sm hover:border-[#d87532]/60 border-l-4 border-l-[#d87532] transition-colors"
                 >
-                  <h3 className="text-base font-bold text-[#102337] mb-2 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#d87532] flex-shrink-0" />
+                  <h3 className="text-base font-bold text-[#09233a] mb-2 flex items-center gap-2.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#d87532] flex-shrink-0" />
                     {failure.title}
                   </h3>
                   <p className="text-sm leading-relaxed text-[#52606c]">
@@ -431,7 +431,7 @@ const ServicePage = ({ serviceKey }: ServicePageProps) => {
             </div>
 
             {/* Note d'information non exhaustive */}
-            <div className="mt-8 rounded-2xl bg-white border border-[#d87532]/30 p-6 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+            <div className="mt-8 rounded-2xl bg-white border border-[#d87532]/40 p-6 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left shadow-sm">
               <div className="w-12 h-12 rounded-full bg-[#f4efe7] text-[#d87532] flex items-center justify-center flex-shrink-0">
                 <AlertCircle className="w-6 h-6" />
               </div>
@@ -443,13 +443,13 @@ const ServicePage = ({ serviceKey }: ServicePageProps) => {
         </section>
 
         {/* Bloc 3 : Notre méthode à l'atelier */}
-        <section className="py-16 bg-white">
+        <section className="py-12 md:py-16 bg-white">
           <div className="container mx-auto max-w-5xl px-4">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="inline-block rounded-full bg-[#d87532]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#d87532] mb-3">
+            <div className="text-center max-w-2xl mx-auto mb-10">
+              <span className="inline-block rounded-full bg-[#d87532]/10 border border-[#d87532]/30 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#d87532] mb-3">
                 Démarche
               </span>
-              <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wide text-[#102337]">
+              <h2 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-[#09233a]">
                 Notre méthode à l'atelier
               </h2>
             </div>
@@ -460,7 +460,7 @@ const ServicePage = ({ serviceKey }: ServicePageProps) => {
                 return (
                   <div
                     key={step.number}
-                    className="card-premium p-6 flex flex-col justify-between"
+                    className="card-premium p-6 flex flex-col justify-between hover:border-[#d87532]/60 transition-colors"
                   >
                     <div>
                       <div className="flex items-center justify-between mb-4">
@@ -471,7 +471,7 @@ const ServicePage = ({ serviceKey }: ServicePageProps) => {
                           {step.number}
                         </span>
                       </div>
-                      <h3 className="text-base font-bold text-[#102337] mb-2">
+                      <h3 className="text-base font-bold text-[#09233a] mb-2">
                         {step.title}
                       </h3>
                       <p className="text-xs leading-relaxed text-[#52606c]">

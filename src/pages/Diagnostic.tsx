@@ -130,34 +130,37 @@ const Diagnostic = () => {
 
       <main className="min-h-screen bg-[#f4efe7] text-[#102337]">
         {/* En-tête héro */}
-        <section className="py-16 md:py-20 border-b border-[#e0d2c1]">
+        <section className="py-14 md:py-18 bg-[#09233a] text-[#f4efe7] border-b border-white/10 shadow-inner">
           <div className="container mx-auto max-w-5xl px-4 text-center">
-            <nav aria-label="Fil d’Ariane" className="mb-6 text-sm text-[#52606c]">
-              <Link to="/" className="hover:text-[#d87532]">
+            <nav aria-label="Fil d’Ariane" className="mb-6 text-sm text-[#f4efe7]/60">
+              <Link to="/" className="hover:text-[#d87532] transition-colors">
                 Accueil
               </Link>
-              <span aria-hidden="true" className="mx-2">
+              <span aria-hidden="true" className="mx-2 text-[#d87532]">
                 /
               </span>
-              <span>Diagnostic</span>
+              <span className="text-[#f4efe7]/90">Diagnostic</span>
             </nav>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#d87532]">
+            <p className="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-[#d87532]">
               Méthode & Transparence
             </p>
-            <h1 className="font-serif text-4xl font-bold leading-tight md:text-5xl">
+            <h1 className="font-serif text-3xl md:text-5xl font-bold leading-tight text-[#f4efe7]">
               Comment se passe un diagnostic à l'atelier ?
             </h1>
-            <p className="mt-6 text-lg leading-8 text-[#52606c] max-w-3xl mx-auto">
-              Chez <strong>MOMUY & TECH</strong>, nous n'établissons pas de devis au hasard. Chaque appareil fait l'objet d'un contrôle rigoureux avec du matériel professionnel pour identifier la cause exacte du problème avant d'engager des frais.
+            <p className="mt-4 text-base md:text-lg leading-relaxed text-[#f4efe7]/80 max-w-3xl mx-auto">
+              Chez <strong className="text-white">MOMUY & TECH</strong>, nous n'établissons pas de devis au hasard. Chaque appareil fait l'objet d'un contrôle rigoureux avec du matériel professionnel pour identifier la cause exacte du problème avant d'engager des frais.
             </p>
           </div>
         </section>
 
         {/* Les 4 étapes du diagnostic */}
-        <section className="py-16 bg-white">
+        <section className="py-12 md:py-16 bg-white">
           <div className="container mx-auto max-w-5xl px-4">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold tracking-wide uppercase text-[#102337]">
+            <div className="text-center max-w-2xl mx-auto mb-10">
+              <span className="inline-block rounded-full bg-[#d87532]/10 border border-[#d87532]/30 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#d87532] mb-3">
+                Méthodologie
+              </span>
+              <h2 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-[#09233a]">
                 Notre démarche en 4 étapes
               </h2>
             </div>
@@ -168,7 +171,7 @@ const Diagnostic = () => {
                 return (
                   <div
                     key={step.number}
-                    className="card-premium p-6 md:p-8 flex flex-col justify-between hover:border-[#d87532]/60 transition-colors"
+                    className="card-premium p-6 flex flex-col justify-between hover:border-[#d87532]/60 transition-colors"
                   >
                     <div>
                       <div className="flex items-center justify-between mb-4">
@@ -179,10 +182,10 @@ const Diagnostic = () => {
                           {step.number}
                         </span>
                       </div>
-                      <h3 className="text-xl font-bold text-[#102337] mb-3">
+                      <h3 className="text-lg font-bold text-[#09233a] mb-2 tracking-tight">
                         {step.title}
                       </h3>
-                      <p className="text-[#52606c] leading-relaxed">
+                      <p className="text-sm text-[#52606c] leading-relaxed">
                         {step.description}
                       </p>
                     </div>
@@ -194,64 +197,68 @@ const Diagnostic = () => {
         </section>
 
         {/* Rubrique : Les bons gestes & Idées reçues */}
-        <section className="py-16 bg-[#f7f1e8] border-t border-b border-[#e0d2c1]">
+        <section className="py-12 md:py-16 bg-[#f7f1e8] border-t border-b border-[#e0d2c1]">
           <div className="container mx-auto max-w-5xl px-4">
-            <div className="text-center max-w-3xl mx-auto mb-14">
-              <span className="inline-block rounded-full bg-[#d87532]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#d87532] mb-3">
+            <div className="text-center max-w-3xl mx-auto mb-10">
+              <span className="inline-block rounded-full bg-[#d87532]/10 border border-[#d87532]/30 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#d87532] mb-3">
                 Guide pratique & Prévention
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-wide text-[#102337] mb-4">
+              <h2 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-[#09233a] mb-3">
                 Les bons réflexes & Idées reçues
               </h2>
-              <p className="text-[#52606c] leading-relaxed">
+              <p className="text-sm md:text-base text-[#52606c] leading-relaxed">
                 Face à une panne ou un accident, certains réflexes intuitifs peuvent aggraver les dégâts. Voici ce qu'il faut vraiment faire.
               </p>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-6">
               {reflexes.map((item) => {
                 const Icon = item.icon;
                 return (
                   <article
                     key={item.title}
-                    className="card-premium p-6 md:p-9 bg-white shadow-sm"
+                    className="card-premium p-6 md:p-8 bg-white shadow-sm"
                   >
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#e0d2c1] pb-5 mb-5">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#e0d2c1] pb-4 mb-4">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full bg-[#f4efe7] flex items-center justify-center flex-shrink-0 text-[#09233a]">
+                        <div className="w-12 h-12 rounded-xl bg-[#09233a] flex items-center justify-center flex-shrink-0 text-white">
                           <Icon className="w-6 h-6 text-[#d87532]" />
                         </div>
                         <div>
-                          <span className="text-xs font-bold uppercase tracking-wider text-[#d87532]">
+                          <span className="text-xs font-bold uppercase tracking-wider text-[#d87532] block mb-1">
                             {item.badge}
                           </span>
-                          <h3 className="text-xl font-bold text-[#102337]">
+                          <h3 className="text-lg md:text-xl font-bold text-[#09233a]">
                             {item.title}
                           </h3>
                         </div>
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div className="rounded-xl bg-red-50/70 border border-red-200/60 p-5">
-                        <div className="flex items-center gap-2 font-bold text-red-900 mb-2">
-                          <AlertTriangle className="w-5 h-5 text-red-600 flex-shrink-0" />
-                          <span>L'idée reçue à éviter</span>
+                    <div className="grid md:grid-cols-2 gap-5">
+                      <div className="rounded-xl bg-red-50/80 border border-red-200/80 p-5 flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-center gap-2.5 font-bold text-red-900 mb-2 text-sm">
+                            <AlertTriangle className="w-4 h-4 text-red-600 flex-shrink-0" />
+                            <span>L'idée reçue à éviter</span>
+                          </div>
+                          <p className="italic text-sm text-red-950 font-medium mb-2">
+                            {item.myth}
+                          </p>
                         </div>
-                        <p className="italic text-sm text-red-950 font-medium mb-3">
-                          {item.myth}
-                        </p>
-                        <p className="text-xs leading-relaxed text-red-900/80">
+                        <p className="text-xs leading-relaxed text-red-900/85">
                           {item.reality}
                         </p>
                       </div>
 
-                      <div className="rounded-xl bg-green-50/70 border border-green-200/60 p-5">
-                        <div className="flex items-center gap-2 font-bold text-green-900 mb-2">
-                          <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
-                          <span>Le bon réflexe à avoir</span>
+                      <div className="rounded-xl bg-emerald-50/80 border border-emerald-200/80 p-5 flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-center gap-2.5 font-bold text-emerald-900 mb-2 text-sm">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                            <span>Le bon réflexe à adopter</span>
+                          </div>
                         </div>
-                        <p className="text-sm leading-relaxed text-green-950">
+                        <p className="text-xs md:text-sm leading-relaxed text-emerald-950 font-medium">
                           {item.goodReflex}
                         </p>
                       </div>
@@ -264,12 +271,12 @@ const Diagnostic = () => {
         </section>
 
         {/* Section de réassurance & engagement */}
-        <section className="py-16 bg-white">
+        <section className="py-12 md:py-16 bg-white">
           <div className="container mx-auto max-w-4xl px-4 text-center">
-            <div className="w-16 h-16 rounded-full bg-blue-50 text-[#09233a] flex items-center justify-center mx-auto mb-6">
-              <ShieldCheck className="w-8 h-8 text-[#d87532]" />
+            <div className="w-14 h-14 rounded-full bg-blue-50 text-[#09233a] flex items-center justify-center mx-auto mb-4">
+              <ShieldCheck className="w-7 h-7 text-[#d87532]" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-[#102337] mb-4 uppercase tracking-wide">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-[#09233a] mb-3 uppercase tracking-wide">
               Un doute sur votre appareil ?
             </h2>
             <p className="text-[#52606c] max-w-2xl mx-auto leading-relaxed mb-8">
