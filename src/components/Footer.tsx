@@ -18,6 +18,7 @@ const footerLinks = [
 ];
 
 const serviceLinks = [
+  { label: "Diagnostic", path: "/diagnostic" },
   { label: "Réparation smartphone", path: "/reparation-smartphone" },
   { label: "Réparation PC", path: "/reparation-pc" },
   { label: "Réparation console", path: "/reparation-console" },

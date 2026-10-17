@@ -5,6 +5,7 @@ import {
   ShieldCheck,
   Wrench,
   Leaf,
+  ArrowRight,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Link } from "react-router-dom";
@@ -198,13 +199,13 @@ const Index = () => {
             {[
               {
                 title: "Diagnostic",
-                path: "/tarifs",
+                path: "/diagnostic",
                 text: "Contrôle et recherche de panne",
               },
               {
                 title: "Électronique",
                 path: "/reparation-pc",
-                text: "Console de jeux, PC, montres, écouteurs",
+                text: "Console de jeux, PC, montres, ecouteurs",
               },
               {
                 title: "Smartphones",
@@ -214,38 +215,51 @@ const Index = () => {
               {
                 title: "Microsoudure",
                 path: "/micro-soudure-carte-electronique",
-                text: "Remplacement composant, reflow et interventions délicates",
+                text: "remplacement composant, reflow et interventions délicates",
               },
             ].map((item, index) => (
-              <Link
+              <div
                 key={item.title}
-                to={item.path}
-                className={`group flex flex-col items-center text-center px-6 transition-all duration-200 hover:-translate-y-1 ${index !== 0 ? "md:border-l md:border-[#d87532]/60" : ""
+                className={`flex flex-col items-center text-center px-6 ${index !== 0 ? "md:border-l md:border-[#d87532]/60" : ""
                   }`}
               >
-                <img
-                  src={
-                    item.title === "Diagnostic"
-                      ? diagnosticImg
-                      : item.title === "Électronique"
-                        ? electroniqueImg
-                        : item.title === "Smartphones"
-                          ? smartphonesImg
-                          : microsoudureImg
-                  }
-                  alt={`${item.title} - Service de réparation électronique à Momuy`}
-                  loading="lazy"
-                  decoding="async"
-                  width="128"
-                  height="128"
-                  className={`block w-32 h-32 mb-4 object-contain flex-shrink-0 transition-transform duration-200 group-hover:scale-110 ${item.title === "Électronique" ? "scale-150 group-hover:scale-[1.65]" : ""
-                    }`}
-                />
-                <h3 className="uppercase font-bold tracking-wide mb-2 group-hover:text-[#d87532] transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-sm leading-6 text-white/80">{item.text}</p>
-              </Link>
+                <Link
+                  to={item.path}
+                  aria-label={`Découvrir le service ${item.title}`}
+                  className="group flex w-full flex-col items-center rounded-2xl border border-white/20 bg-white/[0.04] px-4 py-5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] transition-all duration-300 hover:border-[#d87532] hover:bg-white/10 hover:shadow-[0_0_24px_rgba(216,117,50,0.4)] active:scale-[0.98] active:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d87532] md:border-transparent md:bg-transparent md:shadow-none"
+                >
+                  <img
+                    src={
+                      item.title === "Diagnostic"
+                        ? diagnosticImg
+                        : item.title === "Électronique"
+                          ? electroniqueImg
+                          : item.title === "Smartphones"
+                            ? smartphonesImg
+                            : microsoudureImg
+                    }
+                    alt={`${item.title} - Service de réparation électronique à Momuy`}
+                    loading="lazy"
+                    decoding="async"
+                    width="128"
+                    height="128"
+                    className={`block w-32 h-32 mb-4 object-contain flex-shrink-0 transition-transform duration-300 ${item.title === "Électronique"
+                      ? "scale-150 group-hover:scale-[1.65]"
+                      : "group-hover:scale-110"
+                      }`}
+                  />
+                  <h3 className="mb-2 uppercase font-bold tracking-wide transition-colors group-hover:text-[#d87532]">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm leading-6 text-white/80">
+                    {item.text}
+                  </p>
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.16em] text-[#f0a064] md:opacity-0 md:transition-opacity md:duration-300 md:group-hover:opacity-100">
+                    Voir le service
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+                  </span>
+                </Link>
+              </div>
             ))}
           </div>
         </section>

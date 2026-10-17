@@ -11,6 +11,7 @@ import CGV from "./pages/CGV";
 import MentionsLegales from "./pages/MentionsLegales";
 import NotFound from "./pages/NotFound";
 import ServicePage from "./pages/ServicePage";
+import Diagnostic from "./pages/Diagnostic";
 import ScrollToTop from "@/components/ScrollToTop";
 import CookieBanner from "@/components/CookieBanner";
 import { HelmetProvider } from "react-helmet-async";
@@ -45,6 +46,7 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/cgv" element={<CGV />} />
             <Route path="/mentions-legales" element={<MentionsLegales />} />
+            <Route path="/diagnostic" element={<Diagnostic />} />
             <Route path="/reparation-smartphone" element={<ServicePage serviceKey="smartphone" />} />
             <Route path="/reparation-pc" element={<ServicePage serviceKey="pc" />} />
             <Route path="/reparation-console" element={<ServicePage serviceKey="console" />} />
