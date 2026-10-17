@@ -51,65 +51,86 @@ const socialLinks = [
 const Footer = () => {
   return (
     <footer className="bg-[#09233a] text-white">
-      <div className="container mx-auto grid grid-cols-[1fr_auto] items-center gap-5 px-6 py-8 lg:grid-cols-[auto_1fr_auto] lg:gap-8">
+      <div className="container mx-auto px-6 py-8 flex flex-col gap-8">
 
-        {/* Logo */}
-        <Link
-          to="/"
-          className="flex items-center justify-start"
+        {/* Ligne 1 : Navigation des services (Haut) */}
+        <nav
+          aria-label="Services de réparation"
+          className="flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm font-semibold"
         >
-          <img
-            src={logoImg}
-            alt="Momuy & Tech"
-            loading="lazy"
-            decoding="async"
-            width="148"
-            height="32"
-            className="w-[96px] md:w-[120px] lg:w-[148px] h-auto object-contain"
-          />
-        </Link>
-
-        {/* Navigation */}
-        <nav aria-label="Navigation du pied de page" className="col-span-2 row-start-2 flex w-full flex-wrap items-center justify-center gap-4 text-sm font-bold uppercase lg:col-start-2 lg:col-span-1 lg:row-start-1 lg:w-auto lg:flex-1 lg:gap-6 xl:gap-8">
-          {footerLinks.map((link) => (
+          {serviceLinks.map((link) => (
             <Link
-              key={link.path + link.label}
+              key={link.path}
               to={link.path}
-              className="text-white/75 hover:text-[#d87532] transition-colors"
+              className="text-white/85 hover:text-[#d87532] transition-colors"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <nav aria-label="Services de réparation" className="col-span-2 row-start-3 mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 border-t border-white/10 pt-6 text-sm lg:col-span-3 lg:row-start-2">
-          {serviceLinks.map((link) => (
-            <Link key={link.path} to={link.path} className="text-white/70 hover:text-[#d87532] transition-colors">
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        {/* Ligne 2 : Logo à gauche + Liens institutionnels au centre + Réseaux sociaux à droite */}
+        <div className="border-t border-white/10 pt-6 flex flex-col lg:flex-row items-center justify-between gap-6">
 
-        {/* Réseaux — placeholders visibles, liens fictifs conservés */}
-        <div className="order-2 ml-auto flex items-center justify-end gap-2 lg:order-none lg:col-start-3 lg:row-start-1 lg:gap-3">
-          {socialLinks.map((social) => {
-            const Icon = social.icon;
+          {/* Logo */}
+          <Link
+            to="/"
+            className="flex items-center justify-center lg:justify-start flex-shrink-0"
+          >
+            <img
+              src={logoImg}
+              alt="Momuy & Tech"
+              loading="lazy"
+              decoding="async"
+              width="148"
+              height="32"
+              className="w-[96px] md:w-[120px] lg:w-[148px] h-auto object-contain"
+            />
+          </Link>
 
-            return (
-              <a
-                key={social.label}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.label}
-                title={social.url === "#" ? `${social.label} — compte à venir` : `Suivre MOMUY & TECH sur ${social.label}`}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all duration-300 hover:border-[#d87532] hover:text-[#d87532] md:h-11 md:w-11"
+          {/* Navigation institutionnelle */}
+          <nav
+            aria-label="Navigation institutionnelle"
+            className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs md:text-sm font-bold uppercase"
+          >
+            {footerLinks.map((link) => (
+              <Link
+                key={link.path + link.label}
+                to={link.path}
+                className="text-white/60 hover:text-[#d87532] transition-colors"
               >
-                <Icon className="h-5 w-5" />
-              </a>
-            );
-          })}
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Réseaux sociaux */}
+          <div className="flex items-center justify-center lg:justify-end gap-2 lg:gap-3 flex-shrink-0">
+            {socialLinks.map((social) => {
+              const Icon = social.icon;
+
+              return (
+                <a
+                  key={social.label}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  title={
+                    social.url === "#"
+                      ? `${social.label} — compte à venir`
+                      : `Suivre MOMUY & TECH sur ${social.label}`
+                  }
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all duration-300 hover:border-[#d87532] hover:text-[#d87532] md:h-11 md:w-11"
+                >
+                  <Icon className="h-5 w-5" />
+                </a>
+              );
+            })}
+          </div>
+
         </div>
+
       </div>
 
       {/* Bas footer */}
