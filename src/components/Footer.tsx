@@ -102,6 +102,13 @@ const Footer = () => {
                 {link.label}
               </Link>
             ))}
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event("open_cookie_banner"))}
+              className="text-white/60 hover:text-[#d87532] transition-colors uppercase font-bold text-xs md:text-sm"
+            >
+              Gérer mes cookies
+            </button>
           </nav>
 
           {/* Réseaux sociaux */}

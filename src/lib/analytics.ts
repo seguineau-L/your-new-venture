@@ -1,7 +1,7 @@
 declare global {
   interface Window {
-    dataLayer: any[];
-    gtag?: (...args: any[]) => void;
+    dataLayer: unknown[];
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -21,6 +21,9 @@ export const initGA = () => {
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = function () {
+    // Google Analytics exige l'objet `arguments` (et non un tableau) dans le dataLayer.
+    // Ne pas remplacer par des paramètres rest : les mesures ne seraient plus comptées.
+    // eslint-disable-next-line prefer-rest-params
     window.dataLayer.push(arguments);
   };
   window.gtag("js", new Date());
@@ -44,6 +47,20 @@ export const setCookieConsent = (accepted: boolean) => {
     accepted ? "accepted" : "declined"
   );
   if (accepted) {
+    // Réactiver au cas où il avait été désactivé
+    (window as unknown as Record<string, boolean>)[`ga-disable-${GA_MEASUREMENT_ID}`] = false;
     initGA();
+  } else {
+    // Désactiver Google Analytics
+    (window as unknown as Record<string, boolean>)[`ga-disable-${GA_MEASUREMENT_ID}`] = true;
+    // Supprimer les cookies Google Analytics existants
+    document.cookie.split(";").forEach((cookie) => {
+      const name = cookie.split("=")[0].trim();
+      if (name === "_ga" || name.startsWith("_ga_") || name === "_gid") {
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${window.location.hostname}`;
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+      }
+    });
   }
+  window.dispatchEvent(new Event("cookie_consent_updated"));
 };

@@ -6,6 +6,7 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { supabase } from "@/lib/supabase";
 import facade from "@/assets/facade.jpg"; // remplace si ton fichier a un autre nom
 import { Helmet } from "react-helmet-async";
+import { hasCookieConsent, setCookieConsent } from "@/lib/analytics";
 
 type OpeningHour = {
   id: number;
@@ -27,6 +28,13 @@ const Contact = () => {
   const [facadeImageUrl, setFacadeImageUrl] = useState(facade);
   const [phone, setPhone] = useState("09 61 08 13 02");
   const [address, setAddress] = useState("121 route d'orthez, 40700 Momuy, Landes");
+  const [hasConsent, setHasConsent] = useState<boolean>(() => hasCookieConsent() === true);
+
+  useEffect(() => {
+    const checkConsent = () => setHasConsent(hasCookieConsent() === true);
+    window.addEventListener("cookie_consent_updated", checkConsent);
+    return () => window.removeEventListener("cookie_consent_updated", checkConsent);
+  }, []);
 
   useEffect(() => {
     const fetchOpeningHours = async () => {
@@ -239,31 +247,57 @@ const Contact = () => {
                 id="map"
                 className="card-premium overflow-hidden"
               >
+                {hasConsent ? (
+                  <a
+                    href={MAPS_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block relative"
+                    aria-label="Ouvrir la localisation dans Maps"
+                  >
+                    <iframe
+                      title="Carte du magasin"
+                      src="https://www.google.com/maps?q=121+route+d%27orthez+40700+momuy&z=16&output=embed"
+                      className="w-full h-[360px] md:h-[440px] border-0 rounded-xl"
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
 
-                <a
-                  href={MAPS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block relative"
-                  aria-label="Ouvrir la localisation dans Maps"
-                >
-                  <iframe
-                    title="Carte du magasin"
-                    src="https://www.google.com/maps?q=121+route+d%27orthez+40700+momuy&z=16&output=embed"
-                    className="w-full h-[360px] md:h-[440px] border-0 rounded-xl"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
+                    <div className="absolute inset-0 bg-transparent" />
 
-                  <div className="absolute inset-0 bg-transparent" />
-
-                  <div className="absolute bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-auto">
-                    <div className="inline-flex items-center gap-2 rounded-xl bg-background/90 backdrop-blur px-4 py-3 text-sm font-semibold shadow-premium">
-                      <MapPin className="w-4 h-4 text-accent" />
-                      Ouvrir dans Maps / Démarrer l’itinéraire
+                    <div className="absolute bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-auto">
+                      <div className="inline-flex items-center gap-2 rounded-xl bg-background/90 backdrop-blur px-4 py-3 text-sm font-semibold shadow-premium">
+                        <MapPin className="w-4 h-4 text-accent" />
+                        Ouvrir dans Maps / Démarrer l’itinéraire
+                      </div>
+                    </div>
+                  </a>
+                ) : (
+                  <div className="w-full min-h-[320px] md:min-h-[380px] bg-secondary/30 flex flex-col items-center justify-center p-8 text-center">
+                    <MapPin className="w-10 h-10 text-accent mb-3" />
+                    <h3 className="font-bold text-[#102337] text-base mb-1">Carte interactive Google Maps</h3>
+                    <p className="text-sm text-[#52606c] max-w-md mb-6">
+                      Pour afficher la carte interactive sur le site, veuillez autoriser les cookies de services tiers.
+                    </p>
+                    <div className="flex flex-wrap gap-3 justify-center">
+                      <button
+                        type="button"
+                        onClick={() => setCookieConsent(true)}
+                        className="rounded-xl bg-[#d87532] text-white px-5 py-2.5 text-sm font-semibold hover:bg-[#c26526] transition-colors"
+                      >
+                        Accepter et afficher la carte
+                      </button>
+                      <a
+                        href={MAPS_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded-xl border border-border bg-white px-5 py-2.5 text-sm font-semibold text-[#102337] hover:border-accent hover:text-accent transition-colors"
+                      >
+                        Ouvrir dans Google Maps
+                      </a>
                     </div>
                   </div>
-                </a>
+                )}
               </div>
             </div>
           </div>

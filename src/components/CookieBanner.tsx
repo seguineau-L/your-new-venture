@@ -4,16 +4,16 @@ import { Cookie, ShieldCheck } from "lucide-react";
 import { initGA, setCookieConsent, hasCookieConsent } from "@/lib/analytics";
 
 const CookieBanner = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(() => hasCookieConsent() === null);
 
   useEffect(() => {
     const consent = hasCookieConsent();
     if (consent === true) {
       initGA();
-    } else if (consent === null) {
-      // Aucun choix enregistré, on affiche le bandeau
-      setIsVisible(true);
     }
+    const handleOpen = () => setIsVisible(true);
+    window.addEventListener("open_cookie_banner", handleOpen);
+    return () => window.removeEventListener("open_cookie_banner", handleOpen);
   }, []);
 
   const handleAccept = () => {
@@ -50,7 +50,7 @@ const CookieBanner = () => {
       </div>
 
       <p id="cookie-desc" className="text-xs md:text-sm text-white/85 leading-relaxed mb-4">
-        Nous utilisons des cookies de mesure d'audience pour améliorer le site et analyser son utilisation. Vous pouvez accepter ou refuser ces traceurs à tout moment.{" "}
+        Nous utilisons des cookies pour la mesure d'audience et l'affichage des services interactifs (comme la carte Google Maps). Vous pouvez accepter ou refuser ces traceurs à tout moment.{" "}
         <Link
           to="/mentions-legales"
           className="text-[#d87532] underline hover:text-[#e88c4d] font-medium transition-colors"
