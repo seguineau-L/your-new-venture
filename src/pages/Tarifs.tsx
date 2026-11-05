@@ -26,17 +26,151 @@ type ModelPricing = {
   }[];
 };
 
-const PRICING_CACHE_KEY = "pricing_cache_v1";
+const PRICING_CACHE_KEY = "pricing_cache_v5";
 const PRICING_CACHE_DURATION = 1000 * 60 * 10; // 10 minutes
 const PRICE_PLACEHOLDER = "Tarif à venir";
 
-const normalizePricingRows = (rows: PricingRow[]) =>
-  rows.map((row) => ({ ...row, price: PRICE_PLACEHOLDER }));
+const EXCLUDED_CATEGORIES = new Set(["PROTECTION", "MICRO-SOUDURE", "DIAGNOSTIC"]);
+
+const normalizePricingRows = (rows: PricingRow[]): PricingRow[] => {
+  const seen = new Map<string, PricingRow>();
+  for (const row of rows) {
+    let category = row.category;
+    let brand = row.brand;
+    let generation = row.generation;
+    let model = row.model;
+    let repairType = row.repair_type;
+    let section = row.section;
+
+    if (category === "ORDINATEUR PORTABLE") {
+      category = "PC";
+    }
+
+    if (EXCLUDED_CATEGORIES.has(category)) {
+      continue;
+    }
+
+    // Exclusion des prestations non proposées pour le moment
+    if (
+      section === "Récupération de données" ||
+      repairType?.toLowerCase().includes("récupération de données") ||
+      repairType?.toLowerCase().includes("effacement de données") ||
+      repairType?.toLowerCase().includes("joystick")
+    ) {
+      continue;
+    }
+
+    // Exclusion des modèles génériques PC non souhaités
+    if (category === "PC") {
+      const upperModel = model?.toUpperCase() || "";
+      if (
+        upperModel.includes("PC PORTABLE (TOUTES MARQUES)") ||
+        upperModel.includes("PC PORTABLE & CARTE GRAPHIQUE")
+      ) {
+        continue;
+      }
+      if (brand === "TOUTES MARQUES" || brand === "AUTRE") {
+        brand = "ENTRETIEN";
+      }
+    }
+
+    if (category === "CONSOLE" && (brand === "AUTRE" || brand === "RÉTRO" || brand === "RETRO")) {
+      brand = "RÉTRO";
+      if (!generation || generation === "Consoles" || generation === "Sans génération") {
+        generation = "Game Boy";
+      }
+    }
+
+    if (category === "TELEPHONE" && brand === "APPLE") {
+      if (generation === "Autres iPhone" || model?.toUpperCase().includes("IPHONE 17")) {
+        generation = "iPhone 17";
+      }
+    }
+
+    if (category === "CONSOLE" && brand === "NINTENDO") {
+      if (repairType === "USB-C soudé") {
+        repairType = "Connecteur USB-C soudé";
+      }
+      if (model === "NINTENDO SWITCH / OLED" || model?.includes("OLED")) {
+        model = "NINTENDO SWITCH OLED";
+      } else if (model?.includes("V1") || model?.includes("V2") || model === "NINTENDO SWITCH") {
+        model = "NINTENDO SWITCH V1/V2";
+      }
+    }
+
+    const key = `${category}||${brand}||${generation ?? ""}||${model}||${repairType}`;
+    const cleanedPrice =
+      row.price && row.price.trim().length > 0 ? row.price.trim() : PRICE_PLACEHOLDER;
+    const item = { ...row, category, brand, generation, model, repair_type: repairType, section, price: cleanedPrice };
+
+    if (!seen.has(key)) {
+      seen.set(key, item);
+    } else {
+      const existing = seen.get(key)!;
+      if (existing.price === PRICE_PLACEHOLDER && cleanedPrice !== PRICE_PLACEHOLDER) {
+        seen.set(key, item);
+      }
+    }
+  }
+
+  // Symétrie des prestations pour les deux déclinaisons Nintendo Switch
+  const switchModels = ["NINTENDO SWITCH V1/V2", "NINTENDO SWITCH OLED"];
+  const switchPrestations = [
+    { repair_type: "Écran", section: "Interventions classiques", defaultPrice: "Tarif à venir" },
+    { repair_type: "Vitre tactile seule", section: "Interventions classiques", defaultPrice: "Tarif à venir" },
+    { repair_type: "Batterie", section: "Interventions classiques", defaultPrice: "79 €" },
+    { repair_type: "Connecteur USB-C soudé", section: "Interventions sur carte mère", defaultPrice: "109 €" },
+  ];
+
+  for (const m of switchModels) {
+    for (const p of switchPrestations) {
+      const key = `CONSOLE||NINTENDO||Nintendo Switch||${m}||${p.repair_type}`;
+      if (!seen.has(key)) {
+        seen.set(key, {
+          id: `nintendo-${m}-${p.repair_type}`,
+          category: "CONSOLE",
+          brand: "NINTENDO",
+          generation: "Nintendo Switch",
+          model: m,
+          repair_type: p.repair_type,
+          price: p.defaultPrice,
+          section: p.section,
+        });
+      }
+    }
+  }
+
+  // Prestations Joysticks pour la catégorie MANETTES (uniquement ces 3 lignes dans cet ordre)
+  const joystickPrestations = [
+    { repair_type: "Remplacement 1 Joystick standard", price: "25 €" },
+    { repair_type: "Remplacement Paire Joystick standard", price: "39 €" },
+    { repair_type: "Remplacement Paire Joystick TMR (Haut de gamme)", price: "49 €" },
+  ];
+
+  for (let i = 0; i < joystickPrestations.length; i++) {
+    const j = joystickPrestations[i];
+    const key = `MANETTES||TOUTES MARQUES||Manettes||MANETTE PLAYSTATION 5 / XBOX SERIES||${j.repair_type}`;
+    seen.set(key, {
+      id: `manettes-${i}`,
+      category: "MANETTES",
+      brand: "TOUTES MARQUES",
+      generation: "Manettes",
+      model: "MANETTE PLAYSTATION 5 / XBOX SERIES",
+      repair_type: j.repair_type,
+      price: j.price,
+      section: "Interventions classiques",
+    });
+  }
+
+  return Array.from(seen.values());
+};
 
 const SECTION_ORDER = [
   "Interventions classiques",
   "Interventions sur carte mère",
-  "Récupération de données",
+  "Entretien & Thermique",
+  "Diagnostic & Recherche de panne",
+  "Accessoires & Protections",
   "Autres",
 ];
 
@@ -86,6 +220,7 @@ const Tarifs = () => {
       const { data, error } = await supabase
         .from("pricing")
         .select("*")
+        .range(0, 4999)
         .order("category", { ascending: true })
         .order("brand", { ascending: true })
         .order("generation", { ascending: true })
@@ -123,23 +258,60 @@ const Tarifs = () => {
     const ORDER = [
       "TELEPHONE",
       "TABLETTE",
-      "ORDINATEUR PORTABLE",
+      "PC",
       "CONSOLE",
+      "MANETTES",
+      "MONTRE",
+      "ECOUTEURS",
     ];
 
-    return cats.sort(
-      (a, b) => ORDER.indexOf(a) - ORDER.indexOf(b)
-    );
-    // 🔥 PRIORITÉ TELEPHONE
     return cats.sort((a, b) => {
-      if (a === "TELEPHONE") return -1;
-      if (b === "TELEPHONE") return 1;
+      const indexA = ORDER.indexOf(a);
+      const indexB = ORDER.indexOf(b);
+      if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+      if (indexA !== -1) return -1;
+      if (indexB !== -1) return 1;
       return a.localeCompare(b);
     });
   }, [pricingRows]);
 
   const brands = useMemo(() => {
     if (!selectedCategory) return [];
+
+    if (selectedCategory === "TELEPHONE") {
+      return ["APPLE", "SAMSUNG", "AUTRE MARQUE"];
+    }
+
+    if (selectedCategory === "TABLETTE") {
+      return ["TOUTES MARQUES"];
+    }
+
+    if (selectedCategory === "PC") {
+      return ["ENTRETIEN", "AUTRE RÉPARATION"];
+    }
+
+    if (selectedCategory === "MANETTES") {
+      return ["TOUTES MARQUES"];
+    }
+
+    if (selectedCategory === "CONSOLE") {
+      const CONSOLE_ORDER = ["NINTENDO", "SONY", "MICROSOFT", "RÉTRO"];
+      const currentBrands = Array.from(
+        new Set(
+          pricingRows
+            .filter((row) => row.category === selectedCategory)
+            .map((row) => row.brand)
+        )
+      );
+      return currentBrands.sort((a, b) => {
+        const idxA = CONSOLE_ORDER.indexOf(a);
+        const idxB = CONSOLE_ORDER.indexOf(b);
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+        if (idxA !== -1) return -1;
+        if (idxB !== -1) return 1;
+        return a.localeCompare(b);
+      });
+    }
 
     return Array.from(
       new Set(
@@ -177,8 +349,13 @@ const Tarifs = () => {
     });
   }, [pricingRows, selectedCategory, selectedBrand]);
 
+  const isDirectModelCategory =
+    (selectedCategory === "PC" && selectedBrand === "ENTRETIEN") ||
+    selectedCategory === "MANETTES";
+
   const models: ModelPricing[] = useMemo(() => {
-    if (!selectedCategory || !selectedBrand || !selectedGeneration) return [];
+    if (!selectedCategory || !selectedBrand) return [];
+    if (!isDirectModelCategory && !selectedGeneration) return [];
 
     const modelNames = Array.from(
       new Set(
@@ -187,7 +364,7 @@ const Tarifs = () => {
             (row) =>
               row.category === selectedCategory &&
               row.brand === selectedBrand &&
-              row.generation === selectedGeneration
+              (isDirectModelCategory || row.generation === selectedGeneration)
           )
           .map((row) => row.model)
       )
@@ -198,7 +375,7 @@ const Tarifs = () => {
         (row) =>
           row.category === selectedCategory &&
           row.brand === selectedBrand &&
-          row.generation === selectedGeneration &&
+          (isDirectModelCategory || row.generation === selectedGeneration) &&
           row.model === modelName
       );
 
@@ -230,7 +407,7 @@ const Tarifs = () => {
         ),
       };
     });
-  }, [pricingRows, selectedCategory, selectedBrand, selectedGeneration]);
+  }, [pricingRows, selectedCategory, selectedBrand, selectedGeneration, isDirectModelCategory]);
 
   const currentModel = useMemo(() => {
     if (!selectedModel) return null;
@@ -252,20 +429,23 @@ const Tarifs = () => {
 
 
   const isQuoteOnly =
-    (selectedCategory === "ORDINATEUR PORTABLE" &&
-      (selectedBrand === "APPLE" || selectedBrand === "AUTRE")) ||
-    (selectedCategory === "TABLETTE" &&
-      (selectedBrand === "APPLE" || selectedBrand === "AUTRE"));
+    (selectedCategory === "TELEPHONE" && selectedBrand === "AUTRE MARQUE") ||
+    (selectedCategory === "TABLETTE" && selectedBrand === "TOUTES MARQUES") ||
+    (selectedCategory === "PC" && selectedBrand === "AUTRE RÉPARATION");
 
   const quoteTitle =
-    selectedCategory === "TABLETTE"
-      ? "Réparation de tablette"
-      : "Réparation d'ordinateur portable";
+    selectedCategory === "TELEPHONE"
+      ? "Prix disponible en magasin"
+      : selectedCategory === "TABLETTE"
+      ? "Prix disponible en magasin"
+      : "Réparation PC & Mac sur devis";
 
   const quoteText =
-    selectedCategory === "TABLETTE"
-      ? "Nous réparons les iPad ainsi que les tablettes Android dans notre atelier."
-      : "Nous réparons les MacBook ainsi que les ordinateurs portables Windows dans notre atelier.";
+    selectedCategory === "TELEPHONE"
+      ? "Nous réparons de nombreuses autres marques de smartphones (Xiaomi, Google Pixel, Huawei, Honor, Oppo, Motorola, etc.) dans notre atelier. Retrouvez nos tarifs et devis personnalisés directement en boutique."
+      : selectedCategory === "TABLETTE"
+      ? "Nous réparons les iPad ainsi que toutes les marques de tablettes Android (Samsung, Lenovo, Xiaomi, Huawei...) dans notre atelier. Retrouvez nos tarifs et devis personnalisés directement en boutique."
+      : "Pour toute réparation matérielle (écran cassé, batterie, connecteur, clavier, carte mère ou réinstallation système), nous établissons un devis personnalisé directement en boutique.";
 
 
   const handleGenerationChange = (generation: string) => {
@@ -364,18 +544,14 @@ const Tarifs = () => {
                         active={selectedBrand === brand}
                         onClick={() => handleBrandChange(brand)}
                       >
-                        {brand === "AUTRE"
-                          ? selectedCategory === "TABLETTE"
-                            ? "ANDROID"
-                            : "WINDOWS"
-                          : brand}
+                        {brand}
                       </FilterButton>
                     ))}
                   </div>
                 </div>
               )}
 
-              {selectedCategory && selectedBrand && !isQuoteOnly && (
+              {selectedCategory && selectedBrand && !isQuoteOnly && !isDirectModelCategory && (
                 <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
                   <h2 className="text-lg font-bold mb-4 font-heading uppercase">
                     Modèle
@@ -394,7 +570,7 @@ const Tarifs = () => {
                 </div>
               )}
 
-              {selectedCategory && selectedBrand && selectedGeneration && (
+              {selectedCategory && selectedBrand && !isQuoteOnly && (isDirectModelCategory || selectedGeneration) && (
                 <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
                   <h2 className="text-lg font-bold mb-4 font-heading uppercase">
                     Déclinaison
@@ -450,75 +626,50 @@ const Tarifs = () => {
               ) : selectedModel && pricingLoading && pricingRows.length === 0 ? (
                 <CircuitLoader />
               ) : currentModel ? (
-                <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm">
+                <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm p-5 md:p-8 animate-in fade-in slide-in-from-right-2 duration-300">
                   <div className="space-y-5">
                     {currentModel.sections.map((section) => (
                       <div
                         key={section.title}
-                        className="rounded-xl bg-white/60 p-4 border border-border/20"
+                        className="rounded-xl bg-white/60 p-4 border border-[#d8c8b5]/50"
                       >
-                        <div className="flex justify-between items-center mb-3 pb-1 border-b border-accent/10">
+                        <div className="flex justify-between items-center mb-3 pb-1 border-b border-[#d8c8b5]/40">
                           <h3 className="text-[#d87532] font-bold text-sm tracking-wide uppercase">
                             {section.title}
                           </h3>
-                          <span className="text-gradient font-bold text-sm">
+                          <span className="font-bold text-sm text-[#102337]">
                             Tarif
                           </span>
                         </div>
 
                         <div className="space-y-0">
-                          {section.items.map((item) => (
-                            <div
-                              key={item.label}
-                              className="flex justify-between items-center py-1.5 border-b border-border/20 last:border-0 hover:bg-accent/10 px-2 -mx-2 rounded-lg transition-colors duration-200"
-                            >
-                              <span className="text-sm">{item.label}</span>
-                              <span className="text-sm font-semibold text-right ml-4 min-w-[70px]">
-                                {item.price}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) : currentModel ? (
-                <div className="card-premium p-7 md:p-10 border-peach/20 animate-in fade-in slide-in-from-right-2 duration-300">
-                  <div className="space-y-5">
-                    {currentModel.sections.map((section) => (
-                      <div
-                        key={section.title}
-                        className="rounded-xl bg-card/40 p-4 border border-border/20"
-                      >
-                        <div className="flex justify-between items-center mb-3 pb-1 border-b border-accent/10">
-                          <h3 className="text-gradient font-bold text-sm tracking-wide uppercase">
-                            {section.title}
-                          </h3>
-                          <span className="text-gradient font-bold text-sm">
-                            Tarif
-                          </span>
-                        </div>
-
-                        <div className="space-y-0">
-                          {section.items.map((item) => (
-                            <div
-                              key={item.label}
-                              className="flex justify-between items-center py-1.5 border-b border-border/20 last:border-0 hover:bg-accent/10 px-2 -mx-2 rounded-lg transition-colors duration-200"
-                            >
-                              <span className="text-sm">{item.label}</span>
-                              <span className="text-sm font-semibold text-right ml-4 min-w-[70px]">
-                                {item.price}
-                              </span>
-                            </div>
-                          ))}
+                          {section.items.map((item) => {
+                            const isPlaceholder = item.price.toLowerCase().includes("tarif à venir");
+                            return (
+                              <div
+                                key={item.label}
+                                className="flex justify-between items-center py-2 border-b border-[#d8c8b5]/30 last:border-0 hover:bg-white/80 px-2 -mx-2 rounded-lg transition-colors duration-200"
+                              >
+                                <span className="text-sm text-[#102337] font-medium">{item.label}</span>
+                                <span
+                                  className={`text-sm text-right ml-4 min-w-[70px] ${
+                                    isPlaceholder
+                                      ? "font-normal text-[#7a6b5d] italic"
+                                      : "font-bold text-[#d87532]"
+                                  }`}
+                                >
+                                  {item.price}
+                                </span>
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
               ) : (
-                <div className="card-premium p-7 md:p-10 border-peach/20 min-h-[420px] flex items-center justify-center">
+                <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] p-7 md:p-10 min-h-[420px] flex items-center justify-center">
                   <p className="text-sm text-[#52606c] text-center max-w-sm">
                     Sélectionnez un appareil, puis une marque, un modèle et une déclinaison pour afficher les tarifs correspondants.
                   </p>

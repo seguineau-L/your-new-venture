@@ -29,16 +29,14 @@ const DEFAULT_REPAIRS = [
 
     { repair_type: "Toutes pannes carte mère", price: "Tarif à venir", section: "Interventions sur carte mère" },
     { repair_type: "Lecteur SIM", price: "Tarif à venir", section: "Interventions sur carte mère" },
-
-    { repair_type: "Récupération de données - Carte mère HS", price: "Tarif à venir", section: "Récupération de données" },
-
-    { repair_type: "Effacement de données certifié", price: "Tarif à venir", section: "Autres" },
 ];
 
 const SECTIONS = [
     "Interventions classiques",
     "Interventions sur carte mère",
-    "Récupération de données",
+    "Entretien & Thermique",
+    "Diagnostic & Recherche de panne",
+    "Accessoires & Protections",
     "Autres",
 ];
 
@@ -119,6 +117,7 @@ const AdminPricing = () => {
         const { data, error } = await supabase
             .from("pricing")
             .select("*")
+            .range(0, 4999)
             .order("category", { ascending: true })
             .order("brand", { ascending: true })
             .order("generation", { ascending: true })
@@ -133,7 +132,7 @@ const AdminPricing = () => {
 
         const pricingRows = (data ?? []).map((row) => ({
             ...(row as PricingRow),
-            price: "Tarif à venir",
+            price: row.price && row.price.trim().length > 0 ? row.price.trim() : "Tarif à venir",
         }));
         setRows(pricingRows);
 
