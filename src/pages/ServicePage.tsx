@@ -204,55 +204,64 @@ const services = {
     failuresNote: "Cette liste est non exhaustive. Contactez-nous pour toute autre panne sur votre console !",
   },
   microsoudure: {
-    title: "Micro-soudure & Réparation de cartes électroniques | MOMUY & TECH",
+    title: "Micro-soudure, Cartes électroniques & Réparation GPU | MOMUY & TECH",
     description:
-      "Interventions de micro-soudure de précision sous microscope à Momuy : connecteurs arrachés, puces CMS, cartes mères smartphones, PC, consoles et cartes diverses.",
-    heading: "Micro-soudure & Réparation de cartes électroniques",
-    subheading: "Interventions de précision sous microscope au niveau des composants, connecteurs et circuits imprimés à Momuy.",
+      "Micro-soudure de précision sous microscope à Momuy (Landes) : réparation de cartes mères smartphones, PC, consoles, et expertise sur cartes graphiques (GPU Gaming & Serveurs IA).",
+    heading: "Micro-soudure, Cartes électroniques & Réparation GPU",
+    subheading: "Interventions de haute précision sous microscope : composants CMS, cartes mères, circuits imprimés et réparation de cartes graphiques (GPU Gaming & Serveurs IA) à Momuy.",
     intro:
-      "Lorsque le simple remplacement d'une pièce ne suffit pas ou qu'un composant est directement soudé sur la carte mère, la micro-soudure permet de sauver votre appareil. À l'atelier MOMUY & TECH, Kilian réalise ces interventions minutieuses avec du matériel professionnel de haute précision.",
+      "Lorsque le simple remplacement d'une pièce ne suffit pas ou qu'un composant est directement soudé sur le circuit imprimé, la micro-soudure permet de sauver votre équipement à moindre coût. À l'atelier MOMUY & TECH, Kilian réalise ces interventions minutieuses sous microscope optique et caméra thermique : cartes mères de smartphones, PC, consoles et cartes graphiques haute puissance (gaming, calcul 3D et serveurs IA).",
     devices: [
+      {
+        category: "Cartes Graphiques (Gaming, Workstations & Serveurs IA)",
+        icon: Cpu,
+        items: "Cartes graphiques haut de gamme (Nvidia GeForce RTX 3000 / 4000, AMD Radeon, GPU pour serveurs IA et calcul intensif) : pannes d'alimentation (lignes 12V / VCORE / VRAM), remplacement de DrMOS et MOSFETs en court-circuit, contrôleurs PWM, puces mémoire VRAM défaillantes, connecteurs 12VHPWR / PCIe brûlés ou arrachés.",
+      },
       {
         category: "Smartphones & Tablettes",
         icon: Smartphone,
-        items: "Cartes mères iPhone, iPad et Android : connecteurs internes arrachés (batterie, écran), puces de charge, problème d'affichage/rétroéclairage, courts-circuits.",
+        items: "Cartes mères iPhone (y compris cartes mères sandwich double-étage), iPad et Android : connecteurs internes arrachés (FPC batterie, écran), puces de charge (Tristar/Hydra), rétro-éclairage, pannes d'allumage et courts-circuits.",
+      },
+      {
+        category: "PC Portables & Stations fixes",
+        icon: Laptop,
+        items: "Cartes mères d'ordinateurs portables et fixes : connecteurs d'alimentation DC-Jack et USB-C soudés, étages de régulation de tension, puces de charge, BIOS corrompus, composants CMS brûlés.",
       },
       {
         category: "Consoles de jeux",
         icon: Gamepad2,
-        items: "Cartes mères (PS4, PS5, Xbox, Nintendo Switch) : ports HDMI dessoudés, puces d'affichage, connecteurs USB-C.",
-      },
-      {
-        category: "PC portables & fixes",
-        icon: Laptop,
-        items: "Connecteurs d'alimentation DC-Jack soudés, puces de régulation de tension, composants CMS brûlés.",
+        items: "Cartes mères PlayStation (PS4, PS5), Xbox et Nintendo Switch (V1/V2, OLED, Lite) : ports HDMI dessoudés, puces de gestion vidéo (retimer/panasonic), connecteurs USB-C de charge.",
       },
       {
         category: "Cartes électroniques diverses (démontées)",
-        icon: Cpu,
-        items: "Cartes d'électroménager, automatismes, outillage ou petits équipements électroniques (nous contacter ou passer à l'atelier de préférence).",
+        icon: Wrench,
+        items: "Cartes électroniques d'électroménager, automatismes, domotique, outillage industriel ou équipements spécifiques (apportées démontées à l'atelier).",
       },
     ],
     commonFailures: [
       {
-        title: "Remplacement de connecteurs",
-        text: "Ports HDMI, ports USB-C de charge, connecteurs internes de batterie ou d'écran arrachés.",
+        title: "Court-circuit d'alimentation GPU & Cartes mères",
+        text: "Diagnostic par injection de tension et caméra thermique pour localiser et remplacer les condensateurs CMS, DrMOS ou MOSFETs en court-circuit qui empêchent la carte ou le PC de démarrer.",
       },
       {
-        title: "Composants CMS & Puces (CI)",
-        text: "Remplacement de condensateurs en court-circuit, résistances, diodes, puces de gestion d'énergie.",
+        title: "Pannes de mémoire VRAM & Artefacts vidéo",
+        text: "Remplacement de puces mémoire vidéo défectueuses (GDDR6 / GDDR6X) pour éliminer les bugs graphiques (artefacts, lignes de couleur, écran noir sous charge, crashs en jeu ou lors d'entraînements IA).",
       },
       {
-        title: "Reconstruction de pistes & pastilles coupées",
-        text: "Réfection de liaisons arrachées par un choc ou une mauvaise manipulation à l'aide de micro-fils de cuivre (jumpers).",
+        title: "Remplacement de connecteurs soudés",
+        text: "Ports HDMI (consoles/GPU), ports USB-C d'alimentation, prises 12VHPWR et connecteurs FPC internes de batteries ou d'écrans arrachés.",
       },
       {
-        title: "Désoxydation & Réparation après liquide",
-        text: "Nettoyage en cuve à ultrasons, retrait des traces de corrosion et reconstruction des soudures fragilisées.",
+        title: "Composants CMS & Puces de gestion (CI / PWM)",
+        text: "Remplacement précis sous microscope de contrôleurs de charge, puces d'alimentation, diodes de protection et circuits intégrés endommagés.",
       },
       {
-        title: "Recherche de court-circuit électrique",
-        text: "Localisation thermique et électrique du composant défaillant qui bloque l'allumage.",
+        title: "Reconstruction de pistes & pastilles arrachées",
+        text: "Réfection microscopique de pistes de cuivre et de pastilles de soudure arrachées par un choc mécanique ou une surchauffe, à l'aide de micro-fils (jumpers) et de vernis UV isolant.",
+      },
+      {
+        title: "Désoxydation & Traitement après liquide",
+        text: "Nettoyage approfondi en cuve à ultrasons, désoxydation chimique et reconstruction des soudures fragilisées par l'humidité ou des éclaboussures.",
       },
     ],
     failuresNote: "Chaque carte électronique étant unique, nous réalisons systématiquement une étude préalable pour vous confirmer la faisabilité technique.",

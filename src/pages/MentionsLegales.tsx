@@ -46,6 +46,18 @@ const sections: Section[] = [
       "Conformément aux recommandations de la CNIL, ces traceurs ne sont activés qu'après votre accord explicite via notre bandeau de consentement. Vous pouvez refuser ou modifier votre choix à tout moment.",
     ],
   },
+  {
+    title: "6. Médiation de la consommation & Règlement des litiges",
+    paragraphs: [
+      "Conformément aux articles L.616-1 et R.616-1 du Code de la consommation, MOMUY & TECH garantit au consommateur le droit de recourir gratuitement à un médiateur de la consommation en vue de la résolution amiable d'un litige.",
+      "Médiateur désigné : CM2C (Centre de la Médiation de la Consommation de Conciliateurs de Justice).",
+      "Coordonnées et modalités de saisine :",
+      "— Par voie électronique : https://www.cm2c.net (formulaire de saisine en ligne)",
+      "— Par e-mail : cm2c@cm2c.net",
+      "— Par voie postale : CM2C, 49 Rue de Ponthieu, 75008 Paris.",
+      "Plateforme européenne de règlement en ligne des litiges : https://ec.europa.eu/consumers/odr.",
+    ],
+  },
 ];
 
 const MentionsLegales = () => {
