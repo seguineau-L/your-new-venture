@@ -55,7 +55,6 @@ const sections: Section[] = [
       "— Par voie électronique : https://www.cm2c.net (formulaire de saisine en ligne)",
       "— Par e-mail : cm2c@cm2c.net",
       "— Par voie postale : CM2C, 49 Rue de Ponthieu, 75008 Paris.",
-      "Plateforme européenne de règlement en ligne des litiges : https://ec.europa.eu/consumers/odr.",
     ],
   },
 ];

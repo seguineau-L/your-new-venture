@@ -74,7 +74,6 @@ const sections: Section[] = [
       "Médiation de la consommation : Conformément aux articles L.616-1 et R.616-1 du Code de la consommation, en cas d'échec de la demande de réclamation préalable auprès de notre atelier ou en l'absence de réponse dans un délai d'un (1) mois, le client consommateur a le droit de recourir gratuitement au service de médiation de la consommation auquel nous adhérons.",
       "Coordonnées du médiateur compétent : CM2C (Centre de la Médiation de la Consommation de Conciliateurs de Justice) — 49 Rue de Ponthieu, 75008 Paris.",
       "Modalités de saisine du médiateur : La saisine peut être effectuée soit en ligne sur le site internet www.cm2c.net via le formulaire dédié, soit par e-mail à cm2c@cm2c.net, soit par courrier postal : CM2C, 49 Rue de Ponthieu, 75008 Paris. La saisine doit intervenir dans un délai maximal d'un an à compter de la réclamation préalable adressée à MOMUY & TECH.",
-      "Règlement en ligne des litiges (RLL) : Conformément à l'article 14 du Règlement (UE) n°524/2013, la Commission européenne met à disposition une plateforme de règlement en ligne des litiges accessible à l'adresse suivante : https://ec.europa.eu/consumers/odr.",
     ],
   },
 ];
