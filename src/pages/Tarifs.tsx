@@ -437,15 +437,15 @@ const Tarifs = () => {
     selectedCategory === "TELEPHONE"
       ? "Prix disponible en magasin"
       : selectedCategory === "TABLETTE"
-      ? "Prix disponible en magasin"
-      : "Réparation PC & Mac sur devis";
+        ? "Prix disponible en magasin"
+        : "Réparation PC & Mac sur devis";
 
   const quoteText =
     selectedCategory === "TELEPHONE"
       ? "Nous réparons de nombreuses autres marques de smartphones (Xiaomi, Google Pixel, Huawei, Honor, Oppo, Motorola, etc.) dans notre atelier. Retrouvez nos tarifs et devis personnalisés directement en boutique."
       : selectedCategory === "TABLETTE"
-      ? "Nous réparons les iPad ainsi que toutes les marques de tablettes Android (Samsung, Lenovo, Xiaomi, Huawei...) dans notre atelier. Retrouvez nos tarifs et devis personnalisés directement en boutique."
-      : "Pour toute réparation matérielle (écran cassé, batterie, connecteur, clavier, carte mère ou réinstallation système), nous établissons un devis personnalisé directement en boutique.";
+        ? "Nous réparons les iPad ainsi que toutes les marques de tablettes Android (Samsung, Lenovo, Xiaomi, Huawei...) dans notre atelier. Retrouvez nos tarifs et devis personnalisés directement en boutique."
+        : "Pour toute réparation matérielle (écran cassé, batterie, connecteur, clavier, carte mère ou réinstallation système), nous établissons un devis personnalisé directement en boutique.";
 
 
   const handleGenerationChange = (generation: string) => {
@@ -510,171 +510,186 @@ const Tarifs = () => {
                 <h1 className="font-serif text-3xl md:text-5xl leading-[0.95] font-bold text-[#102337] mb-2 uppercase">
                   NOS TARIFS DE RÉPARATION
                 </h1>
-                <p className="text-sm font-semibold text-[#d87532] uppercase tracking-[0.2em] mb-10">
+                <p className="text-sm font-semibold text-[#d87532] uppercase tracking-[0.2em] mb-6">
                   réparation smartphone, tablette, pc, montre, écouteurs et carte électronique
                 </p>
+
+                <div className="rounded-xl border border-[#d8c8b5] bg-[#f7f1e8] p-4 text-left shadow-sm">
+                  <p className="text-sm font-bold text-[#102337] mb-2">
+                    Information sur les tarifs
+                  </p>
+
+                  <p className="text-sm leading-relaxed text-[#52606c]">
+                    Les tarifs affichés sur notre site sont communiqués à titre
+                    indicatif et peuvent varier selon le modèle de l'appareil,
+                    la nature de la panne, les pièces nécessaires et la complexité
+                    de l'intervention. Les prix pratiqués en boutique peuvent donc
+                    différer de ceux présentés sur le site.
+                    Un devis précisant le montant de la prestation vous sera
+                    communiqué avant toute réparation, pour acceptation.
+                  </p>
+                </div>
+
+                <div>
+                  <h2 className="text-lg font-bold mb-4 font-heading uppercase">
+                    Appareil
+                  </h2>
+                  <div className="flex flex-wrap gap-2">
+                    {categories.map((cat) => (
+                      <FilterButton
+                        key={cat}
+                        active={selectedCategory === cat}
+                        onClick={() => handleCategoryChange(cat)}
+                      >
+                        {cat}
+                      </FilterButton>
+                    ))}
+                  </div>
+                </div>
+
+                {selectedCategory && (
+                  <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <h2 className="text-lg font-bold mb-4 font-heading uppercase">
+                      Marque
+                    </h2>
+                    <div className="flex flex-wrap gap-2">
+                      {brands.map((brand) => (
+                        <FilterButton
+                          key={brand}
+                          active={selectedBrand === brand}
+                          onClick={() => handleBrandChange(brand)}
+                        >
+                          {brand}
+                        </FilterButton>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {selectedCategory && selectedBrand && !isQuoteOnly && !isDirectModelCategory && (
+                  <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <h2 className="text-lg font-bold mb-4 font-heading uppercase">
+                      Modèle
+                    </h2>
+                    <div className="flex flex-wrap gap-2">
+                      {generations.map((generation) => (
+                        <FilterButton
+                          key={generation}
+                          active={selectedGeneration === generation}
+                          onClick={() => handleGenerationChange(generation)}
+                        >
+                          {generation}
+                        </FilterButton>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {selectedCategory && selectedBrand && !isQuoteOnly && (isDirectModelCategory || selectedGeneration) && (
+                  <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <h2 className="text-lg font-bold mb-4 font-heading uppercase">
+                      Déclinaison
+                    </h2>
+                    <div className="flex flex-wrap gap-2">
+                      {models.map((m) => (
+                        <FilterButton
+                          key={m.model}
+                          active={selectedModel === m.model}
+                          onClick={() => setSelectedModel(m.model)}
+                        >
+                          {m.model}
+                        </FilterButton>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
-              <div>
-                <h2 className="text-lg font-bold mb-4 font-heading uppercase">
-                  Appareil
-                </h2>
-                <div className="flex flex-wrap gap-2">
-                  {categories.map((cat) => (
-                    <FilterButton
-                      key={cat}
-                      active={selectedCategory === cat}
-                      onClick={() => handleCategoryChange(cat)}
+              <div className="hidden lg:flex justify-center self-stretch">
+                <div className="divider-glow-vertical self-stretch min-h-full" />
+              </div>
+
+
+              <div className="scroll-reveal">
+                {isQuoteOnly ? (
+                  <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm p-8 md:p-10 text-center">
+                    <h2 className="text-3xl font-bold text-[#102337] mb-6">
+                      {quoteTitle}
+                    </h2>
+
+                    <p className="text-[#102337] leading-relaxed mb-4">
+                      {quoteText}
+                    </p>
+
+                    <p className="text-[#102337] leading-relaxed mb-8">
+                      En raison des nombreuses références et configurations existantes,
+                      nous ne pouvons pas afficher un tarif unique.
+                    </p>
+
+                    <p className="text-[#102337] leading-relaxed mb-8">
+                      Nous vous invitons à venir directement en boutique avec votre appareil
+                      afin d'obtenir un devis adapté à votre réparation.
+                    </p>
+
+                    <Link
+                      to="/contact"
+                      className="inline-flex items-center rounded-xl bg-[#d87532] px-6 py-3 font-semibold text-white hover:bg-[#c96325] transition"
                     >
-                      {cat}
-                    </FilterButton>
-                  ))}
-                </div>
-              </div>
-
-              {selectedCategory && (
-                <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                  <h2 className="text-lg font-bold mb-4 font-heading uppercase">
-                    Marque
-                  </h2>
-                  <div className="flex flex-wrap gap-2">
-                    {brands.map((brand) => (
-                      <FilterButton
-                        key={brand}
-                        active={selectedBrand === brand}
-                        onClick={() => handleBrandChange(brand)}
-                      >
-                        {brand}
-                      </FilterButton>
-                    ))}
+                      Venir en boutique
+                    </Link>
                   </div>
-                </div>
-              )}
+                ) : selectedModel && pricingLoading && pricingRows.length === 0 ? (
+                  <CircuitLoader />
+                ) : currentModel ? (
+                  <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm p-5 md:p-8 animate-in fade-in slide-in-from-right-2 duration-300">
+                    <div className="space-y-5">
+                      {currentModel.sections.map((section) => (
+                        <div
+                          key={section.title}
+                          className="rounded-xl bg-white/60 p-4 border border-[#d8c8b5]/50"
+                        >
+                          <div className="flex justify-between items-center mb-3 pb-1 border-b border-[#d8c8b5]/40">
+                            <h3 className="text-[#d87532] font-bold text-sm tracking-wide uppercase">
+                              {section.title}
+                            </h3>
+                            <span className="font-bold text-sm text-[#102337]">
+                              Tarif
+                            </span>
+                          </div>
 
-              {selectedCategory && selectedBrand && !isQuoteOnly && !isDirectModelCategory && (
-                <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                  <h2 className="text-lg font-bold mb-4 font-heading uppercase">
-                    Modèle
-                  </h2>
-                  <div className="flex flex-wrap gap-2">
-                    {generations.map((generation) => (
-                      <FilterButton
-                        key={generation}
-                        active={selectedGeneration === generation}
-                        onClick={() => handleGenerationChange(generation)}
-                      >
-                        {generation}
-                      </FilterButton>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {selectedCategory && selectedBrand && !isQuoteOnly && (isDirectModelCategory || selectedGeneration) && (
-                <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                  <h2 className="text-lg font-bold mb-4 font-heading uppercase">
-                    Déclinaison
-                  </h2>
-                  <div className="flex flex-wrap gap-2">
-                    {models.map((m) => (
-                      <FilterButton
-                        key={m.model}
-                        active={selectedModel === m.model}
-                        onClick={() => setSelectedModel(m.model)}
-                      >
-                        {m.model}
-                      </FilterButton>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="hidden lg:flex justify-center self-stretch">
-              <div className="divider-glow-vertical self-stretch min-h-full" />
-            </div>
-
-
-            <div className="scroll-reveal">
-              {isQuoteOnly ? (
-                <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm p-8 md:p-10 text-center">
-                  <h2 className="text-3xl font-bold text-[#102337] mb-6">
-                    {quoteTitle}
-                  </h2>
-
-                  <p className="text-[#102337] leading-relaxed mb-4">
-                    {quoteText}
-                  </p>
-
-                  <p className="text-[#102337] leading-relaxed mb-8">
-                    En raison des nombreuses références et configurations existantes,
-                    nous ne pouvons pas afficher un tarif unique.
-                  </p>
-
-                  <p className="text-[#102337] leading-relaxed mb-8">
-                    Nous vous invitons à venir directement en boutique avec votre appareil
-                    afin d'obtenir un devis adapté à votre réparation.
-                  </p>
-
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center rounded-xl bg-[#d87532] px-6 py-3 font-semibold text-white hover:bg-[#c96325] transition"
-                  >
-                    Venir en boutique
-                  </Link>
-                </div>
-              ) : selectedModel && pricingLoading && pricingRows.length === 0 ? (
-                <CircuitLoader />
-              ) : currentModel ? (
-                <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] shadow-sm p-5 md:p-8 animate-in fade-in slide-in-from-right-2 duration-300">
-                  <div className="space-y-5">
-                    {currentModel.sections.map((section) => (
-                      <div
-                        key={section.title}
-                        className="rounded-xl bg-white/60 p-4 border border-[#d8c8b5]/50"
-                      >
-                        <div className="flex justify-between items-center mb-3 pb-1 border-b border-[#d8c8b5]/40">
-                          <h3 className="text-[#d87532] font-bold text-sm tracking-wide uppercase">
-                            {section.title}
-                          </h3>
-                          <span className="font-bold text-sm text-[#102337]">
-                            Tarif
-                          </span>
-                        </div>
-
-                        <div className="space-y-0">
-                          {section.items.map((item) => {
-                            const isPlaceholder = item.price.toLowerCase().includes("tarif à venir");
-                            return (
-                              <div
-                                key={item.label}
-                                className="flex justify-between items-center py-2 border-b border-[#d8c8b5]/30 last:border-0 hover:bg-white/80 px-2 -mx-2 rounded-lg transition-colors duration-200"
-                              >
-                                <span className="text-sm text-[#102337] font-medium">{item.label}</span>
-                                <span
-                                  className={`text-sm text-right ml-4 min-w-[70px] ${
-                                    isPlaceholder
+                          <div className="space-y-0">
+                            {section.items.map((item) => {
+                              const isPlaceholder = item.price.toLowerCase().includes("tarif à venir");
+                              return (
+                                <div
+                                  key={item.label}
+                                  className="flex justify-between items-center py-2 border-b border-[#d8c8b5]/30 last:border-0 hover:bg-white/80 px-2 -mx-2 rounded-lg transition-colors duration-200"
+                                >
+                                  <span className="text-sm text-[#102337] font-medium">{item.label}</span>
+                                  <span
+                                    className={`text-sm text-right ml-4 min-w-[70px] ${isPlaceholder
                                       ? "font-normal text-[#7a6b5d] italic"
                                       : "font-bold text-[#d87532]"
-                                  }`}
-                                >
-                                  {item.price}
-                                </span>
-                              </div>
-                            );
-                          })}
+                                      }`}
+                                  >
+                                    {item.price}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] p-7 md:p-10 min-h-[420px] flex items-center justify-center">
-                  <p className="text-sm text-[#52606c] text-center max-w-sm">
-                    Sélectionnez un appareil, puis une marque, un modèle et une déclinaison pour afficher les tarifs correspondants.
-                  </p>
-                </div>
-              )}
+                ) : (
+                  <div className="rounded-2xl bg-[#f7f1e8] border border-[#d8c8b5] p-7 md:p-10 min-h-[420px] flex items-center justify-center">
+                    <p className="text-sm text-[#52606c] text-center max-w-sm">
+                      Sélectionnez un appareil, puis une marque, un modèle et une déclinaison pour afficher les tarifs correspondants.
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
