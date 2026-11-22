@@ -44,14 +44,28 @@ const sections: Section[] = [
       "Il appartient exclusivement au client d'effectuer une sauvegarde complète de ses données (photos, vidéos, contacts, documents, applications) avant le dépôt de son appareil. MOMUY & TECH ne saurait en aucun cas être tenu responsable de la perte, de l'altération, de l'effacement ou de la corruption de données consécutives à une réparation matérielle, logicielle ou à une panne de carte mère.",
     ],
   },
+
   {
     title: "Article 5 — Tarifs et modalités de paiement",
     paragraphs: [
       "Les prix de nos prestations sont exprimés en euros (€) toutes taxes comprises (TTC).",
-      "Le règlement est exigible à la restitution de l'appareil réparé (ou à l'issue du diagnostic en cas de refus du devis sans option de cession).",
-      "Jusqu'à nouvel ordre, le règlement s'effectue exclusivement par carte bancaire.",
+
+      "Acompte sur les prestations d'un montant égal ou supérieur à 200 € TTC : Pour toute prestation dont le montant total du devis est supérieur ou égal à 200 € TTC, un acompte de 30 % du montant total TTC du devis est exigé lors de son acceptation par le client.",
+
+      "Cet acompte constitue un premier versement sur le prix convenu et confirme l'engagement contractuel des parties, sous réserve des droits légaux du consommateur.",
+
+      "La réception de cet acompte conditionne la commande des pièces éventuellement nécessaires ainsi que le lancement de la prestation.",
+
+      "Le montant de l'acompte est expressément indiqué sur le devis et déduit du montant total de la facture finale.",
+
+      "En cas d'annulation, d'impossibilité d'exécution ou de résolution du contrat, le sort de l'acompte est déterminé conformément aux dispositions légales applicables et aux circonstances de la situation. Il n'est pas automatiquement acquis à MOMUY & TECH.",
+
+      "Règlement du solde : Le solde du prix est exigible à la restitution de l'appareil réparé. En cas de refus du devis, les éventuels frais de diagnostic restent exigibles selon les conditions prévues à l'article 2, sauf application de l'option de cession gratuite de l'appareil.",
+
+      "Jusqu'à nouvel ordre, les règlements s'effectuent exclusivement par carte bancaire.",
     ],
   },
+
   {
     title: "Article 6 — Garantie contractuelle",
     paragraphs: [
@@ -62,8 +76,15 @@ const sections: Section[] = [
   {
     title: "Article 7 — Gardiennage et appareils non réclamés",
     paragraphs: [
-      "Le client est informé par SMS, appel téléphonique ou e-mail dès que son appareil est disponible en atelier.",
-      "À compter de cette notification, le client dispose d'un délai de 3 mois pour retirer son appareil et régulariser sa facture. Passé ce délai de 3 mois et après relance restée sans effet, l'appareil sera considéré comme abandonné et MOMUY & TECH pourra en disposer librement (recyclage, destruction ou utilisation pour pièces détachées) sans qu'aucun dédommagement ne puisse être exigé.",
+      "Le client est informé par SMS, appel téléphonique ou e-mail dès que son appareil est disponible à l'atelier, que la réparation ait été effectuée ou non.",
+
+      "À compter de cette notification, le client dispose d'un délai de trois (3) mois calendaires pour récupérer son appareil, sans frais de gardiennage supplémentaires.",
+
+      "Passé ce délai de trois mois, et après une relance écrite restée sans effet, des frais de gardiennage de 0,50 € TTC par jour calendaire seront facturés à compter de la date la plus tardive entre l'expiration du délai gratuit et la relance écrite, jusqu'au retrait effectif de l'appareil, conformément aux conditions acceptées par le client lors de la prise en charge.",
+
+      "Ces frais correspondent aux coûts de stockage et de conservation du matériel. Ils ne sont pas appliqués lorsque le retard de retrait est imputable à MOMUY & TECH.",
+
+      "En cas de non-retrait de l'appareil pendant un an, MOMUY & TECH pourra engager la procédure prévue par la loi du 31 décembre 1903 relative à la vente de certains objets abandonnés, dans le respect des conditions et autorisations judiciaires applicables.",
     ],
   },
   {
