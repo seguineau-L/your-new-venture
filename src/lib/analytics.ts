@@ -5,7 +5,7 @@ declare global {
   }
 }
 
-const GA_MEASUREMENT_ID = "G-28Q7RZ9E6M";
+const GA_MEASUREMENT_ID = "G-241JS9FJTG";
 
 export const initGA = () => {
   if (typeof window === "undefined") return;
